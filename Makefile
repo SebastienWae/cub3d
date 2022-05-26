@@ -73,8 +73,8 @@ cc: $(LIBFT)/libft.a
 
 .PHONY = check_cc
 check_cc: cc
-	codechecker analyze compile_commands.json .cc
-	codechecker parse compile_commands.json .cc
+	codechecker analyze compile_commands.json -o .cc
+	codechecker parse .cc
 
 .PHONY = check_infer
 check_infer: re
