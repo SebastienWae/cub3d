@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/05/26 22:36:19 by seb              ###   ########.fr       */
+/*   Created: 2022/05/26 22:25:02 by seb               #+#    #+#             */
+/*   Updated: 2022/05/26 22:36:09 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <config.h>
-#include <errors.h>
+#ifndef ERRORS_H
+# define ERRORS_H
 
-int	main(int argc, char **argv)
-{
-	t_config	*config;
+# define ERR_TOO_MANY_ARGS "Error\nToo many arguments.\n"
+# define ERR_MISSING_ARGS "Error\nMissing argument.\n"
 
-	if (argc == 1)
-		ft_putstr_fd(ERR_MISSING_ARGS, 2);
-	else if (argc == 2)
-	{
-		config = config_constructor(argv[1]);
-		config_destructor(config);
-	}
-	else
-		ft_putstr_fd(ERR_TOO_MANY_ARGS, 2);
-}
+#endif
