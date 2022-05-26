@@ -24,7 +24,8 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = main.c
+SRCS = main.c \
+	strings/get_next_line.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
