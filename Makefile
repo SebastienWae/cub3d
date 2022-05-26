@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/26 22:17:01 by seb              ###   ########.fr        #
+#    Updated: 2022/05/26 22:45:16 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = main.c \
+SRCS = main.c errors.c \
 	config/config.c \
 	strings/get_next_line.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))

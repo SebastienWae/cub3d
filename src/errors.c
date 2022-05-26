@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:25:02 by seb               #+#    #+#             */
-/*   Updated: 2022/05/26 22:47:25 by seb              ###   ########.fr       */
+/*   Created: 2022/05/26 22:42:24 by seb               #+#    #+#             */
+/*   Updated: 2022/05/26 22:52:03 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#include <libft.h>
+#include <errors.h>
 
-typedef enum e_err_type
+void	error_exit(t_err_type err_type)
 {
-	ERR_TOO_MANY_ARGS,
-	ERR_MISSING_ARGS
-}	t_err_type;
+	static char	*err_msg[] = {
+		"Too many arguments.",
+		"Missing arguments."
+	};
 
-void	error_exit(t_err_type err_type);
-
-#endif
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(err_msg[err_type], 2);
+	ft_putstr_fd("\n", 2);
+	ft_putstr_fd("usage: cub3d <path/to_the_map/file.cub>\n", 2);
+	exit(1);
+}
