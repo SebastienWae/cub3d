@@ -1,0 +1,16 @@
+*.o
+*.a
+*.d
+*.dSYM
+.DS_Store
+.vscode/
+.cache/
+.cc/
+infer-out/
+compile_commands.json
+check/
+debug/
+out/
+cub3d
+cub3d_debug
+cub3d_check
