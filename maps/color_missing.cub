@@ -2,8 +2,7 @@ NO ./assets/blue.xpm
 SO ./assets/red.xpm
 WE ./assets/yellow.xpm
 EA ./assets/green.xpm
-F 220,100,0
-C 225,30,0
+F 225,30,0
 111111
 100101
 101001

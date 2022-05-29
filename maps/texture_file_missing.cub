@@ -1,6 +1,6 @@
 NO ./assets/blue.xpm
 SO ./assets/red.xpm
-WE ./assets/yellow.xpm
+WE ./assets/nothing.xpm
 EA ./assets/green.xpm
 F 220,100,0
 C 225,30,0
