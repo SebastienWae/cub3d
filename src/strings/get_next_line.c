@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:13:03 by seb               #+#    #+#             */
-/*   Updated: 2022/05/26 22:14:50 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/27 17:26:58 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <strings/strings.h>
 #include <libft.h>
 #include <stdlib.h>
-#include <strings.h>
 
 static char	*get_first_line(char **line_buf)
 {
