@@ -6,21 +6,19 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/05/26 22:07:23 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/29 13:22:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
 
-typedef struct s_config		t_config;
-typedef struct s_map		t_map;
-typedef struct s_texture	t_texture;
-typedef struct t_color		t_color;
+# include <stddef.h>
+# include <window/window.h> 
 
 enum	e_textures
 {
-	NORTH = 1,
+	NORTH,
 	SOUTH,
 	EAST,
 	WEST
@@ -28,39 +26,29 @@ enum	e_textures
 
 enum	e_colors
 {
-	FLOOR = 1,
+	FLOOR,
 	CEILING
 };
 
-struct	s_config
+typedef enum e_parser_state
 {
-	t_map		*map;
-	t_texture	*textures[4];
-	t_color		*colors[2];
-};
+	CP_S_TEXTURES,
+	CP_S_COLORS,
+	CP_S_MAP,
+	CP_S_DONE,
+	CP_S_ERROR
+}	t_parser_state;
 
-struct	s_map
+typedef struct s_config
 {
-	char	*map;
-};
+	char	**map;
+	size_t	map_width;
+	size_t	map_height;
+	void	*textures[4];
+	int		colors[2];
+}	t_config;
 
-struct	s_textures
-{
-	char	*t;
-};
-
-struct	s_color
-{
-	char	*t;
-};
-
-t_config	*config_constructor(char *config_file_path);
-void		config_destructor(t_config *config);
-
-t_texture	*texture_constructor(char *texture_file_path);
-void		texture_destructor(t_texture *texture);	
-
-t_color		*color_constructor(char *rgb_color);
-void		*color_destructor(t_color *color);
+t_config		*config_constructor(char *config_file_path, t_window *window);
+void			config_destructor(t_window *window, t_config *config);
 
 #endif

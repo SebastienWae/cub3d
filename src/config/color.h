@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:25:02 by seb               #+#    #+#             */
-/*   Updated: 2022/05/26 22:47:25 by seb              ###   ########.fr       */
+/*   Created: 2022/05/27 17:02:44 by swaegene          #+#    #+#             */
+/*   Updated: 2022/05/29 11:12:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#ifndef COLOR_H
+# define COLOR_H
 
-typedef enum e_err_type
-{
-	ERR_TOO_MANY_ARGS,
-	ERR_MISSING_ARGS
-}	t_err_type;
+# include <config/config.h>
 
-void	error_exit(t_err_type err_type);
+t_parser_state	config_handle_color(t_config *conf, char *line, int *i);
 
 #endif

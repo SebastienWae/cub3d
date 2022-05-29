@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strings.h                                          :+:      :+:    :+:   */
+/*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:12:21 by seb               #+#    #+#             */
-/*   Updated: 2022/05/26 22:14:39 by seb              ###   ########.fr       */
+/*   Created: 2022/05/27 17:05:28 by swaegene          #+#    #+#             */
+/*   Updated: 2022/05/29 11:12:43 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_H
-# define STRINGS_H
+#ifndef TEXTURE_H
+# define TEXTURE_H
 
-# define BUFFER_SIZE 1000
+# include <config/config.h>
+# include <window/window.h>
 
-char	*get_next_line(int fd);
+t_parser_state	config_handle_texture(t_config *conf, char *line, int *i,
+					t_window *window);
 
 #endif
