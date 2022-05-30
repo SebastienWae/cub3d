@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/05/29 13:22:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 14:52:12 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CONFIG_H
 
 # include <stddef.h>
-# include <window/window.h> 
+# include <graphics/window.h> 
 
 enum	e_textures
 {

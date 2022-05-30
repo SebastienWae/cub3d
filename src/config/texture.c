@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 13:17:22 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 14:52:29 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <config/config.h>
 #include <libft.h>
 #include <strings/strings.h>
-#include <window/window.h>
+#include <graphics/window.h>
 
 static void	*texture_constructor(char *line, t_window *window)
 {

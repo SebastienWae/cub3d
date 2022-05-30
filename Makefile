@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/29 18:15:16 by seb              ###   ########.fr        #
+#    Updated: 2022/05/30 15:23:24 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRCS = main.c errors.c \
 	config/texture.c \
 	config/map.c \
 	config/map_check.c \
-	window/window.c
+	graphics/window.c \
+	graphics/image.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 

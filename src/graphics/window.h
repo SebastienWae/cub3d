@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 10:21:19 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 15:12:54 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,19 @@ enum {
 
 # endif
 
+typedef struct s_image {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_image;
+
 typedef struct s_window
 {
 	void	*mlx;
 	void	*win;
+	t_image	*img;
 	t_bool	open;
 
 }	t_window;

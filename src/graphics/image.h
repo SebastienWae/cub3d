@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture.h                                          :+:      :+:    :+:   */
+/*   image.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 17:05:28 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 14:52:35 by swaegene         ###   ########.fr       */
+/*   Created: 2022/05/30 14:54:25 by swaegene          #+#    #+#             */
+/*   Updated: 2022/05/30 15:21:04 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEXTURE_H
-# define TEXTURE_H
+#ifndef IMAGE_H
+# define IMAGE_H
 
-# include <config/config.h>
 # include <graphics/window.h>
 
-t_parser_state	config_handle_texture(t_config *conf, char *line, int *i,
-					t_window *window);
+void	image_destructor(t_window *window);
+t_image	*image_constructor(t_window *window);
+void	image_put_pixel(t_image *img, int x, int y, int color);
 
 #endif
