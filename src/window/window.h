@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 12:40:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 10:21:19 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <bool.h>
 
 # define WINDOW_NAME "cub3d"
-# define WINDOW_WIDTH 1280
-# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 1024
+# define WINDOW_HEIGHT 512
 
 enum {
 	ON_KEYDOWN = 2,
