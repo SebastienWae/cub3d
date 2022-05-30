@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/05/29 14:46:25 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 13:25:56 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static t_game	*create_game(char *config_file_path)
 	return (game);
 }
 
-//TODO: remove
+// TODO: remove
+// FIXME: check game state first
 static int	loop_hook(t_game *game)
 {
 	if (!game->window->open)
