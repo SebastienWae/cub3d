@@ -6,11 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:37:02 by seb               #+#    #+#             */
-/*   Updated: 2022/05/29 19:11:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 17:21:05 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <bool.h>
+#include <utils/bool.h>
 #include <config/config.h>
 #include <config/map.h>
 #include <libft.h>

@@ -6,11 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:00:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 13:17:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 17:21:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <strings/strings.h>
+#include <utils/strings.h>
 #include <config/config.h>
 #include <libft.h>
 

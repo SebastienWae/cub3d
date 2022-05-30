@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:06:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 18:22:59 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 17:20:50 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MAP_H
 
 # include <config/config.h>
-# include <bool.h>
+# include <utils/bool.h>
 
 enum {
 	HEIGHT,

@@ -6,16 +6,16 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 19:13:16 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/30 17:20:59 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <config/map.h>
-#include <bool.h>
+#include <utils/bool.h>
 #include <config/config.h>
 #include <libft.h>
 #include <stddef.h>
-#include <strings/strings.h>
+#include <utils/strings.h>
 
 static t_bool	config_map_check_char(t_config *conf, size_t c[2], t_bool s[2])
 {

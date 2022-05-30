@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:13:03 by seb               #+#    #+#             */
-/*   Updated: 2022/05/27 17:26:58 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:19:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <strings/strings.h>
+#include <utils/strings.h>
 #include <libft.h>
 #include <stdlib.h>
 

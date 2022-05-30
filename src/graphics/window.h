@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 15:12:54 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:20:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define WINDOW_H
 
 # include <mlx.h>
-# include <bool.h>
+# include <utils/bool.h>
 
 # define WINDOW_NAME "cub3d"
-# define WINDOW_WIDTH 1024
-# define WINDOW_HEIGHT 512
+# define WINDOW_WIDTH 1280
+# define WINDOW_HEIGHT 720
 
 enum {
 	ON_KEYDOWN = 2,

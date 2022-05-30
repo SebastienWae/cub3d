@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:45:49 by seb               #+#    #+#             */
-/*   Updated: 2022/05/30 15:56:50 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:21:40 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <bool.h>
+# include <utils/bool.h>
 # include <libft.h>
 # include <config/config.h>
 # include <graphics/window.h>
 # include <graphics/image.h>
+// TODO: remove
+# include <stddef.h>
 
 typedef struct s_coordonate
 {
-	int	x;
-	int	y;
+	size_t	x;
+	size_t	y;
 }	t_coordonate;
 
 typedef struct s_player

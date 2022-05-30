@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:11:41 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 15:18:05 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:20:30 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <mlx.h>
-#include <bool.h>
+#include <utils/bool.h>
 #include <stdlib.h>
 #include <graphics/window.h>
 #include <graphics/image.h>

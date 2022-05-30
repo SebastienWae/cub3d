@@ -1,44 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   strings.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 15:10:46 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 10:53:52 by seb              ###   ########.fr       */
+/*   Created: 2022/05/26 22:12:21 by seb               #+#    #+#             */
+/*   Updated: 2022/05/30 17:19:49 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <bool.h>
+#ifndef STRINGS_H
+# define STRINGS_H
 
-int	array_size(void **array)
-{
-	int	i;
+# define BUFFER_SIZE 1000
 
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
+# include <utils/bool.h>
 
-static t_bool	is_whitespace(char c)
-{
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\r')
-		return (TRUE);
-	return (FALSE);
-}
+int		array_size(void **array);
+char	*get_next_line(int fd);
+t_bool	is_empty(char *str);
 
-t_bool	is_empty(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!is_whitespace(str[i]))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
+#endif

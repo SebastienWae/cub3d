@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/05/30 16:00:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:24:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 #include <graphics/window.h>
 #include <graphics/image.h>
 #include <config/config.h>
-#include <errors.h>
+#include <utils/errors.h>
+// TODO: remove
+#include <stdio.h>
 
 static void	destroy_game(t_game *game)
 {
@@ -64,32 +66,36 @@ static int	loop_hook(t_game *game)
 	return (0);
 }
 
-#include <stdio.h>
 void	draw_map(t_game *game)
 {
 	t_coordonate	pixel;
 	size_t			width;
 	size_t			height;
+	size_t			val;
 	size_t			x;
 	size_t			y;
 
 	pixel.y = 0;
 	width = WINDOW_WIDTH / game->config->map_width - 1;
 	height = WINDOW_HEIGHT / game->config->map_height - 1;
+	if (width >= height)
+		val = height;
+	else
+		val = width;
 	while (pixel.y < WINDOW_HEIGHT)
 	{
 		pixel.x = 0;
-		y = pixel.y / height;
+		y = pixel.y / val;
 		if (y < game->config->map_height)
 		{
 			while (pixel.x < WINDOW_WIDTH)
 			{
-				x = pixel.x / width;
+				x = pixel.x / val;
 				if (x < ft_strlen(game->config->map[y]))
 				{
 					if (game->config->map[y][x] == '1')
 						image_put_pixel(game->window->img, pixel.x, pixel.y, 0x00FF0000);
-					else if (game->config->map[y][x] == 'N')
+					if (2 == x && 2 == y)
 						image_put_pixel(game->window->img, pixel.x, pixel.y, 0x0000FF00);
 				}
 				pixel.x++;
@@ -111,6 +117,7 @@ int	main(int argc, char **argv)
 	{
 		game = create_game(argv[1]);
 		mlx_loop_hook(game->window->mlx, loop_hook, game);
+		// TODO: remove
 		draw_map(game);
 		mlx_loop(game->window->mlx);
 	}

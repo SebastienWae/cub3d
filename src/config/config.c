@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/05/30 14:52:05 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/30 17:21:20 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <bool.h>
-#include <errors.h>
+#include <utils/bool.h>
+#include <utils/errors.h>
 #include <stdlib.h>
 #include <graphics/window.h>
-#include <strings/strings.h>
+#include <utils/strings.h>
 #include <config/config.h>
 #include <config/map.h>
 #include <config/texture.h>

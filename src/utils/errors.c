@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strings.h                                          :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:12:21 by seb               #+#    #+#             */
-/*   Updated: 2022/05/29 10:54:17 by seb              ###   ########.fr       */
+/*   Created: 2022/05/26 22:42:24 by seb               #+#    #+#             */
+/*   Updated: 2022/05/30 17:20:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRINGS_H
-# define STRINGS_H
+#include <libft.h>
+#include <stdio.h>
+#include <errno.h>
+#include <utils/errors.h>
+#include <stdlib.h>
 
-# define BUFFER_SIZE 1000
+void	error_exit(char *msg)
+{
+	error_msg();
+	if (msg)
+	{
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	exit(EXIT_FAILURE);
+}
 
-# include <bool.h>
-
-int		array_size(void **array);
-char	*get_next_line(int fd);
-t_bool	is_empty(char *str);
-
-#endif
+void	error_msg(void)
+{
+	ft_putstr_fd("Error\n", 2);
+	if (errno > 0) // FIXME: false positive?
+		perror(NULL);
+}
