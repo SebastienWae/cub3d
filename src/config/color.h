@@ -6,15 +6,16 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:02:44 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 11:12:29 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 11:16:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLOR_H
 # define COLOR_H
 
-# include <config/config.h>
+# include <game/game.h>
+# include <config/parser.h>
 
-t_parser_state	config_handle_color(t_config *conf, char *line, int *i);
+t_parser_state	color_handler(t_game *game, char *line, int *i);
 
 #endif

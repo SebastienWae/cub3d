@@ -6,13 +6,13 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:00:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 13:17:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 11:16:50 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <strings/strings.h>
-#include <config/config.h>
 #include <libft.h>
+#include <utils/strings.h>
+#include <config/parser.h>
 
 static void	color_free_split(char **split)
 {
@@ -55,7 +55,7 @@ static int	color_constructor(char *line)
 	}
 }
 
-t_parser_state	config_handle_color(t_config *conf, char *line, int *i)
+t_parser_state	color_handler(t_game *game, char *line, int *i)
 {
 	int			c_index;
 	static char	*identifiers[2] = {"F ", "C "};
@@ -68,8 +68,8 @@ t_parser_state	config_handle_color(t_config *conf, char *line, int *i)
 		(*i)++;
 		if (ft_strncmp(identifiers[c_index], line, 2) == 0)
 		{
-			conf->colors[c_index] = color_constructor(line);
-			if (conf->colors[c_index] == -1)
+			game->config->colors[c_index] = color_constructor(line);
+			if (game->config->colors[c_index] == -1)
 				return (CP_S_ERROR);
 			if (c_index == 1)
 				return (CP_S_MAP);

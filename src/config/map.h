@@ -6,32 +6,17 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:06:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/29 18:22:59 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 11:17:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_H
 # define MAP_H
 
-# include <config/config.h>
-# include <bool.h>
+# include <game/game.h>
+# include <config/parser.h>
+# include <utils/bool.h>
 
-enum {
-	HEIGHT,
-	WIDTH
-};
-
-enum {
-	IN_WALL,
-	PLAYER
-};
-
-t_parser_state	config_handle_map(t_config *conf, char *line, int *i);
-t_bool			config_map_is_valid(t_config *config);
-
-t_bool			map_space_handler(t_config *conf, size_t c[2], t_bool s[2]);
-t_bool			map_zero_handler(t_config *conf, size_t c[2], t_bool s[2]);
-t_bool			map_player_handler(t_config *conf, size_t c[2], t_bool s[2]);
-t_bool			map_door_handler(t_config *conf, size_t c[2], t_bool s[2]);
+t_parser_state	map_handler(t_game *game, char *line, int *i);
 
 #endif
