@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/31 11:16:22 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 14:33:09 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	map_append(t_config *config, char *line, int i)
 	map[n] = ft_strdup(line);
 	free(config->map);
 	config->map = map;
-	if (len > config->map_width)
-		config->map_width = len;
+	if (len > config->map_max_width)
+		config->map_max_width = len;
 	config->map_height++;
 }
 

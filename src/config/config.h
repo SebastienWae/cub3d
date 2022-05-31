@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 10:50:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 14:32:02 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum	e_colors
 typedef struct s_config
 {
 	char	**map;
-	size_t	map_width;
+	size_t	map_max_width;
 	size_t	map_height;
 	void	*textures[4];
 	int		colors[2];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 11:32:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 14:32:41 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	config_destructor(t_window *window, t_config *config)
 	*config = (t_config)
 	{
 		.map = NULL,
-		.map_width = 0,
+		.map_max_width = 0,
 		.map_height = 0,
 		.textures = {NULL, NULL, NULL, NULL},
 		.colors = {0, 0}
