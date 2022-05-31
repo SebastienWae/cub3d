@@ -105,13 +105,17 @@ static int	loop_keys_hook(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 		window_close(game->window);
 	if (keycode == KEY_W)
-		game->player->y--;
+		if (game->config->map[(game->player->y + 2 * game->config->scale / 3)/game->config->scale - 1][game->player->x/game->config->scale] != '1')
+			game->player->y--;
 	if (keycode == KEY_S)
-		game->player->y++;
+		if (game->config->map[(game->player->y - 2 * game->config->scale / 3)/game->config->scale + 1][game->player->x/game->config->scale] != '1')
+			game->player->y++;
 	if (keycode == KEY_A)
-		game->player->x--;
+		if (game->config->map[game->player->y/game->config->scale][(game->player->x + 2 * game->config->scale / 3)/game->config->scale - 1] != '1')
+			game->player->x--;
 	if (keycode == KEY_D)
-		game->player->x++;
+		if (game->config->map[game->player->y/game->config->scale][(game->player->x - 2 * game->config->scale / 3)/game->config->scale + 1] != '1')
+			game->player->x++;
 	if (keycode == KEY_LEFT)
 	{		
 		if (game->player->direction == M_PI * 2)
