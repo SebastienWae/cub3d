@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.h                                           :+:      :+:    :+:   */
+/*   loop.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 21:24:26 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 09:49:04 by seb              ###   ########.fr       */
+/*   Created: 2022/05/31 11:58:54 by seb               #+#    #+#             */
+/*   Updated: 2022/05/31 11:59:48 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLAYER_H
-# define PLAYER_H
+#ifndef LOOP_H
+# define LOOP_H
 
-typedef struct s_player
-{
-	double			direction;
-}	t_player;
+# include <game/game.h>
 
-t_player	*player_constructor(void);
-void		player_destructor(t_player *player);
+void	loop_start(t_game *game);
 
 #endif

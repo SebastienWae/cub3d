@@ -6,27 +6,19 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:11:41 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 17:20:30 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 12:04:10 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <mlx.h>
-#include <utils/bool.h>
+#include <libft.h>
 #include <stdlib.h>
 #include <graphics/window.h>
 #include <graphics/image.h>
 
-static int	window_close(t_window *window)
+int	window_close(t_window *window)
 {
 	window->open = FALSE;
-	return (0);
-}
-
-static int	window_esc(int keycode, t_window *window)
-{
-	if (keycode && keycode == KEY_ESC)
-		window->open = FALSE;
 	return (0);
 }
 
@@ -54,16 +46,5 @@ t_window	*window_constructor(void)
 		free(window);
 		return (NULL);
 	}
-	window->win = mlx_new_window(window->mlx, WINDOW_WIDTH,
-			WINDOW_HEIGHT, WINDOW_NAME);
-	window->img = image_constructor(window);
-	if (!window->win || !window->img)
-	{
-		window_destructor(window);
-		return (NULL);
-	}
-	window->open = TRUE;
-	mlx_hook(window->win, ON_DESTROY, 0, window_close, window);
-	mlx_key_hook(window->win, window_esc, window);
 	return (window);
 }

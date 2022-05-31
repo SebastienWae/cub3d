@@ -6,106 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/05/30 17:24:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 12:06:44 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <cub3d.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <graphics/window.h>
-#include <graphics/image.h>
-#include <config/config.h>
+#include <game/game.h>
 #include <utils/errors.h>
-// TODO: remove
-#include <stdio.h>
-
-static void	destroy_game(t_game *game)
-{
-	config_destructor(game->window, game->config);
-	window_destructor(game->window);
-	*game = (t_game){NULL, NULL, NULL, NULL};
-	free(game);
-}
-
-static t_game	*create_game(char *config_file_path)
-{
-	t_game		*game;
-	t_window	*window;
-	t_config	*config;
-
-	window = window_constructor();
-	if (!window)
-		error_exit("Cannot create window");
-	config = config_constructor(config_file_path, window);
-	if (!config)
-	{
-		window_destructor(window);
-		error_exit("Config file is not valid");
-	}
-	game = ft_calloc(1, sizeof(t_game));
-	if (!game)
-	{
-		config_destructor(window, config);
-		window_destructor(window);
-		error_exit("Memory error!");
-	}
-	*game = (t_game){config, window, NULL, NULL};
-	return (game);
-}
-
-// TODO: remove
-static int	loop_hook(t_game *game)
-{
-	if (!game->window->open)
-	{
-		destroy_game(game);
-		exit(EXIT_SUCCESS);
-	}
-	return (0);
-}
-
-void	draw_map(t_game *game)
-{
-	t_coordonate	pixel;
-	size_t			width;
-	size_t			height;
-	size_t			val;
-	size_t			x;
-	size_t			y;
-
-	pixel.y = 0;
-	width = WINDOW_WIDTH / game->config->map_width - 1;
-	height = WINDOW_HEIGHT / game->config->map_height - 1;
-	if (width >= height)
-		val = height;
-	else
-		val = width;
-	while (pixel.y < WINDOW_HEIGHT)
-	{
-		pixel.x = 0;
-		y = pixel.y / val;
-		if (y < game->config->map_height)
-		{
-			while (pixel.x < WINDOW_WIDTH)
-			{
-				x = pixel.x / val;
-				if (x < ft_strlen(game->config->map[y]))
-				{
-					if (game->config->map[y][x] == '1')
-						image_put_pixel(game->window->img, pixel.x, pixel.y, 0x00FF0000);
-					if (2 == x && 2 == y)
-						image_put_pixel(game->window->img, pixel.x, pixel.y, 0x0000FF00);
-				}
-				pixel.x++;
-			}
-		}
-		pixel.y++;
-	}
-	mlx_put_image_to_window(game->window->mlx, game->window->win,
-		game->window->img->img, 0, 0);
-}
 
 int	main(int argc, char **argv)
 {
@@ -115,11 +21,11 @@ int	main(int argc, char **argv)
 		error_exit("Missing path to the config file");
 	else if (argc == 2)
 	{
-		game = create_game(argv[1]);
-		mlx_loop_hook(game->window->mlx, loop_hook, game);
-		// TODO: remove
-		draw_map(game);
-		mlx_loop(game->window->mlx);
+		game = game_init(argv[1]);
+		if (!game)
+			exit(EXIT_FAILURE);
+		game_start_loop(game);
+		game_destructor(game);
 	}
 	else
 		error_exit("Too many arguments");

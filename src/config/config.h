@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/05/30 14:52:12 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/31 10:50:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ enum	e_colors
 	CEILING
 };
 
-typedef enum e_parser_state
-{
-	CP_S_TEXTURES,
-	CP_S_COLORS,
-	CP_S_MAP,
-	CP_S_DONE,
-	CP_S_ERROR
-}	t_parser_state;
-
 typedef struct s_config
 {
 	char	**map;
@@ -48,7 +39,7 @@ typedef struct s_config
 	int		colors[2];
 }	t_config;
 
-t_config		*config_constructor(char *config_file_path, t_window *window);
-void			config_destructor(t_window *window, t_config *config);
+t_config	*config_constructor(void);
+void		config_destructor(t_window *window, t_config *config);
 
 #endif

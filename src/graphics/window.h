@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 17:20:24 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 12:04:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ typedef struct s_window
 
 t_window	*window_constructor(void);
 void		window_destructor(t_window *window);
+int			window_close(t_window *window);
 
 #endif

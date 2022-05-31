@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:05:28 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 14:52:35 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/31 11:15:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEXTURE_H
 # define TEXTURE_H
 
-# include <config/config.h>
-# include <graphics/window.h>
+# include <game/game.h>
+# include <config/parser.h>
 
-t_parser_state	config_handle_texture(t_config *conf, char *line, int *i,
-					t_window *window);
+t_parser_state	texture_handler(t_game *game, char *line, int *i);
 
 #endif
