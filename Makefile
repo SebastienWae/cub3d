@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/31 14:27:41 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/31 21:30:26 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OUT_DIR = out
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Isrc
-LDFLAGS = -L$(LIBFT) -lft
+LDFLAGS = -L$(LIBFT) -lft -lm
 ifeq ($(UNAME_S),Linux)
 	CPPFLAGS += -Iminilibx_linux
 	LDFLAGS += -Lminilibx_linux -lmlx -lXext -lX11
@@ -47,6 +47,7 @@ SRCS = main.c \
 	config/parser_map.c \
 	graphics/window.c \
 	graphics/image.c \
+	graphics/draw.c \
 	game/game.c \
 	game/player.c \
 	game/loop.c
