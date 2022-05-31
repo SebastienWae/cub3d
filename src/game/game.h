@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:45:49 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 11:51:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 21:21:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,5 @@ void	game_destructor(t_game *game);
 t_game	*game_constructor(void);
 t_game	*game_init(char *config_file_path);
 void	game_start_loop(t_game *game);
-
-// TODO : move in the right header (cannot include game.h in config.h for t_game structure) 
-void	config_set_scale(t_game *game);
 
 #endif
