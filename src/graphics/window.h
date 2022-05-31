@@ -17,8 +17,8 @@
 # include <utils/bool.h>
 
 # define WINDOW_NAME "cub3d"
-# define WINDOW_WIDTH 1280
-# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
 
 enum {
 	ON_KEYDOWN = 2,
@@ -48,6 +48,10 @@ enum {
 	KEY_UP = 126,
 	KEY_RIGHT = 124,
 	KEY_DOWN = 125,
+	KEY_W = 13,
+	KEY_A = 0,
+	KEY_D = 2,
+	KEY_S = 1
 };
 
 # endif

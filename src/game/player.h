@@ -13,9 +13,13 @@
 #ifndef PLAYER_H
 # define PLAYER_H
 
+# include <stddef.h>
+
 typedef struct s_player
 {
 	double			direction;
+	size_t			x;
+	size_t			y;
 }	t_player;
 
 t_player	*player_constructor(void);

@@ -46,4 +46,7 @@ t_game	*game_constructor(void);
 t_game	*game_init(char *config_file_path);
 void	game_start_loop(t_game *game);
 
+// TODO : move in the right header (cannot include game.h in config.h for t_game structure) 
+void	config_set_scale(t_game *game);
+
 #endif

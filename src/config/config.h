@@ -35,6 +35,7 @@ typedef struct s_config
 	char	**map;
 	size_t	map_max_width;
 	size_t	map_height;
+	size_t	scale;
 	void	*textures[4];
 	int		colors[2];
 }	t_config;
