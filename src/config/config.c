@@ -13,6 +13,8 @@
 #include <libft.h>
 #include <mlx.h>
 #include <config/config.h>
+#include <game/game.h>
+#include <stddef.h>
 
 void	config_destructor(t_window *window, t_config *config)
 {
@@ -46,4 +48,19 @@ t_config	*config_constructor(void)
 	if (!config)
 		return (NULL);
 	return (config);
+}
+
+void	config_set_scale(t_game *game)
+{
+	size_t	height;
+	size_t	width;
+
+	width = WINDOW_WIDTH / game->config->map_max_width;
+	height = WINDOW_HEIGHT / game->config->map_height;
+	if (width > height)
+		game->config->scale = height / 4;
+	else
+		game->config->scale = width / 4;
+	if (game->config->scale % 2 == 0)
+		game->config->scale = game->config->scale + 1;
 }

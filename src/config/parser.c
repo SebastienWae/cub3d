@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include <math.h>
 #include <game/game.h>
 #include <config/parser.h>
 #include <config/color.h>
@@ -101,4 +102,26 @@ t_bool	parse_map(t_game *game)
 		i[HEIGHT]++;
 	}
 	return (TRUE);
+}
+
+void	parse_player(t_game *game, size_t c[2])
+{
+	size_t	size;
+
+	if (WINDOW_WIDTH / game->config->map_max_width > WINDOW_HEIGHT / game->config->map_height)
+		size = WINDOW_HEIGHT / game->config->map_height / 4;
+	else
+		size = WINDOW_WIDTH / game->config->map_max_width / 4;
+	if (size % 2 == 0)
+		size = size + 1;
+	game->player->x = c[WIDTH] * size + size / 2;
+	game->player->y = c[HEIGHT] * size + size / 2;
+	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'N')
+		game->player->direction = M_PI_2;
+	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'E')
+		game->player->direction = 0;
+	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'W')
+		game->player->direction = M_PI;
+	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'S')
+		game->player->direction = 3 * M_PI_2;
 }

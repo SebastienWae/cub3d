@@ -75,9 +75,8 @@ return false when:
 - next to nothing
 - next to space
 */
-// TODO: set player in game struct
 t_bool	map_player_handler(t_game *game, size_t c[2], t_bool s[2])
-{
+{	
 	if (s[PLAYER])
 		return (FALSE);
 	else
@@ -94,6 +93,7 @@ t_bool	map_player_handler(t_game *game, size_t c[2], t_bool s[2])
 		|| c[WIDTH] > ft_strlen(game->config->map[c[HEIGHT] + 1]) - 1
 		|| game->config->map[c[HEIGHT] + 1][c[WIDTH]] == ' ')
 		return (FALSE);
+	parse_player(game, c);
 	return (TRUE);
 }
 

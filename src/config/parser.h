@@ -43,4 +43,6 @@ t_bool	map_zero_handler(t_game *game, size_t c[2], t_bool s[2]);
 t_bool	map_player_handler(t_game *game, size_t c[2], t_bool s[2]);
 t_bool	map_door_handler(t_game *game, size_t c[2], t_bool s[2]);
 
+void	parse_player(t_game *game, size_t c[2]);
+
 #endif

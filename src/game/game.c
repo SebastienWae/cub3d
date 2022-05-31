@@ -71,6 +71,7 @@ static void	game_get_config(char *config_file_path, t_game *game)
 		player_destructor(game->player);
 		game->player = NULL;
 	}
+	config_set_scale(game);
 	close(fd);
 }
 
