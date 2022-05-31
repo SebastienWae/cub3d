@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/31 12:07:45 by seb              ###   ########.fr        #
+#    Updated: 2022/05/31 14:27:41 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,12 @@ LDFLAGS = -L$(LIBFT) -lft
 ifeq ($(UNAME_S),Linux)
 	CPPFLAGS += -Iminilibx_linux
 	LDFLAGS += -Lminilibx_linux -lmlx -lXext -lX11
+	MINILIBX = minilibx_linux
 endif
 ifeq ($(UNAME_S),Darwin)
 	CPPFLAGS += -Iminilibx_darwin
 	LDFLAGS += -Lminilibx_darwin -lmlx -framework OpenGL -framework AppKit -lz
+	MINILIBX = minilibx_darwin
 endif
 
 SRCS = main.c \
@@ -53,7 +55,7 @@ OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)/libft.a
+$(NAME): $(OBJS) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
 .PHONY: debug debug_clean debug_fclean debug_re
@@ -72,6 +74,9 @@ bonus: $(NAME)
 
 $(LIBFT)/libft.a:
 	$(MAKE) -C $(LIBFT) bonus
+
+$(MINILIBX)/libmlx.a:
+	$(MAKE) -C $(MINILIBX)
 
 $(OUT_DIR)/%.o: %.c
 	$(MKDIR) $(@D)
