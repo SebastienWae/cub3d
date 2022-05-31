@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 10:21:19 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 12:04:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define WINDOW_H
 
 # include <mlx.h>
-# include <bool.h>
+# include <utils/bool.h>
 
 # define WINDOW_NAME "cub3d"
-# define WINDOW_WIDTH 1024
-# define WINDOW_HEIGHT 512
+# define WINDOW_WIDTH 1280
+# define WINDOW_HEIGHT 720
 
 enum {
 	ON_KEYDOWN = 2,
@@ -52,15 +52,25 @@ enum {
 
 # endif
 
+typedef struct s_image {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_image;
+
 typedef struct s_window
 {
 	void	*mlx;
 	void	*win;
+	t_image	*img;
 	t_bool	open;
 
 }	t_window;
 
 t_window	*window_constructor(void);
 void		window_destructor(t_window *window);
+int			window_close(t_window *window);
 
 #endif
