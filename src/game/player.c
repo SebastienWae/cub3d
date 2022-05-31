@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 12:06:44 by seb              ###   ########.fr       */
+/*   Created: 2022/05/30 21:23:32 by seb               #+#    #+#             */
+/*   Updated: 2022/05/31 11:32:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <game/game.h>
-#include <utils/errors.h>
+#include <libft.h>
+#include <game/player.h>
 
-int	main(int argc, char **argv)
+t_player	*player_constructor(void)
 {
-	t_game	*game;
+	t_player	*player;
 
-	if (argc == 1)
-		error_exit("Missing path to the config file");
-	else if (argc == 2)
-	{
-		game = game_init(argv[1]);
-		if (!game)
-			exit(EXIT_FAILURE);
-		game_start_loop(game);
-		game_destructor(game);
-	}
-	else
-		error_exit("Too many arguments");
+	player = ft_calloc(1, sizeof(t_player));
+	if (!player)
+		return (NULL);
+	return (player);
+}
+
+void	player_destructor(t_player *player)
+{
+	free(player);
 }
