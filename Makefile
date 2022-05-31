@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/29 18:15:16 by seb              ###   ########.fr        #
+#    Updated: 2022/05/31 12:07:45 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,15 +33,21 @@ ifeq ($(UNAME_S),Darwin)
 	LDFLAGS += -Lminilibx_darwin -lmlx -framework OpenGL -framework AppKit -lz
 endif
 
-SRCS = main.c errors.c \
-	strings/get_next_line.c \
-	strings/utils.c \
+SRCS = main.c \
+	utils/errors.c \
+	utils/get_next_line.c \
+	utils/utils.c \
 	config/config.c \
 	config/color.c \
 	config/texture.c \
 	config/map.c \
-	config/map_check.c \
-	window/window.c
+	config/parser.c \
+	config/parser_map.c \
+	graphics/window.c \
+	graphics/image.c \
+	game/game.c \
+	game/player.c \
+	game/loop.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
