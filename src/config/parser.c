@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 11:23:46 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 21:18:07 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ void	parse_player(t_game *game, size_t c[2])
 {
 	size_t	size;
 
-	if (WINDOW_WIDTH / game->config->map_max_width > WINDOW_HEIGHT / game->config->map_height)
+	if (WINDOW_WIDTH / game->config->map_max_width
+		> WINDOW_HEIGHT / game->config->map_height)
 		size = WINDOW_HEIGHT / game->config->map_height / 4;
 	else
 		size = WINDOW_WIDTH / game->config->map_max_width / 4;
