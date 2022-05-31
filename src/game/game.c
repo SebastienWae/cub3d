@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 11:59:39 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/31 21:21:34 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <game/player.h>
 #include <game/loop.h>
 #include <config/config.h>
+#include <config/map.h>
 #include <config/parser.h>
 #include <graphics/window.h>
 #include <graphics/image.h>
@@ -71,7 +72,7 @@ static void	game_get_config(char *config_file_path, t_game *game)
 		player_destructor(game->player);
 		game->player = NULL;
 	}
-	config_set_scale(game);
+	map_get_scale(game);
 	close(fd);
 }
 
