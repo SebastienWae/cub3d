@@ -52,11 +52,17 @@ void	draw_rectangle(t_game *game, size_t x, size_t y, size_t size_x, size_t size
 
 void	draw_player(t_game *game)
 {	
+	double	i;
+
+	i = game->player->direction - M_PI / 6;
 	draw_rectangle(game, game->player->x - game->config->scale / 6,
 		game->player->y - game->config->scale / 6,
 		game->config->scale / 3, game->config->scale / 3, 0x0000EEC2);
-	draw_ray(game, game->player->x, game->player->y,
-		game->player->direction, 0x0000EEC2);
+	while (i <= game->player->direction + M_PI / 6)
+	{
+		draw_ray(game, game->player->x, game->player->y, i, 0x0000EEC2);
+		i += M_PI / 60;
+	}
 }
 
 void	draw_mini_map(t_game *game)
