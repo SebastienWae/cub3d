@@ -23,7 +23,8 @@ void	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
 
 	i = 0;
 	j = 0;
-	while (y + j > 0 && y + j < WINDOW_HEIGHT && x + i > 0 && x + i < WINDOW_WIDTH)
+	while (y + j > 0 && y + j < WINDOW_HEIGHT && x + i > 0 && x + i < WINDOW_WIDTH && 
+	game->config->map[(int)((y + j)/game->config->scale)][(int)((x + i)/game->config->scale)] != '1')
 	{
 		image_put_pixel(game->window->img, x + i, y + j, color);
 		i = i + cos(direction);
