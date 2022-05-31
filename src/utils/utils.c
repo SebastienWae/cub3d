@@ -1,35 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 22:42:24 by seb               #+#    #+#             */
-/*   Updated: 2022/05/29 12:47:49 by seb              ###   ########.fr       */
+/*   Created: 2022/05/27 15:10:46 by swaegene          #+#    #+#             */
+/*   Updated: 2022/05/30 17:19:44 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <stdio.h>
-#include <errno.h>
-#include <errors.h>
-#include <stdlib.h>
+#include <utils/bool.h>
 
-void	error_exit(char *msg)
+int	array_size(void **array)
 {
-	error_msg();
-	if (msg)
-	{
-		ft_putstr_fd(msg, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	exit(EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }
 
-void	error_msg(void)
+static t_bool	is_whitespace(char c)
 {
-	ft_putstr_fd("Error\n", 2);
-	if (errno > 0) // FIXME: false positive?
-		perror(NULL);
+	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\r')
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool	is_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!is_whitespace(str[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
