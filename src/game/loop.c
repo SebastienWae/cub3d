@@ -28,22 +28,39 @@ static int	loop_hook(t_game *game)
 	return (0);
 }
 
+static int	check_collision(int keycode, t_game *game)
+{
+	if (keycode == KEY_W)
+		if (game->config->map[(game->player->y + 2 * game->config->scale / 3)/game->config->scale - 1][(game->player->x + 1 * game->config->scale / 3)/game->config->scale] != '1'
+		&& game->config->map[(game->player->y + 2 * game->config->scale / 3)/game->config->scale - 1][(game->player->x - 1 * game->config->scale / 3)/game->config->scale] != '1')
+			return (0);
+	if (keycode == KEY_S)
+		if (game->config->map[(game->player->y - 2 * game->config->scale / 3)/game->config->scale + 1][(game->player->x + 1 * game->config->scale / 3)/game->config->scale] != '1'
+		&& game->config->map[(game->player->y - 2 * game->config->scale / 3)/game->config->scale + 1][(game->player->x - 1 * game->config->scale / 3)/game->config->scale] != '1')
+			return (0);
+	if (keycode == KEY_A)
+		if (game->config->map[(game->player->y + 1 * game->config->scale / 3)/game->config->scale][(game->player->x + 2 * game->config->scale / 3)/game->config->scale - 1] != '1'
+		&& game->config->map[(game->player->y - 1 * game->config->scale / 3)/game->config->scale][(game->player->x + 2 * game->config->scale / 3)/game->config->scale - 1] != '1')
+			return (0);
+	if (keycode == KEY_D)
+		if (game->config->map[(game->player->y - 1 * game->config->scale / 3)/game->config->scale][(game->player->x - 2 * game->config->scale / 3)/game->config->scale + 1] != '1'
+		&& game->config->map[(game->player->y + 1 * game->config->scale / 3)/game->config->scale][(game->player->x - 2 * game->config->scale / 3)/game->config->scale + 1] != '1')
+			return (0);
+	return (1);
+}
+
 static int	loop_keys_hook(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
 		window_close(game->window);
-	if (keycode == KEY_W)
-		if (game->config->map[(game->player->y + 2 * game->config->scale / 3)/game->config->scale - 1][game->player->x/game->config->scale] != '1')
-			game->player->y--;
-	if (keycode == KEY_S)
-		if (game->config->map[(game->player->y - 2 * game->config->scale / 3)/game->config->scale + 1][game->player->x/game->config->scale] != '1')
-			game->player->y++;
-	if (keycode == KEY_A)
-		if (game->config->map[game->player->y/game->config->scale][(game->player->x + 2 * game->config->scale / 3)/game->config->scale - 1] != '1')
-			game->player->x--;
-	if (keycode == KEY_D)
-		if (game->config->map[game->player->y/game->config->scale][(game->player->x - 2 * game->config->scale / 3)/game->config->scale + 1] != '1')
-			game->player->x++;
+	if (keycode == KEY_W && !check_collision(keycode, game))		
+		game->player->y--;
+	if (keycode == KEY_S && !check_collision(keycode, game))
+		game->player->y++;
+	if (keycode == KEY_A && !check_collision(keycode, game))
+		game->player->x--;
+	if (keycode == KEY_D && !check_collision(keycode, game))
+		game->player->x++;
 	if (keycode == KEY_LEFT)
 	{		
 		if (game->player->direction == M_PI * 2)
