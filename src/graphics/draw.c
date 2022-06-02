@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 14:06:40 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:03:45 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	draw_cone(t_game *game, size_t x, size_t y, double direction, int color)
 
 	i = 0;
 	j = 0;
-	// while ((int) sqrt(i * i + j * j) < (int)(game->config->scale / 2))
-	while ((int) sqrt(i * i + j * j) < (int)(game->config->scale))
+	while ((int) sqrt(i * i + j * j) < (int)(game->config->scale) / 2)
 	{
 		draw_rectangle(game, x + i, y + j, 1, 1, color);		
 		i = i + cos(direction);
@@ -53,32 +52,37 @@ void	draw_rectangle(t_game *game, size_t x, size_t y, size_t size_x, size_t size
 	}
 }
 
-t_bool is_in_map(t_game *game, size_t x, size_t y)
-{
-	if (y / game->config->scale >= game->config->map_height)
+t_bool is_in_map(t_game *game, double x, double y)
+{	
+	if (y/game->config->scale >= game->config->map_height || x < 0 || y < 0)
 		return (FALSE);
-	if (x / game->config->scale >= ft_strlen(game->config->map[y / game->config->scale]))
+	if (x/game->config->scale >= ft_strlen(game->config->map[(int)(y/game->config->scale)]))
 		return (FALSE);
 	return (TRUE);
 }
 
 
-double	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
+double	ray_caster(t_game *game, size_t x, size_t y, double direction, int color)
 {
-	size_t	xa;
-	size_t	ya;
-	size_t	prev_ya;
-	size_t	xb;
-	size_t	yb;
-	size_t	prev_xb;
+	double	xa;
+	double	ya;
+	double	prev_ya;
+	double	xb;
+	double	yb;
+	double	prev_xb;
 	double	da;
 	double	db;
+	double	px;
+	double	py;
 	xa = x;
 	ya = y;
 	xb = x;
 	yb = y;
 	da = 0;
 	db = 0;
+	px = (double)x;
+	py = (double)y;
+	(void) color;
 	if (direction >= M_PI * 2)
 			direction = direction - M_PI * 2;
 	else if (direction < 0)
@@ -88,62 +92,61 @@ double	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
 		prev_ya = ya;
 		if (direction < M_PI)
 		{
-			ya = (floor((int)(ya / game->config->scale)) * game->config->scale) - 1;
+			ya = (floor((ya / (double)game->config->scale)) * game->config->scale) - 1;
 			xa = xa + ((prev_ya - ya) / tan(direction));
 		}
 		else
 		{			
-			ya = (floor((int)(ya / (double)game->config->scale)) * game->config->scale) + game->config->scale;
+			ya = (floor((ya / (double)game->config->scale)) * game->config->scale) + game->config->scale;
 			xa = xa - ((ya - prev_ya) * tan(3 * M_PI_2 - direction));			
 		}	
 		if (!is_in_map(game, xa, ya))
 			break;
-		if (game->config->map[ya/game->config->scale][xa/game->config->scale] == '1')
-		{
-			da = sqrt(((x - xa) * (x - xa)) + ((y - ya) * (y - ya)));;
+		if (game->config->map[(int)(ya/game->config->scale)][(int)(xa/game->config->scale)] == '1')
+		{	
+			da = sqrt(((px - xa) * (px - xa)) + ((py - ya) * (py - ya)));
 			break;
-		}		
-		
-
+		}
+	/*	else if (is_in_map(game, xa, ya) && (direction > 0 || direction < M_PI) && game->config->map[(int)ya/game->config->scale + 1][(int)xa/game->config->scale] == '1')
+		{
+			da = sqrt(((px - xa) * (px - xa)) + ((py - ya) * (py - ya)));		
+			break;
+		}*/
 	}
 	while (direction != M_PI_2 && direction != (M_PI * 3 / 2))
 	{
 		prev_xb = xb;
 		if (direction > M_PI_2 && direction < (M_PI * 3 / 2))
 		{
-			xb = (floor((int)xb / (double)game->config->scale) * game->config->scale) - 1;
+			xb = (floor(xb / (double)game->config->scale) * game->config->scale) - 1;
 			yb = yb + ((prev_xb - xb) * tan(direction));
 		}
 		else
 		{
-			xb = (floor((int)xb / (double)game->config->scale) * game->config->scale) + game->config->scale;
-			yb = yb - ((xb - prev_xb) * tan(direction));
-			
+			xb = (floor(xb / (double)game->config->scale) * game->config->scale) + game->config->scale;
+			yb = yb - ((xb - prev_xb) * tan(direction));			
 		}		
 		if (!is_in_map(game, xb, yb))
 			break;
-		if (game->config->map[yb/game->config->scale][xb/game->config->scale] == '1')
-		{
-			db = sqrt(((x - xb) * (x - xb)) + ((y - yb) * (y - yb)));
+		if (game->config->map[(int)(yb/game->config->scale)][(int)(xb/game->config->scale)] == '1')
+		{	
+			db = sqrt(((px - xb) * (px - xb)) + ((py - yb) * (py - yb)));
 			break;
-		}
-		/*
-		else if (direction > M_PI_2 && direction < 3 * M_PI_2 && game->config->map[yb/game->config->scale - 1][xb/game->config->scale + 1] == '1')
-		{
-			db = sqrt(((x - xb) * (x - xb)) + ((y - yb) * (y - yb)));			
+		}	
+		/*else if (is_in_map(game, xb, yb - 1) && (direction > 3 * M_PI / 2 || direction < M_PI_2) && game->config->map[(int)((yb - 1)/game->config->scale)][(int)xb/game->config->scale] == '1')
+		{			
+			db = sqrt(((px - xb) * (px - xb)) + ((py - yb) * (py - yb)));	
 			break;
-		}*/
-		
-	}
-	
+		}	*/
+	}	
 	if ((db == 0 || da < db) && is_in_map(game, xa, ya))
 	{
-		draw_rectangle(game, xa, ya, 2, 2, color);
+		//draw_rectangle(game, xa, ya, 2, 2, color);
 		return (da);
 	}
 	else if ((da == 0 || db <= da) && is_in_map(game, xb, yb) )
 	{
-		draw_rectangle(game, xb, yb, 2, 2, 0x00FF0000);
+		//draw_rectangle(game, xb, yb, 2, 2, 0x00FF0000);
 		return (db);
 	}
 	return (0);
@@ -154,20 +157,12 @@ void	draw_player(t_game *game)
 	double	i;
 
 	i = game->player->direction - M_PI / 6;
-	//draw_rectangle(game, game->player->x - game->config->scale / 6,
-	//	game->player->y - game->config->scale / 6,
-	//	game->config->scale / 3, game->config->scale / 3, 0x0000EEC2);
 	while (i <= game->player->direction + M_PI / 6)
 	{			
 		draw_cone(game, game->player->x, game->player->y, i, 0x0000EEC2);		
 	 	i += M_PI / 60;
 	}
 	i = game->player->direction - M_PI / 6;
-	while (i <= game->player->direction + M_PI / 6)
-	{			
-		draw_ray(game, game->player->x, game->player->y, i, 0x0000EEC2);		
-	 	i += M_PI / 60;
-	}
 }
 
 void	draw_mini_map(t_game *game)
@@ -198,5 +193,31 @@ void	draw_mini_map(t_game *game)
 		y++;
 	}
 	draw_player(game);
+	
 	mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
+}
+
+void	draw_screen(t_game *game)
+{
+	double	proj_distance;
+	double	ray_angle;
+	double	distance_to_wall;
+	int		i;
+	double	direction;
+
+	draw_rectangle(game, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[CEILING]);
+	draw_rectangle(game, 0, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[FLOOR]);
+	proj_distance = WINDOW_HEIGHT / tan (M_PI / 3);
+	ray_angle = (M_PI / 3) / WINDOW_WIDTH;
+	i = WINDOW_WIDTH - 1;
+	direction = game->player->direction - M_PI / 6;
+	while (i > 0 && direction - game->player->direction < M_PI / 3)
+	{			
+		distance_to_wall = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction, 0x0000EEC2);
+		if ((int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) < WINDOW_HEIGHT)
+			draw_rectangle(game, i, (WINDOW_HEIGHT / 2) - (int)(game->config->scale / distance_to_wall * proj_distance / 2), 1, game->config->scale / distance_to_wall * proj_distance, 0x0050585D);
+		direction += ray_angle;
+	 	i --;
+	}
+	
 }

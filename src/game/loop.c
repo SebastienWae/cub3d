@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 11:00:24 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:09:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	loop_hook(t_game *game)
 		game_destructor(game);
 		exit(EXIT_SUCCESS);
 	}
+	game->window->img = image_constructor(game->window);
+	draw_screen(game);
 	draw_mini_map(game);
 	return (0);
 }
@@ -34,23 +36,35 @@ static int	loop_keys_hook(int keycode, t_game *game)
 		window_close(game->window);
 	if (keycode == KEY_W)
 	{	
-		game->player->y -= (int)(game->config->scale / 5) * sin(game->player->direction);
-		game->player->x += (int)(game->config->scale / 5) * cos(game->player->direction);
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction, 0xFF000000) > (int) (game->config->scale / 2))
+		{
+			game->player->y -= (int)(game->config->scale / 5) * sin(game->player->direction);
+			game->player->x += (int)(game->config->scale / 5) * cos(game->player->direction);
+		}
 	}
 	if (keycode == KEY_S)
-	{	
+	{
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + M_PI, 0xFF000000) > (int) (game->config->scale / 2))
+		{
 		game->player->y += (int)(game->config->scale / 5) * sin(game->player->direction);
 		game->player->x -= (int)(game->config->scale / 5) * cos(game->player->direction);
+		}
 	}
 	if (keycode == KEY_A)
 	{	
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + M_PI / 2, 0xFF000000) > (int) (game->config->scale / 2))
+		{
 		game->player->x -= (int)(game->config->scale / 5) * sin(game->player->direction);
 		game->player->y -= (int)(game->config->scale / 5) * cos(game->player->direction);
+		}
 	}
 	if (keycode == KEY_D)
 	{	
-		game->player->x += (int)(game->config->scale / 5) * sin(game->player->direction);
-		game->player->y += (int)(game->config->scale / 5) * cos(game->player->direction);
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + 3 * M_PI / 2, 0xFF000000) > (int) (game->config->scale / 2))
+		{
+			game->player->x += (int)(game->config->scale / 5) * sin(game->player->direction);
+			game->player->y += (int)(game->config->scale / 5) * cos(game->player->direction);
+		}
 	}
 	if (keycode == KEY_LEFT)
 	{		
