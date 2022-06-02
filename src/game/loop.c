@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 17:09:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/02 23:45:03 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ static int	loop_keys_hook(int keycode, t_game *game)
 }
 
 void	loop_start(t_game *game)
-{
-	draw_mini_map(game);
+{	
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, 0, loop_keys_hook, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 18:03:45 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/02 23:57:12 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,38 +87,40 @@ double	ray_caster(t_game *game, size_t x, size_t y, double direction, int color)
 			direction = direction - M_PI * 2;
 	else if (direction < 0)
 			direction = direction + M_PI * 2;	
-	while (direction != 0 && direction != M_PI)
+	while (direction != 0 && direction != M_PI) // horizontal
 	{		
 		prev_ya = ya;
 		if (direction < M_PI)
 		{
-			ya = (floor((ya / (double)game->config->scale)) * game->config->scale) - 1;
+			ya = (floor((ya / (double)game->config->scale)) * game->config->scale) - 0.01;
 			xa = xa + ((prev_ya - ya) / tan(direction));
 		}
 		else
 		{			
 			ya = (floor((ya / (double)game->config->scale)) * game->config->scale) + game->config->scale;
 			xa = xa - ((ya - prev_ya) * tan(3 * M_PI_2 - direction));			
-		}	
+		}
 		if (!is_in_map(game, xa, ya))
 			break;
+		
 		if (game->config->map[(int)(ya/game->config->scale)][(int)(xa/game->config->scale)] == '1')
 		{	
 			da = sqrt(((px - xa) * (px - xa)) + ((py - ya) * (py - ya)));
 			break;
 		}
-	/*	else if (is_in_map(game, xa, ya) && (direction > 0 || direction < M_PI) && game->config->map[(int)ya/game->config->scale + 1][(int)xa/game->config->scale] == '1')
+		else if (direction > 0 && direction < M_PI && is_in_map(game, xa, ya + 1) && game->config->map[(int)ya/game->config->scale + 1][(int)xa/game->config->scale] == '1')
 		{
 			da = sqrt(((px - xa) * (px - xa)) + ((py - ya) * (py - ya)));		
 			break;
-		}*/
+		}
+
 	}
-	while (direction != M_PI_2 && direction != (M_PI * 3 / 2))
+	while (direction != M_PI_2 && direction != (M_PI * 3 / 2)) // vertical
 	{
 		prev_xb = xb;
 		if (direction > M_PI_2 && direction < (M_PI * 3 / 2))
 		{
-			xb = (floor(xb / (double)game->config->scale) * game->config->scale) - 1;
+			xb = (floor(xb / (double)game->config->scale) * game->config->scale) - 0.01;
 			yb = yb + ((prev_xb - xb) * tan(direction));
 		}
 		else
@@ -133,20 +135,20 @@ double	ray_caster(t_game *game, size_t x, size_t y, double direction, int color)
 			db = sqrt(((px - xb) * (px - xb)) + ((py - yb) * (py - yb)));
 			break;
 		}	
-		/*else if (is_in_map(game, xb, yb - 1) && (direction > 3 * M_PI / 2 || direction < M_PI_2) && game->config->map[(int)((yb - 1)/game->config->scale)][(int)xb/game->config->scale] == '1')
+		else if (direction > M_PI && direction < 2 * M_PI && is_in_map(game, xb, yb - 1) && game->config->map[(int)((yb - 1)/game->config->scale)][(int)xb/game->config->scale] == '1')
 		{			
-			db = sqrt(((px - xb) * (px - xb)) + ((py - yb) * (py - yb)));	
+			db = sqrt(((px - xb) * (px - xb)) + ((py - yb) * (py - yb)));
 			break;
-		}	*/
+		}	
 	}	
 	if ((db == 0 || da < db) && is_in_map(game, xa, ya))
 	{
-		//draw_rectangle(game, xa, ya, 2, 2, color);
-		return (da);
+		draw_rectangle(game, xa, ya, 2, 2, color);
+			return (da);
 	}
 	else if ((da == 0 || db <= da) && is_in_map(game, xb, yb) )
 	{
-		//draw_rectangle(game, xb, yb, 2, 2, 0x00FF0000);
+		draw_rectangle(game, xb, yb, 2, 2, 0x00FF0000);
 		return (db);
 	}
 	return (0);
@@ -193,7 +195,12 @@ void	draw_mini_map(t_game *game)
 		y++;
 	}
 	draw_player(game);
-	
+	double i = game->player->direction - M_PI / 6;
+	while (i <= game->player->direction + M_PI / 6)
+	{			
+		ray_caster(game, game->player->x, game->player->y, i, 0x0000EEC2);		
+	 	i += M_PI / 360;
+	}
 	mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
 }
 
@@ -204,6 +211,8 @@ void	draw_screen(t_game *game)
 	double	distance_to_wall;
 	int		i;
 	double	direction;
+	double	dist;
+	double new_dist;
 
 	draw_rectangle(game, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[CEILING]);
 	draw_rectangle(game, 0, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[FLOOR]);
@@ -212,12 +221,20 @@ void	draw_screen(t_game *game)
 	i = WINDOW_WIDTH - 1;
 	direction = game->player->direction - M_PI / 6;
 	while (i > 0 && direction - game->player->direction < M_PI / 3)
-	{			
-		distance_to_wall = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction, 0x0000EEC2);
-		if ((int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) < WINDOW_HEIGHT)
-			draw_rectangle(game, i, (WINDOW_HEIGHT / 2) - (int)(game->config->scale / distance_to_wall * proj_distance / 2), 1, game->config->scale / distance_to_wall * proj_distance, 0x0050585D);
+	{	
+		dist = ray_caster(game, game->player->x, game->player->y, direction, 0x0000EEC2);
+		distance_to_wall = cos(direction - game->player->direction) * dist;		
+		if ((int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) < WINDOW_HEIGHT
+		&& (int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) > 0)
+			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2)), 1, game->config->scale / distance_to_wall * proj_distance, 0x0050585D);
+		else // tape for missing corner
+		{
+			new_dist = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction - 10 * ray_angle, 0x0000EEC2);
+			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / new_dist * proj_distance / 2)), 1, game->config->scale / new_dist * proj_distance, 0x0050585D);
+		}
 		direction += ray_angle;
 	 	i --;
+		
 	}
 	
 }
