@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 12:57:36 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:06:40 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	draw_cone(t_game *game, size_t x, size_t y, double direction, int color)
 
 	i = 0;
 	j = 0;
-	while ((int) sqrt(i * i + j * j) < (int)(game->config->scale / 2))
+	// while ((int) sqrt(i * i + j * j) < (int)(game->config->scale / 2))
+	while ((int) sqrt(i * i + j * j) < (int)(game->config->scale))
 	{
 		draw_rectangle(game, x + i, y + j, 1, 1, color);		
 		i = i + cos(direction);
@@ -62,7 +63,7 @@ t_bool is_in_map(t_game *game, size_t x, size_t y)
 }
 
 
-size_t	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
+double	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
 {
 	size_t	xa;
 	size_t	ya;
@@ -101,13 +102,8 @@ size_t	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
 		{
 			da = sqrt(((x - xa) * (x - xa)) + ((y - ya) * (y - ya)));;
 			break;
-		}
-		/*
-		else if (direction > M_PI_2 && direction < M_PI && game->config->map[ya/game->config->scale + 1][xa/game->config->scale - 1] == '1')
-		{	
-			da = sqrt(((x - xa + 1) * (x - xa + 1)) + ((y - ya - 1) * (y - ya - 1)));;
-			break;
-		}*/
+		}		
+		
 
 	}
 	while (direction != M_PI_2 && direction != (M_PI * 3 / 2))
@@ -139,17 +135,18 @@ size_t	draw_ray(t_game *game, size_t x, size_t y, double direction, int color)
 		}*/
 		
 	}
-	if ((db == 0 || da <= db) && is_in_map(game, xa, ya))
+	
+	if ((db == 0 || da < db) && is_in_map(game, xa, ya))
 	{
-		draw_rectangle(game, xa, ya, 1, 1, color);
+		draw_rectangle(game, xa, ya, 2, 2, color);
 		return (da);
 	}
-	else if ((da == 0 || db < da) && is_in_map(game, xb, yb) )
+	else if ((da == 0 || db <= da) && is_in_map(game, xb, yb) )
 	{
-		draw_rectangle(game, xb, yb, 1, 1, 0x00FF0000);
+		draw_rectangle(game, xb, yb, 2, 2, 0x00FF0000);
 		return (db);
 	}
-	else return (0);
+	return (0);
 }
 
 void	draw_player(t_game *game)
