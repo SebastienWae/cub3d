@@ -25,8 +25,8 @@ static int	loop_hook(t_game *game)
 		exit(EXIT_SUCCESS);
 	}
 	game->window->img = image_constructor(game->window);
-	draw_screen(game);
-	draw_mini_map(game);
+	//draw_screen(game);
+	//draw_mini_map(game);
 	return (0);
 }
 
@@ -80,11 +80,15 @@ static int	loop_keys_hook(int keycode, t_game *game)
 		else
 			game->player->direction -= M_PI / 90;
 	}
+	draw_screen(game);
+	draw_mini_map(game);
 	return (0);
 }
 
 void	loop_start(t_game *game)
 {	
+	draw_screen(game);
+	draw_mini_map(game);
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, 0, loop_keys_hook, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
