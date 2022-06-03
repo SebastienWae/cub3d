@@ -35,6 +35,7 @@ static int	loop_hook(t_game *game)
 
 static int	loop_keys_hook(int keycode, t_game *game)
 {
+	mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
 	if (keycode == KEY_ESC)
 		window_close(game->window);
 	if (keycode == KEY_W
@@ -50,6 +51,8 @@ static int	loop_keys_hook(int keycode, t_game *game)
 
 void	loop_start(t_game *game)
 {	
+	draw_screen(game);
+	draw_mini_map(game);
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, 0, loop_keys_hook, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);

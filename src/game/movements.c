@@ -21,7 +21,7 @@ static void	move_up(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction;
-	if (raycaster(game, direction).distance > (game->config->scale))
+	if (raycaster(game, direction).distance > (game->config->scale / 3))
 	{
 		game->player->position.x += vec.x;
 		game->player->position.y -= vec.y;
@@ -33,7 +33,7 @@ static void	move_down(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction + M_PI;
-	if (raycaster(game, direction).distance > (game->config->scale / 2))
+	if (raycaster(game, direction).distance > (game->config->scale / 3))
 	{
 		game->player->position.x -= vec.x;
 		game->player->position.y += vec.y;
@@ -45,7 +45,7 @@ static void	move_left(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction + M_PI / 2;
-	if (raycaster(game, direction).distance > game->config->scale / 2)
+	if (raycaster(game, direction).distance > game->config->scale / 3)
 	{
 		game->player->position.x -= vec.y;
 		game->player->position.y -= vec.x;
@@ -57,7 +57,7 @@ static void	move_right(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction + 3 * M_PI / 2;
-	if (raycaster(game, direction).distance > (game->config->scale / 2))
+	if (raycaster(game, direction).distance > (game->config->scale / 3))
 	{
 		game->player->position.x += vec.y;
 		game->player->position.y += vec.x;

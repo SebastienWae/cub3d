@@ -31,7 +31,7 @@ void	draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
 		while (i.x < size.x)
 		{
 			image_put_pixel(game->window->img,
-				(t_vec){coord.x + i.x, coord.y + i.y}, color);
+				(t_vec){(int)(coord.x + i.x), (int)(coord.y + i.y)}, color);
 			i.x++;
 		}
 		i.y++;
@@ -86,7 +86,7 @@ void	draw_ceiling(t_game *game)
 {	
 	draw_rectangle(game,
 		(t_vec){0, 0}, 
-		(t_vec){WINDOW_WIDTH, WINDOW_HEIGHT / 2},
+		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
 		game->config->colors[CEILING]);
 }
 
@@ -94,51 +94,74 @@ void	draw_ceiling(t_game *game)
 void	draw_floor(t_game *game)
 {	
 	draw_rectangle(game,
-		(t_vec){0, WINDOW_HEIGHT / 2}, 
-		(t_vec){WINDOW_WIDTH, (int)WINDOW_HEIGHT / 2},
+		(t_vec){0, (int)(WINDOW_HEIGHT / 2)}, 
+		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
 		game->config->colors[FLOOR]);
 }
 
-double	get_distance_to_wall(t_game *game, double direction)
+t_ray	get_distance_to_wall(t_game *game, double direction)
 {
-	double	distance_to_wall;
+	t_ray	ray;
 
 	if (direction >= M_PI * 2)
 		direction = direction - M_PI * 2;
 	else if (direction < 0)
-		direction = direction + M_PI * 2;		
-	distance_to_wall = cos(direction - game->player->direction) 
-		* raycaster(game, direction).distance;
-	return(distance_to_wall);
+		direction = direction + M_PI * 2;
+	ray = raycaster(game, direction);
+	ray.distance = cos(direction - game->player->direction) 
+		* ray.distance;
+	return(ray);
+}
+
+void	draw_vertical_wall(t_game *game, double d, double h, int i)
+{
+	draw_rectangle(game,
+		(t_vec){i, d},
+		(t_vec){1, h}, 0x00505050);
+}
+
+void	draw_horizontal_wall(t_game *game, double d, double h, int i)
+{
+	draw_rectangle(game,
+		(t_vec){i, d},
+		(t_vec){1, h}, 0x00454545);
 }
 
 void	draw_walls(t_game *game)
 {
 	double	proj_distance;
 	double	ray_angle;
-	double	distance_to_wall;
 	int		i;
 	double	direction;
 	double	line_height;
+	t_ray	ray;
 
 	proj_distance = WINDOW_HEIGHT / tan (M_PI / 3);	
 	ray_angle = (M_PI / 3) / WINDOW_WIDTH;
 	i = WINDOW_WIDTH - 1;
 	direction = game->player->direction - M_PI / 6;
-	while (i > 0 && direction - game->player->direction < M_PI / 3)
-	{	
-		distance_to_wall = get_distance_to_wall(game, direction);
-		line_height = game->config->scale / distance_to_wall * proj_distance;
-		if ((int)((double)(WINDOW_HEIGHT / 2) - (line_height / 2) + line_height) < WINDOW_HEIGHT
-		&& (int)((double)(WINDOW_HEIGHT / 2) - (line_height / 2) + line_height) > 0)
-			draw_rectangle(game,
-				(t_vec){i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale
-					/ distance_to_wall * proj_distance / 2))},
-				(t_vec){ 1, line_height}, 0x0050585D);
+	while (i >= 0 && direction - game->player->direction <= M_PI / 6)
+	{
+		ray = get_distance_to_wall(game, direction);		
+		line_height = game->config->scale / ray.distance * proj_distance;
+		if (line_height > 0 && line_height < WINDOW_HEIGHT 
+		&& (int)((WINDOW_HEIGHT - line_height)/ 2 + line_height) < WINDOW_HEIGHT
+		&& WINDOW_HEIGHT - line_height / 2 + line_height > 0)
+		{
+			if (ray.type == 'H')
+				draw_horizontal_wall(game, (int)((WINDOW_HEIGHT - game->config->scale
+						/ ray.distance * proj_distance) / 2), line_height, i);
+			else
+				draw_vertical_wall(game, (int)((WINDOW_HEIGHT - game->config->scale
+						/ ray.distance * proj_distance) / 2), line_height, i);			 
+		}	
 		else if (line_height >= WINDOW_HEIGHT)
-			draw_rectangle(game, 
-				(t_vec){i, 0},
-				(t_vec){1, WINDOW_HEIGHT - 1}, 0x0050585D);
+		{
+			if (ray.type == 'H')
+				draw_horizontal_wall(game, WINDOW_HEIGHT - 1, line_height, i);
+			else
+				draw_vertical_wall(game, WINDOW_HEIGHT - 1, line_height, i);
+		}
 		direction += ray_angle;
 		i--;
 	}	
@@ -150,3 +173,4 @@ void	draw_screen(t_game *game)
 	draw_floor(game);
 	draw_walls(game);
 }
+
