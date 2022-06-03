@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 23:57:12 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/03 07:38:21 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,12 @@ double	ray_caster(t_game *game, size_t x, size_t y, double direction, int color)
 			break;
 		}	
 	}	
-	if ((db == 0 || da < db) && is_in_map(game, xa, ya))
+	if ((db == 0 || da < db) && da > 0 && is_in_map(game, xa, ya))
 	{
 		draw_rectangle(game, xa, ya, 2, 2, color);
 			return (da);
 	}
-	else if ((da == 0 || db <= da) && is_in_map(game, xb, yb) )
+	else if ((da == 0 || db <= da) && db > 0 && is_in_map(game, xb, yb) )
 	{
 		draw_rectangle(game, xb, yb, 2, 2, 0x00FF0000);
 		return (db);
@@ -212,7 +212,7 @@ void	draw_screen(t_game *game)
 	int		i;
 	double	direction;
 	double	dist;
-	double new_dist;
+	//double new_dist;
 
 	draw_rectangle(game, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[CEILING]);
 	draw_rectangle(game, 0, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[FLOOR]);
@@ -227,11 +227,11 @@ void	draw_screen(t_game *game)
 		if ((int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) < WINDOW_HEIGHT
 		&& (int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) > 0)
 			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2)), 1, game->config->scale / distance_to_wall * proj_distance, 0x0050585D);
-		else // tape for missing corner
-		{
-			new_dist = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction - 10 * ray_angle, 0x0000EEC2);
-			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / new_dist * proj_distance / 2)), 1, game->config->scale / new_dist * proj_distance, 0x0050585D);
-		}
+		// else // tape for missing corner
+		// {
+		// 	new_dist = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction - 10 * ray_angle, 0x0000EEC2);
+		// 	draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / new_dist * proj_distance / 2)), 1, game->config->scale / new_dist * proj_distance, 0x0050585D);
+		// }
 		direction += ray_angle;
 	 	i --;
 		

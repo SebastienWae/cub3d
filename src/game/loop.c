@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/02 23:45:03 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/03 07:41:46 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	loop_keys_hook(int keycode, t_game *game)
 		window_close(game->window);
 	if (keycode == KEY_W)
 	{	
-		if (ray_caster(game, game->player->x, game->player->y, game->player->direction, 0xFF000000) > (int) (game->config->scale / 2))
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction, 0xFF000000) > (int) (game->config->scale))
 		{
 			game->player->y -= (int)(game->config->scale / 5) * sin(game->player->direction);
 			game->player->x += (int)(game->config->scale / 5) * cos(game->player->direction);
