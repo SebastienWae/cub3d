@@ -128,12 +128,14 @@ static double	raycaster_vertical(t_game *game, double direction)
 		prev_x = r.x;
 		if (direction > M_PI_2 && direction < (M_PI * 3 / 2))
 		{
+//TODO : add +0.0001 if prevx = rx
 			r.x = (floor(r.x / (double)game->config->scale)
 					* game->config->scale) - 0.0001;
 			r.y = r.y + ((prev_x - r.x) * tan(direction));
 		}
 		else
 		{
+//TODO : try to add + 0.0001 to x if x = prevx : x may stay the same with floor? 
 			r.x = (floor(r.x / game->config->scale)
 					* game->config->scale) + game->config->scale;
 			r.y = r.y - ((r.x - prev_x) * tan(direction));
