@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics/window.h"
 #include "libft.h"
 #include "utils/bool.h"
 #include <mlx.h>
@@ -194,6 +195,23 @@ void	draw_mini_map(t_game *game)
 	}
 	draw_player(game);	
 	mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
+}
+
+void	draw_shading (t_game *game)
+{
+	int	i;
+	
+	i = 0;
+	while (i < WINDOW_HEIGHT / 2)
+	{
+		draw_rectangle(game, 0, WINDOW_WIDTH - 1, WINDOW_WIDTH - 1, 1, 0xFF000000);
+		i ++;
+	}
+	while (i < WINDOW_HEIGHT / 2)
+	{
+		draw_rectangle(game, i, 0, 1, WINDOW_HEIGHT - 1, 0x0050585D);
+		i ++;
+	}
 }
 
 void	draw_screen(t_game *game)
