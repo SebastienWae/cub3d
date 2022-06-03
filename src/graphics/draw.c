@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 07:38:21 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/03 08:48:25 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ void	draw_screen(t_game *game)
 	int		i;
 	double	direction;
 	double	dist;
+	double	line_height;
 	//double new_dist;
 
 	draw_rectangle(game, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT / 2, game->config->colors[CEILING]);
@@ -223,10 +224,14 @@ void	draw_screen(t_game *game)
 	while (i > 0 && direction - game->player->direction < M_PI / 3)
 	{	
 		dist = ray_caster(game, game->player->x, game->player->y, direction, 0x0000EEC2);
-		distance_to_wall = cos(direction - game->player->direction) * dist;		
-		if ((int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) < WINDOW_HEIGHT
-		&& (int)((double)(WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2) + game->config->scale / distance_to_wall * proj_distance) > 0)
-			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2)), 1, game->config->scale / distance_to_wall * proj_distance, 0x0050585D);
+		distance_to_wall = cos(direction - game->player->direction) * dist;
+		line_height = game->config->scale / distance_to_wall * proj_distance;
+		if ((int)((double)(WINDOW_HEIGHT / 2) - (line_height / 2) + line_height) < WINDOW_HEIGHT
+		&& (int)((double)(WINDOW_HEIGHT / 2) - (line_height / 2) + line_height) > 0)
+			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2)), 1, line_height, 0x0050585D);
+		else if (line_height >= WINDOW_HEIGHT)
+			draw_rectangle(game, i, 0, 1, WINDOW_HEIGHT - 1, 0x0050585D);
+
 		// else // tape for missing corner
 		// {
 		// 	new_dist = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction - 10 * ray_angle, 0x0000EEC2);
