@@ -21,7 +21,7 @@ static void	move_up(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction;
-	if (raycaster(game, direction) > (int)(game->config->scale))
+	if (raycaster(game, direction).distance > (game->config->scale))
 	{
 		game->player->position.x += vec.x;
 		game->player->position.y -= vec.y;
@@ -33,7 +33,7 @@ static void	move_down(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction + M_PI;
-	if (raycaster(game, direction) > (int)(game->config->scale / 2))
+	if (raycaster(game, direction).distance > (game->config->scale / 2))
 	{
 		game->player->position.x -= vec.x;
 		game->player->position.y += vec.y;
@@ -45,10 +45,10 @@ static void	move_left(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction + M_PI / 2;
-	if (raycaster(game, direction) > (int)(game->config->scale / 2))
+	if (raycaster(game, direction).distance > game->config->scale / 2)
 	{
-		game->player->position.x -= vec.x;
-		game->player->position.y -= vec.y;
+		game->player->position.x -= vec.y;
+		game->player->position.y -= vec.x;
 	}
 }
 
@@ -57,10 +57,10 @@ static void	move_right(t_game *game, t_vec vec)
 	double	direction;
 
 	direction = game->player->direction + 3 * M_PI / 2;
-	if (raycaster(game, direction) > (int)(game->config->scale / 2))
+	if (raycaster(game, direction).distance > (game->config->scale / 2))
 	{
-		game->player->position.x += vec.x;
-		game->player->position.y += vec.y;
+		game->player->position.x += vec.y;
+		game->player->position.y += vec.x;
 	}
 }
 
@@ -68,8 +68,8 @@ void	move(t_game *game, int keycode)
 {
 	t_vec	vec;
 
-	vec.y = (int)(game->config->scale / 5) * sin(game->player->direction);
-	vec.x = (int)(game->config->scale / 5) * cos(game->player->direction);
+	vec.y = (int)((game->config->scale / 5) * sin(game->player->direction));
+	vec.x = (int)((game->config->scale / 5) * cos(game->player->direction));
 	if (keycode == KEY_W)
 		move_up(game, vec);
 	else if (keycode == KEY_S)

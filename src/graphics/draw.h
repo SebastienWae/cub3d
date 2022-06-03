@@ -16,7 +16,6 @@
 # include <game/game.h>
 # include <utils/vec.h>
 
-double	ray_caster(t_game *game, double direction);
 void	draw_rectangle(t_game *game, t_vec pos, t_vec size, int color);
 void	draw_player(t_game *game);
 void	draw_mini_map(t_game *game);

@@ -48,9 +48,13 @@ SRCS = main.c \
 	graphics/window.c \
 	graphics/image.c \
 	graphics/draw.c \
+	graphics/raycaster.c \
 	game/game.c \
 	game/player.c \
-	game/loop.c
+	game/loop.c \
+	game/movements.c \
+	game/rotation.c
+
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 

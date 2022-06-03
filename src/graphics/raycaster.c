@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics/raycaster.h"
 #include <math.h>
 #include <game/game.h>
 #include <utils/vec.h>
@@ -32,7 +33,7 @@ static double	raycaster_get_distance(t_game *game, double direction, t_vec r)
 	y = r.y / game->config->scale;
 	x = r.x / game->config->scale;
 	if (!is_in_map(game, r.x, r.y))
-		return (0);
+		return (-1);
 	if (game->config->map[y][x] == '1')
 		return (sqrt(((game->player->position.x - r.x)
 					* (game->player->position.x - r.x))
@@ -72,6 +73,8 @@ static double	raycaster_horizontal(t_game *game, double direction)
 		dis = raycaster_get_distance(game, direction, r);
 		if (dis)
 			return (dis);
+		if (dis < 0)
+			return (0);
 	}
 	return (0);
 }
@@ -101,22 +104,35 @@ static double	raycaster_vertical(t_game *game, double direction)
 		dis = raycaster_get_distance(game, direction, r);
 		if (dis)
 			return (dis);
+		if (dis < 0)
+			return (0);
+	
 	}	
 	return (0);
 }
 
-double	raycaster(t_game *game, double direction)
+t_ray	raycaster(t_game *game, double direction)
 {
 	double	horizontal_ray;
 	double	vertical_ray;
+	t_ray	ray;
 
 	horizontal_ray = raycaster_horizontal(game, direction);
 	vertical_ray = raycaster_vertical(game, direction);
+	ray = (t_ray){'N', 0};
 	if ((vertical_ray == 0 || horizontal_ray < vertical_ray)
 		&& horizontal_ray > 0)
-		return (horizontal_ray);
+	{
+		ray.type = 'H';
+		ray.distance = horizontal_ray;
+		return (ray);
+	}
 	else if ((horizontal_ray == 0 || vertical_ray <= horizontal_ray)
 		&& vertical_ray > 0)
-		return (vertical_ray);
-	return (0);
+	{
+		ray.type = 'V';
+		ray.distance = vertical_ray;
+		return (ray);
+	}
+	return (ray);
 }

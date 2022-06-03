@@ -14,6 +14,7 @@
 #include <game/movements.h>
 #include <game/rotation.h>
 #include <graphics/draw.h>
+#include <utils/bool.h>
 
 static int	loop_hook(t_game *game)
 {
@@ -26,6 +27,8 @@ static int	loop_hook(t_game *game)
 	{
 		draw_screen(game);
 		draw_mini_map(game);
+		mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
+		game->window->redraw = FALSE;
 	}
 	return (0);
 }

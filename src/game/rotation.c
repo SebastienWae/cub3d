@@ -13,21 +13,30 @@
 #include <math.h>
 #include <game/game.h>
 #include <graphics/window.h>
+#include <graphics/raycaster.h>
 
 static void	rotate_left(t_game *game)
 {
-	if (game->player->direction >= M_PI * 2)
-		game->player->direction -= (M_PI * 2 + M_PI / 90);
-	else
-		game->player->direction += M_PI / 90;
+	if (raycaster(game, game->player->direction + M_PI / 6).distance
+		> (game->config->scale / 2))
+	{
+		if (game->player->direction >= M_PI * 2)
+			game->player->direction -= (M_PI * 2 + M_PI / 90);
+		else
+			game->player->direction += M_PI / 90;
+	}
 }
 
 static void	rotate_right(t_game *game)
 {
-	if (game->player->direction <= 0)
-		game->player->direction += (M_PI * 2 - M_PI / 90);
-	else
-		game->player->direction -= M_PI / 90;
+	if (raycaster(game, game->player->direction - M_PI / 6).distance
+		> (game->config->scale / 2))
+	{
+		if (game->player->direction <= 0)
+			game->player->direction += (M_PI * 2 - M_PI / 90);
+		else
+			game->player->direction -= M_PI / 90;
+	}
 }
 
 void	rotate(t_game *game, int keycode)

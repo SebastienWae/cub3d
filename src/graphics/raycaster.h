@@ -15,6 +15,11 @@
 
 # include <game/game.h>
 
-double	raycaster(t_game *game, double direction);
+typedef struct s_ray {
+    double  distance;
+    char    type;
+} t_ray;
+
+t_ray	raycaster(t_game *game, double direction);
 
 #endif

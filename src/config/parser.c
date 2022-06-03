@@ -108,8 +108,8 @@ t_bool	parse_map(t_game *game)
 void	parse_player(t_game *game, size_t c[2])
 {
 	game->player->position = (t_vec){
-		.x = c[WIDTH] * game->config->scale + game->config->scale / 2,
-		.y = c[HEIGHT] * game->config->scale + game->config->scale / 2
+		.x = (int)(c[WIDTH] * game->config->scale + game->config->scale / 2),
+		.y = (int)(c[HEIGHT] * game->config->scale + game->config->scale / 2)
 	};
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'N')
 		game->player->direction = M_PI_2;
