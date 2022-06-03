@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 14:32:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:53:40 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ enum	e_colors
 typedef struct s_config
 {
 	char	**map;
-	size_t	map_max_width;
-	size_t	map_height;
-	size_t	scale;
+	double	map_max_width;
+	double	map_height;
+	double	scale;
 	void	*textures[4];
 	int		colors[2];
 }	t_config;

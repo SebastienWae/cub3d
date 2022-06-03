@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/02 14:45:26 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:55:47 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <stddef.h>
+#include <math.h>
 #include <game/game.h>
 #include <config/config.h>
 #include <config/parser.h>
@@ -66,8 +66,8 @@ t_parser_state	map_handler(t_game *game, char *line, int *i)
 
 void	map_get_scale(t_game *game)
 {
-	size_t	height;
-	size_t	width;
+	double	height;
+	double	width;
 
 	width = WINDOW_WIDTH / game->config->map_max_width;
 	height = WINDOW_HEIGHT / game->config->map_height;
@@ -75,6 +75,6 @@ void	map_get_scale(t_game *game)
 		game->config->scale = height / 4;
 	else
 		game->config->scale = width / 4;
-	if (game->config->scale % 2 == 0)
+	if (fmod(game->config->scale, 2) == 0)
 		game->config->scale = game->config->scale + 1;
 }

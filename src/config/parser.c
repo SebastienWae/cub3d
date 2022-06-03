@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 21:18:07 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/03 14:54:09 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils/vec.h"
 #include <stddef.h>
 #include <math.h>
 #include <game/game.h>
@@ -106,8 +107,10 @@ t_bool	parse_map(t_game *game)
 
 void	parse_player(t_game *game, size_t c[2])
 {
-	game->player->x = c[WIDTH] * game->config->scale + game->config->scale / 2;
-	game->player->y = c[HEIGHT] * game->config->scale + game->config->scale / 2;
+	game->player->position = (t_vec){
+		.x = c[WIDTH] * game->config->scale + game->config->scale / 2,
+		.y = c[HEIGHT] * game->config->scale + game->config->scale / 2
+	};
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'N')
 		game->player->direction = M_PI_2;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'E')

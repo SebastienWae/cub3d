@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.h                                           :+:      :+:    :+:   */
+/*   raycaster.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 21:24:26 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 14:38:44 by swaegene         ###   ########.fr       */
+/*   Created: 2022/06/03 14:59:51 by swaegene          #+#    #+#             */
+/*   Updated: 2022/06/03 15:05:24 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLAYER_H
-# define PLAYER_H
+#ifndef RAYCASTER_H
+# define RAYCASTER_H
 
-# include <utils/vec.h>
+# include <game/game.h>
 
-typedef struct s_player
-{
-	double	direction;
-	t_vec	position;
-}	t_player;
-
-t_player	*player_constructor(void);
-void		player_destructor(t_player *player);
+double	raycaster(t_game *game, double direction);
 
 #endif

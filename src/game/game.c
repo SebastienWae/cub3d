@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 21:21:34 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/03 14:52:12 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <graphics/window.h>
 #include <graphics/image.h>
 
+// TODO: call destructor for doors
 void	game_destructor(t_game *game)
 {
 	if (game->window && game->config)
@@ -30,7 +31,7 @@ void	game_destructor(t_game *game)
 	if (game->player)
 		player_destructor(game->player);
 	if (game->doors)
-		free(game->doors); // TODO: call destructor
+		free(game->doors);
 	free(game);
 }
 
