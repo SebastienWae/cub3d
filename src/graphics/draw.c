@@ -220,8 +220,14 @@ void	draw_screen(t_game *game)
 		if ((int)((double)(WINDOW_HEIGHT / 2) - (line_height / 2) + line_height) < WINDOW_HEIGHT
 		&& (int)((double)(WINDOW_HEIGHT / 2) - (line_height / 2) + line_height) > 0)
 			draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / distance_to_wall * proj_distance / 2)), 1, line_height, 0x0050585D);
-		else if (line_height >= WINDOW_HEIGHT)
-			draw_rectangle(game, i, 0, 1, WINDOW_HEIGHT - 1, 0x0050585D);
+		else 
+		{
+			double new_dist = cos(direction - game->player->direction) * ray_caster(game, game->player->x, game->player->y, direction - 10 * ray_angle, 0x0000EEC2);
+			if (game->config->scale / new_dist * proj_distance >= WINDOW_HEIGHT)
+				draw_rectangle(game, i, 0, 1, WINDOW_HEIGHT - 1, 0x0050585D);
+			else
+				draw_rectangle(game, i, (int)((WINDOW_HEIGHT / 2) - (game->config->scale / new_dist * proj_distance / 2)), 1, game->config->scale / new_dist * proj_distance, 0x0050585D);
+		}
 		direction += ray_angle;
 	 	i --;		
 	}	

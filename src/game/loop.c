@@ -24,61 +24,67 @@ static int	loop_hook(t_game *game)
 		game_destructor(game);
 		exit(EXIT_SUCCESS);
 	}
-	game->window->img = image_constructor(game->window);
+	//game->window->img = image_constructor(game->window);
 	//draw_screen(game);
 	//draw_mini_map(game);
 	return (0);
 }
-
+#include<stdio.h>
 static int	loop_keys_hook(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
 		window_close(game->window);
 	if (keycode == KEY_W)
 	{	
-		if (ray_caster(game, game->player->x, game->player->y, game->player->direction, 0xFF000000) > (int) (game->config->scale))
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction, 0xFF000000) > (int) (game->config->scale / 2))
 		{
-			game->player->y -= (int)(game->config->scale / 5) * sin(game->player->direction);
-			game->player->x += (int)(game->config->scale / 5) * cos(game->player->direction);
+			game->player->y -= (double)game->config->scale * sin(game->player->direction) / 3;			
+			game->player->x += (double)game->config->scale * cos(game->player->direction) / 3;			
 		}
 	}
 	if (keycode == KEY_S)
 	{
 		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + M_PI, 0xFF000000) > (int) (game->config->scale / 2))
 		{
-		game->player->y += (int)(game->config->scale / 5) * sin(game->player->direction);
-		game->player->x -= (int)(game->config->scale / 5) * cos(game->player->direction);
+			game->player->y += (double)game->config->scale * sin(game->player->direction) / 3;
+			game->player->x -= (double)game->config->scale * cos(game->player->direction) / 3;
 		}
 	}
 	if (keycode == KEY_A)
 	{	
 		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + M_PI / 2, 0xFF000000) > (int) (game->config->scale / 2))
 		{
-		game->player->x -= (int)(game->config->scale / 5) * sin(game->player->direction);
-		game->player->y -= (int)(game->config->scale / 5) * cos(game->player->direction);
+		game->player->x -= (double)game->config->scale * sin(game->player->direction) / 3;
+		game->player->y -= (double)game->config->scale * cos(game->player->direction) / 3;
 		}
 	}
 	if (keycode == KEY_D)
 	{	
 		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + 3 * M_PI / 2, 0xFF000000) > (int) (game->config->scale / 2))
 		{
-			game->player->x += (int)(game->config->scale / 5) * sin(game->player->direction);
-			game->player->y += (int)(game->config->scale / 5) * cos(game->player->direction);
+			game->player->x += (double)game->config->scale * sin(game->player->direction) / 3;
+			game->player->y += (double)game->config->scale * cos(game->player->direction) / 3;
 		}
 	}
 	if (keycode == KEY_LEFT)
-	{		
-		if (game->player->direction >= M_PI * 2)
-			game->player->direction = game->player->direction - M_PI * 2 + M_PI / 90;
-		else
-			game->player->direction += M_PI / 90;
+	{	
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction + M_PI / 6, 0xFF000000) > (int) (game->config->scale / 2))
+		{
+			if (game->player->direction >= M_PI * 2)
+				game->player->direction = game->player->direction - M_PI * 2 + M_PI / 60;
+			else
+				game->player->direction += M_PI / 60;
+		}
 	}
 	if (keycode == KEY_RIGHT)
 	{
+		if (ray_caster(game, game->player->x, game->player->y, game->player->direction - M_PI / 6, 0xFF000000) > (int) (game->config->scale / 2))
+		{
 		if (game->player->direction <= 0)
-			game->player->direction = game->player->direction + M_PI * 2 - M_PI / 90;
+			game->player->direction = game->player->direction + M_PI * 2 - M_PI / 60;
 		else
-			game->player->direction -= M_PI / 90;
+			game->player->direction -= M_PI / 60;
+		}
 	}
 	draw_screen(game);
 	draw_mini_map(game);
@@ -87,6 +93,7 @@ static int	loop_keys_hook(int keycode, t_game *game)
 
 void	loop_start(t_game *game)
 {	
+	game->window->img = image_constructor(game->window);
 	draw_screen(game);
 	draw_mini_map(game);
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
