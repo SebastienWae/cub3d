@@ -6,59 +6,35 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 15:02:03 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/03 16:06:31 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "utils/bool.h"
 #include <mlx.h>
 #include <math.h>
-#include <stddef.h>
+#include <libft.h>
 #include <game/game.h>
 #include <graphics/image.h>
 #include <graphics/draw.h>
+#include <utils/bool.h>
+#include <utils/vec.h>
 
-void	draw_cone(t_game *game, size_t x, size_t y, double direction, int color)
+void	draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
 {
-	double	i;
-	double	j;
+	t_vec	i;
 
-	i = 0;
-	j = 0;
-	while ((int) sqrt(i * i + j * j) < (int)(game->config->scale) / 2)
+	i.y = 0;
+	while (i.y < size.y)
 	{
-		draw_rectangle(game, x + i, y + j, 1, 1, color);
-		i = i + cos(direction);
-		j = j - sin(direction);
-	}
-}
-
-void	draw_rectangle(t_game *game, size_t x, size_t y, size_t size_x, size_t size_y, int color)
-{
-	size_t	i;
-	size_t	j;
-
-	j = 0;
-	while (j < size_y)
-	{
-		i = 0;
-		while (i < size_x)
+		i.x = 0;
+		while (i.x < size.x)
 		{
-			image_put_pixel(game->window->img, x + i, y + j, color);
-			i++;
+			image_put_pixel(game->window->img,
+				(t_vec){coord.x + i.x, coord.y + i.y}, color);
+			i.x++;
 		}
-		j++;
+		i.y++;
 	}
-}
-
-t_bool is_in_map(t_game *game, double x, double y)
-{	
-	if (y / game->config->scale >= game->config->map_height || x < 0 || y < 0)
-		return (FALSE);
-	if (x / game->config->scale >= ft_strlen(game->config->map[(int)(y / game->config->scale)]))
-		return (FALSE);
-	return (TRUE);
 }
 
 void	draw_player(t_game *game)
@@ -68,7 +44,7 @@ void	draw_player(t_game *game)
 	i = game->player->direction - M_PI / 6;
 	while (i <= game->player->direction + M_PI / 6)
 	{			
-		draw_cone(game, game->player->x, game->player->y, i, 0x0000EEC2);
+		draw_rectangle(game, game->player->position, (t_vec){2, 2}, 0x0000EEC2);
 		i += M_PI / 60;
 	}
 	i = game->player->direction - M_PI / 6;
@@ -86,23 +62,24 @@ void	draw_mini_map(t_game *game)
 		while (x < ft_strlen(game->config->map[y]))
 		{
 			if (game->config->map[y][x] == '1')
-				draw_rectangle(game, game->config->scale * x,
-					game->config->scale * y, game->config->scale,
-					game->config->scale, 0x00404040);
+				draw_rectangle(game,
+					(t_vec){game->config->scale * x, game->config->scale * y},
+					(t_vec){game->config->scale, game->config->scale},
+					0x00404040);
 			else if (game->config->map[y][x] == '0'
 					|| game->config->map[y][x] == 'N'
 					|| game->config->map[y][x] == 'E'
 					|| game->config->map[y][x] == 'S'
 					|| game->config->map[y][x] == 'W')
-				draw_rectangle(game, game->config->scale * x,
-					game->config->scale * y, game->config->scale,
-					game->config->scale, 0x00808080);
+				draw_rectangle(game,
+					(t_vec){game->config->scale * x, game->config->scale * y},
+					(t_vec){game->config->scale, game->config->scale},
+					0x00808080);
 			x++;
 		}
 		y++;
 	}
 	draw_player(game);
-	mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
 }
 
 void	draw_screen(t_game *game)
@@ -123,6 +100,10 @@ void	draw_screen(t_game *game)
 	direction = game->player->direction - M_PI / 6;
 	while (i > 0 && direction - game->player->direction < M_PI / 3)
 	{	
+		if (direction >= M_PI * 2)
+				direction = direction - M_PI * 2;
+		else if (direction < 0)
+				direction = direction + M_PI * 2;
 		dist = ray_caster(game, game->player->x, game->player->y, direction, 0x0000EEC2);
 		distance_to_wall = cos(direction - game->player->direction) * dist;
 		line_height = game->config->scale / distance_to_wall * proj_distance;
