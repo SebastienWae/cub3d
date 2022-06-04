@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:58:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 15:37:07 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/04 03:10:42 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,28 +90,22 @@ static double	raycaster_horizontal(t_game *game, double direction)
 	double	prev_y;
 	double	dis;
 
-
 	r = game->player->position;
-	while (direction != 0 && direction != M_PI)
+	while (1)
 	{
 		prev_y = r.y;
 		if (direction < M_PI)
-		{
 			r.y = (floor((r.y / game->config->scale))
 					* game->config->scale) - 0.0001;
-			r.x = r.x + ((prev_y - r.y) / tan(direction));
-		}
 		else
-		{			
 			r.y = (floor((r.y / game->config->scale))
 					* game->config->scale) + game->config->scale;
-			r.x = r.x + ((prev_y - r.y) / tan(direction));
-		}
+		r.x = r.x + ((prev_y - r.y) / tan(direction));
 		dis = raycaster_get_distance_h(game, direction, r);
-		if (dis)
-			return (dis);
 		if (dis < 0)
 			return (-1);
+		if (dis)
+			return (dis);
 	}
 	return (0);
 }
@@ -123,29 +117,24 @@ static double	raycaster_vertical(t_game *game, double direction)
 	double	dis;
 
 	r = game->player->position;
-	while (direction != M_PI_2 && direction != (M_PI * 3 / 2))
+	while (direction != 3 * M_PI / 2 && direction != M_PI_2)
 	{	
 		prev_x = r.x;
-		if (direction > M_PI_2 && direction < (M_PI * 3 / 2))
-		{
-//TODO : add +0.0001 if prevx = rx
+		if (direction > M_PI_2 && direction < M_PI_2 * 3)
 			r.x = (floor(r.x / (double)game->config->scale)
 					* game->config->scale) - 0.0001;
-			r.y = r.y + ((prev_x - r.x) * tan(direction));
-		}
 		else
-		{
-//TODO : try to add + 0.0001 to x if x = prevx : x may stay the same with floor? 
-			r.x = (floor(r.x / game->config->scale)
+			r.x = (floor((r.x) / game->config->scale)
 					* game->config->scale) + game->config->scale;
-			r.y = r.y - ((r.x - prev_x) * tan(direction));
-		}		
+		//if (!(direction > 3 * M_PI / 2 - M_PI / 360 && direction < 3 * M_PI / 2 + M_PI / 360))
+			r.y = r.y + ((prev_x - r.x) * tan(direction));
+		//else
+			//r.y += r.y;
 		dis = raycaster_get_distance_v(game, direction, r);
-		if (dis)
-			return (dis);
 		if (dis < 0)
 			return (-1);
-
+		if (dis)
+			return (dis);
 	}	
 	return (0);
 }

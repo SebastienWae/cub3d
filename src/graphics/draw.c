@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 16:06:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/04 01:46:46 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	draw_mini_map(t_game *game)
 void	draw_ceiling(t_game *game)
 {	
 	draw_rectangle(game,
-		(t_vec){0, 0}, 
+		(t_vec){0, 0},
 		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
 		game->config->colors[CEILING]);
 }
@@ -110,7 +110,7 @@ t_ray	get_distance_to_wall(t_game *game, double direction)
 	ray = raycaster(game, direction);
 	ray.distance = cos(direction - game->player->direction) 
 		* ray.distance;
-	return(ray);
+	return (ray);
 }
 
 void	draw_vertical_wall(t_game *game, double d, double h, int i)
@@ -142,10 +142,10 @@ void	draw_walls(t_game *game)
 	direction = game->player->direction - M_PI / 6;
 	while (i >= 0 && direction - game->player->direction <= M_PI / 6)
 	{
-		ray = get_distance_to_wall(game, direction);		
+		ray = get_distance_to_wall(game, direction);
 		line_height = game->config->scale / ray.distance * proj_distance;
-		if (line_height > 0 && line_height < WINDOW_HEIGHT 
-		&& (int)((WINDOW_HEIGHT - line_height)/ 2 + line_height) < WINDOW_HEIGHT
+		if (line_height > 0 && line_height < WINDOW_HEIGHT
+		&& (int)((WINDOW_HEIGHT - line_height) / 2 + line_height) < WINDOW_HEIGHT
 		&& WINDOW_HEIGHT - line_height / 2 + line_height > 0)
 		{
 			if (ray.type == 'H')
@@ -153,7 +153,7 @@ void	draw_walls(t_game *game)
 						/ ray.distance * proj_distance) / 2), line_height, i);
 			else
 				draw_vertical_wall(game, (int)((WINDOW_HEIGHT - game->config->scale
-						/ ray.distance * proj_distance) / 2), line_height, i);			 
+						/ ray.distance * proj_distance) / 2), line_height, i);
 		}	
 		else if (line_height >= WINDOW_HEIGHT)
 		{
@@ -173,4 +173,3 @@ void	draw_screen(t_game *game)
 	draw_floor(game);
 	draw_walls(game);
 }
-
