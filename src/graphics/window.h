@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 14:41:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:13:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ enum {
 };
 
 # ifdef __linux__
-// TODO: verify keycode (esc is ok)
+
 enum {
 	KEY_ESC = 65307,
-	KEY_LEFT = 123,
-	KEY_UP = 126,
-	KEY_RIGHT = 124,
-	KEY_DOWN = 125,
-	KEY_W = 13,
-	KEY_A = 0,
-	KEY_D = 2,
-	KEY_S = 1
+	KEY_LEFT = 65361,
+	KEY_UP = 65362,
+	KEY_RIGHT = 65363,
+	KEY_DOWN = 65364,
+	KEY_W = 119,
+	KEY_A = 97,
+	KEY_D = 100,
+	KEY_S = 115
 };
 
 # elif __APPLE__

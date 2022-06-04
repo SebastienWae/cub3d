@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 14:42:26 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:10:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	loop_start(t_game *game)
 	draw_screen(game);
 	draw_mini_map(game);
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
-	mlx_hook(game->window->win, ON_KEYDOWN, 0, loop_keys_hook, game);
+	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keys_hook, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);
 }
