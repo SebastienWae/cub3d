@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 09:30:49 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 16:37:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_bool	parse_map(t_game *game)
 
 	i[HEIGHT] = 0;
 	state[PLAYER] = FALSE;
-	while (i[HEIGHT] < game->config->map_height)
+	while (i[HEIGHT] < game->config->map_height - 1)
 	{
 		i[WIDTH] = 0;
 		state[IN_WALL] = FALSE;
@@ -114,7 +114,7 @@ void	parse_player(t_game *game, size_t c[2])
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'N')
 		game->player->direction = M_PI_2;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'E')
-		game->player->direction =  M_PI;
+		game->player->direction = M_PI;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'W')
 		game->player->direction = 0;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'S')

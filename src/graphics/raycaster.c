@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 12:41:55 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 17:49:28 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_bool	is_blocking(t_game *game, t_vec p)
 	return (FALSE);
 }
 
-static double	raycaster_vertical(t_game *g, t_vec p, double ra, double tr)
+static t_vec	ray_vertical(t_game *g, t_vec p, double ra, double tr)
 {
 	t_vec	r;
 	double	o;
@@ -64,18 +64,18 @@ static double	raycaster_vertical(t_game *g, t_vec p, double ra, double tr)
 		o = -64;
 	}
 	else
-		return (1e30);
+		return ((t_vec){-1, -1});
 	while (is_in_map(g, r))
 	{
 		if (is_blocking(g, r))
-			return (cos(ra) * (r.x - p.x) - sin(ra) * (r.y - p.y));
+			return (r);
 		else
 			r = (t_vec){.x = r.x + o, .y = r.y + (-o * tr)};
 	}
-	return (1e30);
+	return ((t_vec){-1, -1});
 }
 
-static double	raycaster_horizontal(t_game *g, t_vec p, double ra, double tr)
+static t_vec	ray_horizontal(t_game *g, t_vec p, double ra, double tr)
 {
 	t_vec	r;
 	int		o;
@@ -93,28 +93,40 @@ static double	raycaster_horizontal(t_game *g, t_vec p, double ra, double tr)
 		o = 64;
 	}
 	else
-		return (1e30);
+		return ((t_vec){-1, -1});
 	while (is_in_map(g, r))
 	{
 		if (is_blocking(g, r))
-			return (cos(ra) * (r.x - p.x) - sin(ra) * (r.y - p.y));
+			return (r);
 		else
 			r = (t_vec){.x = r.x + (-o * tr), .y = r.y + o};
 	}
-	return (1e30);
+	return ((t_vec){-1, -1});
 }
 
 t_ray	raycaster(t_game *game, double r)
 {
 	double	tr;
-	double	rv;
-	double	rh;
+	t_ray	rv;
+	t_ray	rh;
 
 	tr = tan(r);
-	rv = raycaster_vertical(game, game->player->position, r, tr);
-	rh = raycaster_horizontal(game, game->player->position, r, 1. / tr);
-	if (rv < rh)
-		return ((t_ray){.type = VERTICAL, .lenght = rv});
+	rv = (t_ray){.type = VERTICAL,
+		.position = ray_vertical(game, game->player->position, r, tr)};
+	if (rv.position.x != -1 && rv.position.y != -1)
+		rv.lenght = (cos(r) * (rv.position.x - game->player->position.x)
+				- sin(r) * (rv.position.y - game->player->position.y));
 	else
-		return ((t_ray){.type = HORIZONTAL, .lenght = rh});
+		rv.lenght = 1e30;
+	rh = (t_ray){.type = HORIZONTAL,
+		.position = ray_horizontal(game, game->player->position, r, 1. / tr)};
+	if (rh.position.x != -1 && rh.position.y != -1)
+		rh.lenght = (cos(r) * (rh.position.x - game->player->position.x)
+				- sin(r) * (rh.position.y - game->player->position.y));
+	else
+		rh.lenght = 1e30;
+	if (rv.lenght < rh.lenght)
+		return (rv);
+	else
+		return (rh);
 }

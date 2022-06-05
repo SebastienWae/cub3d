@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/04 20:58:00 by seb              ###   ########.fr        #
+#    Updated: 2022/06/05 16:38:43 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,10 +51,13 @@ SRCS = main.c \
 	graphics/image.c \
 	graphics/draw.c \
 	graphics/raycaster.c \
+	graphics/minimap.c \
+	graphics/walls.c \
 	game/game.c \
 	game/player.c \
 	game/loop.c \
-	game/movements.c
+	game/move.c \
+	game/rotate.c
 SRCS_PATH = $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS_PATH:%.c=%.o))
 OBJS_DEBUG = $(addprefix $(DEBUG_DIR)/,$(SRCS_PATH:%.c=%.o))

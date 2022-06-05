@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:37:02 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 10:55:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 16:33:41 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_bool	map_zero_handler(t_game *game, size_t c[2], t_bool s[2])
 {
 	if (c[HEIGHT] == 0
 		|| c[WIDTH] == 0
-		|| c[HEIGHT] == game->config->map_height
+		|| c[HEIGHT] == game->config->map_height - 1
 		|| c[WIDTH] == ft_strlen(game->config->map[c[HEIGHT]]) - 1)
 		return (FALSE);
 	else if (!s[IN_WALL])
@@ -83,7 +83,7 @@ t_bool	map_player_handler(t_game *game, size_t c[2], t_bool s[2])
 		s[PLAYER] = TRUE;
 	if (c[HEIGHT] == 0
 		|| c[WIDTH] == 0
-		|| c[HEIGHT] == game->config->map_height
+		|| c[HEIGHT] == game->config->map_height - 1
 		|| c[WIDTH] == ft_strlen(game->config->map[c[HEIGHT]]) - 1)
 		return (FALSE);
 	else if (!s[IN_WALL])
@@ -109,7 +109,7 @@ t_bool	map_door_handler(t_game *game, size_t c[2], t_bool s[2])
 {
 	if (c[HEIGHT] == 0
 		|| c[WIDTH] == 0
-		|| c[HEIGHT] == game->config->map_height
+		|| c[HEIGHT] == game->config->map_height - 1
 		|| c[WIDTH] == ft_strlen(game->config->map[c[HEIGHT]]) - 1)
 		return (FALSE);
 	else if (!s[IN_WALL])

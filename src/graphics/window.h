@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/05 14:12:43 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 15:22:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,17 @@ enum {
 };
 
 # endif
+
+typedef enum e_key_id
+{
+	LEFT,
+	RIGHT,
+	W,
+	S,
+	A,
+	D,
+	ERR_KEY
+}	t_key_id;
 
 typedef struct s_image {
 	void	*img;
