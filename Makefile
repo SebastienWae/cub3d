@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/04 16:15:28 by seb              ###   ########.fr        #
+#    Updated: 2022/06/04 20:58:00 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,9 +54,7 @@ SRCS = main.c \
 	game/game.c \
 	game/player.c \
 	game/loop.c \
-	game/movements.c \
-	game/rotation.c
-
+	game/movements.c
 SRCS_PATH = $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS_PATH:%.c=%.o))
 OBJS_DEBUG = $(addprefix $(DEBUG_DIR)/,$(SRCS_PATH:%.c=%.o))
@@ -86,7 +84,7 @@ bonus: $(NAME)
 .PHONY: debug debug_clean debug_fclean debug_re
 # ASAN_OPTIONS=detect_leaks=1
 #  -fPIE -pie.
-debug: CFLAGS = -g3 -fsanitize=address -O1 -fno-omit-frame-pointer -fno-optimize-sibling-calls
+debug: CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 debug: $(OBJS_DEBUG) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
 	$(CC) $(CFLAGS) $(OBJS_DEBUG) $(LDFLAGS) -o $(NAME)_debug
 debug_clean:

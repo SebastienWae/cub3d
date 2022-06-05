@@ -3,168 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 14:58:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/04 03:10:42 by jenny            ###   ########.fr       */
+/*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
+/*   Updated: 2022/06/05 12:41:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics/raycaster.h"
-#include "graphics/draw.h"
 #include <math.h>
 #include <game/game.h>
+#include <graphics/draw.h>
+#include <graphics/raycaster.h>
+#include <graphics/window.h>
+#include <utils/bool.h>
 #include <utils/vec.h>
 
-static t_bool	is_in_map(t_game *game, double x, double y)
-{		
-	if ((int)(y / game->config->scale) >= game->config->map_height || x < 0 || y < 0)
+static t_bool	is_in_map(t_game *game, t_vec p)
+{
+	int	x;
+	int	y;
+
+	x = (int)p.x >> 6;
+	y = (int)p.y >> 6;
+	if (x < 0 || y < 0)
 		return (FALSE);
-	if (x / game->config->scale
-		>= ft_strlen(game->config->map[(int)(y / game->config->scale)]))
+	if (y > game->config->map_height - 1)
+		return (FALSE);
+	if ((size_t)x > ft_strlen(game->config->map[y]) - 1)
 		return (FALSE);
 	return (TRUE);
 }
 
-static double	raycaster_get_distance_h(t_game *game, double direction, t_vec r)
+static t_bool	is_blocking(t_game *game, t_vec p)
 {
-	int	y;
 	int	x;
+	int	y;
 
-	if (!is_in_map(game, r.x, r.y))
-		return (-1);
-	y = r.y / game->config->scale;
-	x = r.x / game->config->scale;
-	if (game->config->map[y][x] == '1' 
-		|| game->config->map[y][x] == ' ')
-	{
-		return (sqrt(((game->player->position.x - r.x)
-					* (game->player->position.x - r.x))
-				+ ((game->player->position.y - r.y)
-					* (game->player->position.y - r.y))));
-	}	
-	else if (direction > 0 && direction < M_PI && is_in_map(game, x * game->config->scale, (y + 1) * game->config->scale)
-		&& (game->config->map[y + 1][x] == '1' 
-		|| game->config->map[y + 1][x] == ' '))
-	{
-		return (sqrt(((game->player->position.x - r.x)
-					* (game->player->position.x - r.x))
-				+ ((game->player->position.y - r.y)
-					* (game->player->position.y - r.y))));
-	}
-	return (0);
+	x = (int)p.x >> 6;
+	y = (int)p.y >> 6;
+	if (game->config->map[y][x] == '1' || game->config->map[y][x] == ' ')
+		return (TRUE);
+	return (FALSE);
 }
 
-static double	raycaster_get_distance_v(t_game *game, double direction, t_vec r)
-{
-	int	y;
-	int	x;
-
-	if (!is_in_map(game, r.x, r.y))
-		return (-1);
-	y = r.y / game->config->scale;
-	x = r.x / game->config->scale;
-	if (game->config->map[y][x] == '1' 
-		|| game->config->map[y][x] == ' ')
-	{
-		return (sqrt(((game->player->position.x - r.x)
-					* (game->player->position.x - r.x))
-				+ ((game->player->position.y - r.y)
-					* (game->player->position.y - r.y))));
-	}
-	else if (direction < M_PI / 2 && direction > 3 * M_PI_2 && is_in_map(game, x * game->config->scale, (y - 1) * game->config->scale)
-		&& (game->config->map[y - 1][x] == '1' 
-		|| game->config->map[y - 1][x] == ' '))
-	{
-		return (sqrt(((game->player->position.x - r.x)
-					* (game->player->position.x - r.x))
-				+ ((game->player->position.y - r.y)
-					* (game->player->position.y - r.y))));
-	}
-	return (0);
-}
-
-static double	raycaster_horizontal(t_game *game, double direction)
+static double	raycaster_vertical(t_game *g, t_vec p, double ra, double tr)
 {
 	t_vec	r;
-	double	prev_y;
-	double	dis;
+	double	o;
 
-	r = game->player->position;
-	while (1)
+	if (cos(ra) > 0.001)
 	{
-		prev_y = r.y;
-		if (direction < M_PI)
-			r.y = (floor((r.y / game->config->scale))
-					* game->config->scale) - 0.0001;
-		else
-			r.y = (floor((r.y / game->config->scale))
-					* game->config->scale) + game->config->scale;
-		r.x = r.x + ((prev_y - r.y) / tan(direction));
-		dis = raycaster_get_distance_h(game, direction, r);
-		if (dis < 0)
-			return (-1);
-		if (dis)
-			return (dis);
+		r.x = (((int)p.x >> 6) << 6) + 64;
+		r.y = (p.x - r.x) * tr + p.y;
+		o = 64;
 	}
-	return (0);
+	else if (cos(ra) < -0.001)
+	{
+		r.x = (((int)p.x >> 6) << 6) - 0.0001;
+		r.y = (p.x - r.x) * tr + p.y;
+		o = -64;
+	}
+	else
+		return (1e30);
+	while (is_in_map(g, r))
+	{
+		if (is_blocking(g, r))
+			return (cos(ra) * (r.x - p.x) - sin(ra) * (r.y - p.y));
+		else
+			r = (t_vec){.x = r.x + o, .y = r.y + (-o * tr)};
+	}
+	return (1e30);
 }
 
-static double	raycaster_vertical(t_game *game, double direction)
+static double	raycaster_horizontal(t_game *g, t_vec p, double ra, double tr)
 {
 	t_vec	r;
-	double	prev_x;
-	double	dis;
+	int		o;
 
-	r = game->player->position;
-	while (direction != 3 * M_PI / 2 && direction != M_PI_2)
-	{	
-		prev_x = r.x;
-		if (direction > M_PI_2 && direction < M_PI_2 * 3)
-			r.x = (floor(r.x / (double)game->config->scale)
-					* game->config->scale) - 0.0001;
+	if (sin(ra) > 0.001)
+	{
+		r.y = (((int)p.y >> 6) << 6) - 0.0001;
+		r.x = (p.y - r.y) * tr + p.x;
+		o = -64;
+	}
+	else if (sin(ra) < -0.001)
+	{
+		r.y = (((int)p.y >> 6) << 6) + 64;
+		r.x = (p.y - r.y) * tr + p.x;
+		o = 64;
+	}
+	else
+		return (1e30);
+	while (is_in_map(g, r))
+	{
+		if (is_blocking(g, r))
+			return (cos(ra) * (r.x - p.x) - sin(ra) * (r.y - p.y));
 		else
-			r.x = (floor((r.x) / game->config->scale)
-					* game->config->scale) + game->config->scale;
-		//if (!(direction > 3 * M_PI / 2 - M_PI / 360 && direction < 3 * M_PI / 2 + M_PI / 360))
-			r.y = r.y + ((prev_x - r.x) * tan(direction));
-		//else
-			//r.y += r.y;
-		dis = raycaster_get_distance_v(game, direction, r);
-		if (dis < 0)
-			return (-1);
-		if (dis)
-			return (dis);
-	}	
-	return (0);
+			r = (t_vec){.x = r.x + (-o * tr), .y = r.y + o};
+	}
+	return (1e30);
 }
 
-t_ray	raycaster(t_game *game, double direction)
+t_ray	raycaster(t_game *game, double r)
 {
-	double	horizontal_ray;
-	double	vertical_ray;
-	t_ray	ray;
+	double	tr;
+	double	rv;
+	double	rh;
 
-	if (direction >= M_PI * 2)
-			direction = direction - M_PI * 2;
-	else if (direction < 0)
-			direction = direction + M_PI * 2;	
-	horizontal_ray = raycaster_horizontal(game, direction);
-	vertical_ray = raycaster_vertical(game, direction);
-	ray = (t_ray){0, 'N'};
-	if (vertical_ray <= 0 || (horizontal_ray <= vertical_ray
-		&& horizontal_ray > 0))
-	{
-		ray.type = 'H';
-		ray.distance = horizontal_ray;
-		return (ray);
-	}
-	else if (horizontal_ray <= 0 || (vertical_ray < horizontal_ray
-		&& vertical_ray > 0))
-	{
-		ray.type = 'V';
-		ray.distance = vertical_ray;
-		return (ray);
-	}
-	return (ray);
+	tr = tan(r);
+	rv = raycaster_vertical(game, game->player->position, r, tr);
+	rh = raycaster_horizontal(game, game->player->position, r, 1. / tr);
+	if (rv < rh)
+		return ((t_ray){.type = VERTICAL, .lenght = rv});
+	else
+		return ((t_ray){.type = HORIZONTAL, .lenght = rh});
 }

@@ -3,79 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 13:39:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 15:05:04 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:24:46 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils/bool.h"
 #include <math.h>
 #include <game/game.h>
 #include <game/player.h>
-#include <graphics/raycaster.h>
 #include <utils/vec.h>
 
-static void	move_up(t_game *game, t_vec vec)
+void	move(t_game *game)
 {
-	double	direction;
+	int	ipx;
+	int	ipy;
 
-	direction = game->player->direction;
-	if (raycaster(game, direction).distance > (game->config->scale / 3))
+	ipx = game->player->position.x / 64.0;
+	ipy = game->player->position.y / 64.0;
+	if (game->window->active_keys[2] && !game->window->active_keys[4])
 	{
-		game->player->position.x += vec.x;
-		game->player->position.y -= vec.y;
+		if (game->config->map[ipy][(int)((game->player->position.x + (game->player->delta.x * 16)) / 64.)] != '1')
+			game->player->position.x += game->player->delta.x * 2;
+		if (game->config->map[(int)((game->player->position.y + (game->player->delta.y * 16)) / 64.)][ipx] != '1')
+			game->player->position.y += game->player->delta.y * 2;
+		game->window->redraw = TRUE;
+	}
+	if (game->window->active_keys[4] && !game->window->active_keys[2])
+	{
+		if (game->config->map[ipy][(int)((game->player->position.x - (game->player->delta.x * 16)) / 64.)] != '1')
+			game->player->position.x -= game->player->delta.x * 2;
+		if (game->config->map[(int)((game->player->position.y - (game->player->delta.y * 16)) / 64.)][ipx] != '1')
+			game->player->position.y -= game->player->delta.y * 2;
+		game->window->redraw = TRUE;
+	}
+	if (game->window->active_keys[3] && !game->window->active_keys[5])
+	{
+		if (game->config->map[ipy]
+			[(int)((game->player->position.x
+					+ (game->player->delta.y * 16)) / 64.)] != '1')
+			game->player->position.x += game->player->delta.y * 2;
+		if (game->config->map
+			[(int)((game->player->position.y - (game->player->delta.x * 16)) / 64.)]
+			[ipx] != '1')
+			game->player->position.y -= game->player->delta.x * 2;
+		game->window->redraw = TRUE;
+	}
+	if (game->window->active_keys[5] && !game->window->active_keys[3])
+	{
+		if (game->config->map[ipy]
+			[(int)((game->player->position.x
+					- (game->player->delta.y * 16)) / 64.)] != '1')
+			game->player->position.x -= game->player->delta.y * 2;
+		if (game->config->map
+			[(int)((game->player->position.y + (game->player->delta.x * 16)) / 64.)]
+			[ipx] != '1')
+			game->player->position.y += game->player->delta.x * 2;
+		game->window->redraw = TRUE;
 	}
 }
 
-static void	move_down(t_game *game, t_vec vec)
+void	rotate(t_game *game)
 {
-	double	direction;
-
-	direction = game->player->direction + M_PI;
-	if (raycaster(game, direction).distance > (game->config->scale / 3))
+	if (game->window->active_keys[0] && !game->window->active_keys[1])
 	{
-		game->player->position.x -= vec.x;
-		game->player->position.y += vec.y;
+		game->player->direction += 0.04;
+		if (game->player->direction > M_PI * 2)
+			game->player->direction -= M_PI * 2;
+		game->window->redraw = TRUE;
 	}
-}
-
-static void	move_left(t_game *game, t_vec vec)
-{
-	double	direction;
-
-	direction = game->player->direction + M_PI / 2;
-	if (raycaster(game, direction).distance > game->config->scale / 3)
+	if (game->window->active_keys[1] && !game->window->active_keys[0])
 	{
-		game->player->position.x -= vec.y;
-		game->player->position.y -= vec.x;
+		game->player->direction -= 0.04;
+		if (game->player->direction < 0)
+			game->player->direction += M_PI * 2;
+		game->window->redraw = TRUE;
 	}
-}
-
-static void	move_right(t_game *game, t_vec vec)
-{
-	double	direction;
-
-	direction = game->player->direction + 3 * M_PI / 2;
-	if (raycaster(game, direction).distance > (game->config->scale / 3))
-	{
-		game->player->position.x += vec.y;
-		game->player->position.y += vec.x;
-	}
-}
-
-void	move(t_game *game, int keycode)
-{
-	t_vec	vec;
-
-	vec.y = (int)((game->config->scale / 5) * sin(game->player->direction));
-	vec.x = (int)((game->config->scale / 5) * cos(game->player->direction));
-	if (keycode == KEY_W)
-		move_up(game, vec);
-	else if (keycode == KEY_S)
-		move_down(game, vec);
-	else if (keycode == KEY_A)
-		move_left(game, vec);
-	else if (keycode == KEY_D)
-		move_right(game, vec);
+	if (game->window->active_keys[0] || game->window->active_keys[1])
+		game->player->delta = (t_vec){
+			.x = cos(game->player->direction),
+			.y = -sin(game->player->direction)};
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 14:59:51 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 15:05:24 by swaegene         ###   ########.fr       */
+/*   Created: 2022/06/04 20:55:49 by seb               #+#    #+#             */
+/*   Updated: 2022/06/05 12:45:52 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 
 # include <game/game.h>
 
-typedef struct s_ray {
-    double  distance;
-    char    type;
-} t_ray;
+enum	e_ray_type {
+	VERTICAL,
+	HORIZONTAL
+};
+
+typedef struct s_ray
+{
+	double			lenght;
+	enum e_ray_type	type;
+}	t_ray;
 
 t_ray	raycaster(t_game *game, double direction);
 

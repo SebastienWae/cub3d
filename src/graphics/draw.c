@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 21:27:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 01:46:46 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/05 14:01:34 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <math.h>
 #include <libft.h>
+#include <math.h>
 #include <game/game.h>
-#include <graphics/image.h>
 #include <graphics/draw.h>
+#include <graphics/image.h>
 #include <graphics/raycaster.h>
+#include <graphics/window.h>
 #include <utils/bool.h>
 #include <utils/vec.h>
 
@@ -38,138 +38,81 @@ void	draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
 	}
 }
 
-void	draw_player(t_game *game)
-{	
-	draw_rectangle(game,
-		(t_vec){
-			game->player->position.x,
-			game->player->position.y
-		},
-		(t_vec){10, 10},
-		0x0000EEC2);
-}
-
-void	draw_mini_map(t_game *game)
-{
-	size_t	x;
-	size_t	y;
-
-	y = 0;
-	while (y < game->config->map_height)
-	{
-		x = 0;
-		while (x < ft_strlen(game->config->map[y]))
-		{
-			if (game->config->map[y][x] == '1')
-				draw_rectangle(game,
-					(t_vec){game->config->scale * x, game->config->scale * y},
-					(t_vec){game->config->scale, game->config->scale},
-					0x00404040);
-			else if (game->config->map[y][x] == '0'
-					|| game->config->map[y][x] == 'N'
-					|| game->config->map[y][x] == 'E'
-					|| game->config->map[y][x] == 'S'
-					|| game->config->map[y][x] == 'W')
-				draw_rectangle(game,
-					(t_vec){game->config->scale * x, game->config->scale * y},
-					(t_vec){game->config->scale, game->config->scale},
-					0x00808080);
-			x++;
-		}
-		y++;
-	}
-	draw_player(game);
-}
-
-//TODO : shading
 void	draw_ceiling(t_game *game)
-{	
+{
 	draw_rectangle(game,
 		(t_vec){0, 0},
 		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
 		game->config->colors[CEILING]);
 }
 
-//TODO : shading
 void	draw_floor(t_game *game)
-{	
+{
 	draw_rectangle(game,
-		(t_vec){0, (int)(WINDOW_HEIGHT / 2)}, 
+		(t_vec){0, (int)(WINDOW_HEIGHT / 2)},
 		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
 		game->config->colors[FLOOR]);
 }
 
-t_ray	get_distance_to_wall(t_game *game, double direction)
-{
-	t_ray	ray;
-
-	if (direction >= M_PI * 2)
-		direction = direction - M_PI * 2;
-	else if (direction < 0)
-		direction = direction + M_PI * 2;
-	ray = raycaster(game, direction);
-	ray.distance = cos(direction - game->player->direction) 
-		* ray.distance;
-	return (ray);
-}
-
-void	draw_vertical_wall(t_game *game, double d, double h, int i)
-{
-	draw_rectangle(game,
-		(t_vec){i, d},
-		(t_vec){1, h}, 0x00505050);
-}
-
-void	draw_horizontal_wall(t_game *game, double d, double h, int i)
-{
-	draw_rectangle(game,
-		(t_vec){i, d},
-		(t_vec){1, h}, 0x00454545);
-}
-
 void	draw_walls(t_game *game)
 {
-	double	proj_distance;
-	double	ray_angle;
-	int		i;
-	double	direction;
-	double	line_height;
+	int		w;
 	t_ray	ray;
+	double	ray_r;
+	double	fixed;
+	int		wall_height;
 
-	proj_distance = WINDOW_HEIGHT / tan (M_PI / 3);	
-	ray_angle = (M_PI / 3) / WINDOW_WIDTH;
-	i = WINDOW_WIDTH - 1;
-	direction = game->player->direction - M_PI / 6;
-	while (i >= 0 && direction - game->player->direction <= M_PI / 6)
+	w = 0;
+	ray_r = game->player->direction + (M_PI / 6);
+	while (w < WINDOW_WIDTH)
 	{
-		ray = get_distance_to_wall(game, direction);
-		line_height = game->config->scale / ray.distance * proj_distance;
-		if (line_height > 0 && line_height < WINDOW_HEIGHT
-		&& (int)((WINDOW_HEIGHT - line_height) / 2 + line_height) < WINDOW_HEIGHT
-		&& WINDOW_HEIGHT - line_height / 2 + line_height > 0)
-		{
-			if (ray.type == 'H')
-				draw_horizontal_wall(game, (int)((WINDOW_HEIGHT - game->config->scale
-						/ ray.distance * proj_distance) / 2), line_height, i);
-			else
-				draw_vertical_wall(game, (int)((WINDOW_HEIGHT - game->config->scale
-						/ ray.distance * proj_distance) / 2), line_height, i);
-		}	
-		else if (line_height >= WINDOW_HEIGHT)
-		{
-			if (ray.type == 'H')
-				draw_horizontal_wall(game, WINDOW_HEIGHT - 1, line_height, i);
-			else
-				draw_vertical_wall(game, WINDOW_HEIGHT - 1, line_height, i);
-		}
-		direction += ray_angle;
-		i--;
-	}	
+		ray_r -= M_PI / 3. / WINDOW_WIDTH;
+		ray = raycaster(game, ray_r);
+		fixed = game->player->direction - ray_r;
+		if (fixed > M_PI * 2)
+			fixed -= M_PI * 2;
+		else if (fixed < 0)
+			fixed += M_PI * 2;
+		ray.lenght *= cos(fixed);
+		wall_height = (64 * 320) / ray.lenght;
+		if (ray.type == HORIZONTAL)
+			draw_rectangle(game,
+				(t_vec){w, (WINDOW_HEIGHT / 2) - (wall_height / 2)},
+				(t_vec){1, wall_height}, 0x00505050);
+		else
+			draw_rectangle(game,
+				(t_vec){w, (WINDOW_HEIGHT / 2) - (wall_height / 2)},
+				(t_vec){1, wall_height}, 0x00454545);
+		w++;
+	}
 }
 
-void	draw_screen(t_game *game)
+void	draw_mini_map(t_game *game)
 {
-	draw_ceiling(game);
-	draw_floor(game);
-	draw_walls(game);
+	int	mapx;
+	int	mapy;
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < 320)
+	{
+		x = 0;
+		while (x < 320)
+		{
+			mapx = (int)(game->player->position.x + x - 160) >> 6;
+			mapy = (int)(game->player->position.y + y - 160) >> 6;
+			if (mapx < 0 || mapy < 0 || mapy > game->config->map_height - 1
+				|| (size_t)mapx > ft_strlen(game->config->map[mapy]) - 1
+				|| game->config->map[mapy][mapx] == ' ')
+				draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00FFFFFF);
+			else if (game->config->map[mapy][mapx] == '1')
+				draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00404040);
+			else
+				draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00808080);
+			x++;
+		}
+		y++;
+	}
+	draw_rectangle(game, (t_vec){156, 156}, (t_vec){8, 8}, 0x0000EEC2);
 }

@@ -6,13 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 16:10:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 14:17:07 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <game/game.h>
 #include <game/movements.h>
-#include <game/rotation.h>
 #include <graphics/draw.h>
 #include <utils/bool.h>
 
@@ -23,38 +22,68 @@ static int	loop_hook(t_game *game)
 		game_destructor(game);
 		exit(EXIT_SUCCESS);
 	}
+	rotate(game);
+	move(game);
 	if (game->window->redraw)
 	{
-		draw_screen(game);
+		draw_floor(game);
+		draw_ceiling(game);
+		draw_walls(game);
 		draw_mini_map(game);
-		mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
+		mlx_put_image_to_window(game->window->mlx, game->window->win,
+			game->window->img->img, 0, 0);
 		game->window->redraw = FALSE;
 	}
 	return (0);
 }
 
-static int	loop_keys_hook(int keycode, t_game *game)
+static int	get_key_id(int keycode)
 {
-	mlx_put_image_to_window(game->window->mlx, game->window->win, game->window->img->img, 0, 0);
+	if (keycode == KEY_LEFT)
+		return (0);
+	else if (keycode == KEY_RIGHT)
+		return (1);
+	else if (keycode == KEY_W)
+		return (2);
+	else if (keycode == KEY_A)
+		return (3);
+	else if (keycode == KEY_S)
+		return (4);
+	else if (keycode == KEY_D)
+		return (5);
+	return (-1);
+}
+
+static int	loop_keydown(int keycode, t_game *game)
+{
+	int	id;
+
 	if (keycode == KEY_ESC)
 		window_close(game->window);
-	if (keycode == KEY_W
-		|| keycode == KEY_S
-		|| keycode == KEY_A
-		|| keycode == KEY_D)
-		move(game, keycode);
-	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
-		rotate(game, keycode);
-	game->window->redraw = TRUE;
+	id = get_key_id(keycode);
+	if (id != -1)
+		game->window->active_keys[id] = TRUE;
+	return (0);
+}
+
+static int	loop_keyup(int keycode, t_game *game)
+{
+	int	id;
+
+	if (keycode == KEY_ESC)
+		window_close(game->window);
+	id = get_key_id(keycode);
+	if (id != -1)
+		game->window->active_keys[id] = FALSE;
 	return (0);
 }
 
 void	loop_start(t_game *game)
 {	
-	draw_screen(game);
 	draw_mini_map(game);
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
-	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keys_hook, game);
+	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keydown, game);
+	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);
 }

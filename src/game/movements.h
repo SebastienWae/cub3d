@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:11:03 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 14:11:47 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:17:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <game/game.h>
 
-void	move(t_game *game, int keycode);
+void	move(t_game *game);
+void	rotate(t_game *game);
 
 #endif

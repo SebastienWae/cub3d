@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 14:37:49 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/05 12:05:34 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ void	image_put_pixel(t_image *img, t_vec coord, int color)
 {
 	char	*pixel;
 
-	pixel = img->addr
-		+ (int)(coord.y * img->line_length + coord.x
-			* (int)(img->bits_per_pixel / 8));
-	if (pixel)
-		*(unsigned int *)pixel = color;
+	if (coord.x >= 0 && coord.y >= 0
+		&& coord.x < WINDOW_WIDTH && coord.y < WINDOW_HEIGHT)
+	{
+		pixel = img->addr
+			+ (int)(coord.y * img->line_length + coord.x
+				* (int)(img->bits_per_pixel / 8));
+		if (pixel)
+			*(unsigned int *)pixel = color;
+	}
 }
 
 void	image_destructor(t_window *window)

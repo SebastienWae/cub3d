@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 14:56:54 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:28:41 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,4 @@ t_config	*config_constructor(void)
 	if (!config)
 		return (NULL);
 	return (config);
-}
-
-void	config_set_scale(t_game *game)
-{
-	double	height;
-	double	width;
-
-	width = WINDOW_WIDTH / game->config->map_max_width;
-	height = WINDOW_HEIGHT / game->config->map_height;
-	if (width > height)
-		game->config->scale = height / 4;
-	else
-		game->config->scale = width / 4;
-	if (fmod(game->config->scale, 2) == 0)
-		game->config->scale = game->config->scale + 1;
 }

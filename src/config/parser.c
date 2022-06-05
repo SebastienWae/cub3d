@@ -3,15 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 14:54:09 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/05 09:30:49 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils/vec.h"
-#include <stddef.h>
 #include <math.h>
 #include <game/game.h>
 #include <config/parser.h>
@@ -21,6 +19,7 @@
 #include <utils/strings.h>
 #include <utils/errors.h>
 #include <utils/bool.h>
+#include <utils/vec.h>
 
 // TODO: print after basic error msg
 static void	config_error(char *line)
@@ -107,16 +106,22 @@ t_bool	parse_map(t_game *game)
 
 void	parse_player(t_game *game, size_t c[2])
 {
-	game->player->position = (t_vec){
-		.x = (int)(c[WIDTH] * game->config->scale + game->config->scale / 2),
-		.y = (int)(c[HEIGHT] * game->config->scale + game->config->scale / 2)
+	game->player->position = (t_vec)
+	{
+		.x = (int)(c[WIDTH] * 64 + 32),
+		.y = (int)(c[HEIGHT] * 64 + 32)
 	};
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'N')
 		game->player->direction = M_PI_2;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'E')
-		game->player->direction = 0;
+		game->player->direction =  M_PI;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'W')
-		game->player->direction = M_PI;
+		game->player->direction = 0;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'S')
-		game->player->direction = 3 * M_PI_2;
+		game->player->direction = 3 * M_PI / 2;
+	game->player->delta = (t_vec)
+	{
+		.x = cos(game->player->direction),
+		.y = -sin(game->player->direction)
+	};
 }

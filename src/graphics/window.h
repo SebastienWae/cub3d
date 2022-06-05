@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/04 16:13:24 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 14:12:43 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define WINDOW_H
 
 # include <mlx.h>
+# include <libft.h>
 # include <utils/bool.h>
 
 # define WINDOW_NAME "cub3d"
@@ -75,7 +76,7 @@ typedef struct s_window
 	t_image	*img;
 	t_bool	redraw;
 	t_bool	open;
-
+	t_bool	active_keys[6];
 }	t_window;
 
 t_window	*window_constructor(void);
