@@ -6,20 +6,32 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 14:32:41 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/06 13:20:56 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <mlx.h>
+#include <math.h>
 #include <config/config.h>
 #include <game/game.h>
-#include <stddef.h>
+
+t_bool	config_check_file_name(char *config_file_path)
+{
+	int	len;
+
+	len = ft_strlen(config_file_path);
+	if (len < 4)
+		return (FALSE);
+	if (ft_strncmp(config_file_path + (len - 4), ".cub", 5))
+		return (FALSE);
+	return (TRUE);
+}
 
 void	config_destructor(t_window *window, t_config *config)
 {
 	while (config->map_height--)
-		free(config->map[config->map_height]);
+		free(config->map[(int)config->map_height]);
 	free(config->map);
 	if (config->textures[0])
 		mlx_destroy_image(window->mlx, config->textures[0]);
@@ -48,19 +60,4 @@ t_config	*config_constructor(void)
 	if (!config)
 		return (NULL);
 	return (config);
-}
-
-void	config_set_scale(t_game *game)
-{
-	size_t	height;
-	size_t	width;
-
-	width = WINDOW_WIDTH / game->config->map_max_width;
-	height = WINDOW_HEIGHT / game->config->map_height;
-	if (width > height)
-		game->config->scale = height / 4;
-	else
-		game->config->scale = width / 4;
-	if (game->config->scale % 2 == 0)
-		game->config->scale = game->config->scale + 1;
 }

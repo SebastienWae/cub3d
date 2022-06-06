@@ -6,11 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/31 11:15:11 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 16:53:31 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <mlx.h>
 #include <game/game.h>
 #include <config/parser.h>
 #include <utils/strings.h>
