@@ -6,12 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/31 21:20:35 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/04 16:29:14 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <stddef.h>
+#include <math.h>
 #include <game/game.h>
 #include <config/config.h>
 #include <config/parser.h>
@@ -62,19 +62,4 @@ t_parser_state	map_handler(t_game *game, char *line, int *i)
 	}
 	else
 		return (CP_S_ERROR);
-}
-
-void	map_get_scale(t_game *game)
-{
-	size_t	height;
-	size_t	width;
-
-	width = WINDOW_WIDTH / game->config->map_max_width;
-	height = WINDOW_HEIGHT / game->config->map_height;
-	if (width > height)
-		game->config->scale = height / 4;
-	else
-		game->config->scale = width / 4;
-	if (game->config->scale % 2 == 0)
-		game->config->scale = game->config->scale + 1;
 }
