@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 16:34:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/06 13:28:55 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	game_destructor(t_game *game)
 	free(game);
 }
 
+// TODO: error message
 t_game	*game_constructor(void)
 {
 	t_game	*game;
@@ -53,12 +54,13 @@ t_game	*game_constructor(void)
 	return (game);
 }
 
+// TODO: error message
 static void	game_get_config(char *config_file_path, t_game *game)
 {
 	int	fd;
 
 	fd = open(config_file_path, O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 || !config_check_file_name(config_file_path))
 	{
 		config_destructor(game->window, game->config);
 		game->config = NULL;
@@ -87,6 +89,7 @@ void	game_start_loop(t_game *game)
 	loop_start(game);
 }
 
+// TODO: error message
 t_game	*game_init(char *config_file_path)
 {
 	t_game		*game;

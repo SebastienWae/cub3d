@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 16:28:19 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/06 13:22:01 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ typedef struct s_config
 
 t_config	*config_constructor(void);
 void		config_destructor(t_window *window, t_config *config);
+t_bool		config_check_file_name(char *config_file_path);
 
 #endif

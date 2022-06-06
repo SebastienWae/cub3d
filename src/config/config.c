@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 16:28:41 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/06 13:20:56 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 #include <math.h>
 #include <config/config.h>
 #include <game/game.h>
+
+t_bool	config_check_file_name(char *config_file_path)
+{
+	int	len;
+
+	len = ft_strlen(config_file_path);
+	if (len < 4)
+		return (FALSE);
+	if (ft_strncmp(config_file_path + (len - 4), ".cub", 5))
+		return (FALSE);
+	return (TRUE);
+}
 
 void	config_destructor(t_window *window, t_config *config)
 {
