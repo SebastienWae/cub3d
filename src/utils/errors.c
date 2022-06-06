@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:42:24 by seb               #+#    #+#             */
-/*   Updated: 2022/05/30 17:20:16 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 16:38:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	error_exit(char *msg)
 	exit(EXIT_FAILURE);
 }
 
+// FIXME: false positive?
 void	error_msg(void)
 {
 	ft_putstr_fd("Error\n", 2);
-	if (errno > 0) // FIXME: false positive?
+	if (errno > 0)
 		perror(NULL);
 }
