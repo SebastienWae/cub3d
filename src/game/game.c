@@ -60,7 +60,7 @@ static void	game_get_config(char *config_file_path, t_game *game)
 	int	fd;
 
 	fd = open(config_file_path, O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 || !config_check_file_name(config_file_path))
 	{
 		config_destructor(game->window, game->config);
 		game->config = NULL;
@@ -75,7 +75,6 @@ static void	game_get_config(char *config_file_path, t_game *game)
 		player_destructor(game->player);
 		game->player = NULL;
 	}
-	map_get_scale(game);
 	close(fd);
 }
 
