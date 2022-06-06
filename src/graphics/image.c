@@ -6,21 +6,29 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/31 11:58:40 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 12:05:34 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <mlx.h>
+#include <libft.h>
 #include <graphics/image.h>
 #include <graphics/window.h>
+#include <utils/vec.h>
 
-void	image_put_pixel(t_image *img, int x, int y, int color)
+void	image_put_pixel(t_image *img, t_vec coord, int color)
 {
 	char	*pixel;
 
-	pixel = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)pixel = color;
+	if (coord.x >= 0 && coord.y >= 0
+		&& coord.x < WINDOW_WIDTH && coord.y < WINDOW_HEIGHT)
+	{
+		pixel = img->addr
+			+ (int)(coord.y * img->line_length + coord.x
+				* (int)(img->bits_per_pixel / 8));
+		if (pixel)
+			*(unsigned int *)pixel = color;
+	}
 }
 
 void	image_destructor(t_window *window)
