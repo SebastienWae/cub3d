@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   movements.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 21:23:32 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 19:01:25 by seb              ###   ########.fr       */
+/*   Created: 2022/06/03 14:11:03 by swaegene          #+#    #+#             */
+/*   Updated: 2022/06/05 14:17:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <game/player.h>
-#include <utils/vec.h>
+#ifndef MOVEMENTS_H
+# define MOVEMENTS_H
 
-t_player	*player_constructor(void)
-{
-	t_player	*player;
+# include <game/game.h>
 
-	player = ft_calloc(1, sizeof(t_player));
-	if (!player)
-		return (NULL);
-	return (player);
-}
+void	move(t_game *game);
+void	rotate(t_game *game);
 
-void	player_destructor(t_player *player)
-{
-	free(player);
-}
+#endif
