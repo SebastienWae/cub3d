@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Debug",
 			"program": "${workspaceFolder}/cub3d_debug",
-			"args": ["maps/minimal.cub"],
+			"args": ["maps/simple.cub"],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "make debug"
 		}

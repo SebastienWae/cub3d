@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/06 13:28:55 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/06 16:28:25 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	game_get_config(char *config_file_path, t_game *game)
 
 void	game_start_loop(t_game *game)
 {
-	game->window->img = image_constructor(game->window);
+	game->window->img = image_constructor(game->window, NULL);
 	game->window->win = mlx_new_window(game->window->mlx, WINDOW_WIDTH,
 			WINDOW_HEIGHT, WINDOW_NAME);
 	if (!game->window->win || !game->window->img)

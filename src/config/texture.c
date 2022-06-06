@@ -3,32 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/05 16:53:31 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/06 16:32:32 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics/image.h"
+#include <stdlib.h>
 #include <libft.h>
 #include <mlx.h>
 #include <game/game.h>
 #include <config/parser.h>
+#include <config/texture.h>
+#include <graphics/window.h>
 #include <utils/strings.h>
 
+// TODO: error handling
 static void	*texture_constructor(char *line, t_game *game)
 {
-	char	*path;
-	void	*img;
-	int		width;
-	int		height;
+	t_texture	*texture;
+	t_image		*image;
+	char		*path;
+	void		*img;
 
-	width = WINDOW_WIDTH;
-	height = WINDOW_HEIGHT;
+	texture = ft_calloc(1, sizeof(t_texture));
+	if (!texture)
+		return (NULL);
 	path = ft_strtrim(line + 2, " \n");
-	img = mlx_xpm_file_to_image(game->window->mlx, path, &width, &height);
+	img = mlx_xpm_file_to_image(game->window->mlx, path,
+		&(texture->width), &(texture->height));
+	if (img)
+	{
+		image = image_constructor(game->window, img);
+		if (!img)
+			return (NULL);
+		texture->img = image;
+	}
 	free(path);
-	return (img);
+	return (texture);
 }
 
 t_parser_state	texture_handler(t_game *game, char *line, int *i)

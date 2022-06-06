@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/05 12:05:34 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/06 16:40:20 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,36 @@ void	image_destructor(t_window *window)
 	free(window->img);
 }
 
-t_image	*image_constructor(t_window *window)
+t_image	*image_constructor(t_window *window, void *img)
 {
 	t_image	*image;
 
 	image = ft_calloc(1, sizeof(t_image));
 	if (!image)
 		return (NULL);
-	image->img = mlx_new_image(window->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (img)
+		image->img = img;
+	else
+		image->img = mlx_new_image(window->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	image->addr = mlx_get_data_addr(image->img, &(image->bits_per_pixel),
 			&(image->line_length), &(image->endian));
 	return (image);
+}
+
+unsigned int	image_get_pixel(t_image *img, t_vec coord, int width, int height)
+{
+	char	*pixel;
+
+	if (coord.x >= 0 && coord.y >= 0
+		&& coord.x < width && coord.y < height)
+	{
+		pixel = img->addr
+			+ (int)(coord.y * img->line_length + coord.x
+				* (int)(img->bits_per_pixel / 8));
+		if (pixel)
+			return (*(unsigned int *)pixel);
+		else
+			return (0);
+	}
+	return (0);
 }
