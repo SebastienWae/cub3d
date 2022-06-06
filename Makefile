@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/05 16:38:43 by seb              ###   ########.fr        #
+#    Updated: 2022/06/06 13:36:36 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,8 +85,6 @@ $(DEBUG_DIR)/%.o: %.c
 bonus: $(NAME)
 
 .PHONY: debug debug_clean debug_fclean debug_re
-# ASAN_OPTIONS=detect_leaks=1
-#  -fPIE -pie.
 debug: CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 debug: $(OBJS_DEBUG) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
 	$(CC) $(CFLAGS) $(OBJS_DEBUG) $(LDFLAGS) -o $(NAME)_debug
