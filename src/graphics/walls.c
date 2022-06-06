@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/06 18:09:26 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/06 22:44:14 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,22 @@ static void	walls_draw_slice(t_game *game, int x, t_ray *ray, int wall_height, t
 	}
 }
 
-static void	walls_draw_texture(t_game *game, t_ray *ray, int ray_r, int n, int wall_height)
+static void	walls_draw_texture(t_game *game, t_ray *ray, int n, int wall_height)
 {
-	if (ray->type == HORIZONTAL 
-		&& ray_r < M_PI - M_PI / 6
-		&& ray_r > M_PI / 6)
-		walls_draw_slice(game, n, ray, wall_height, game->config->textures[NORTH]);		
-	else if (ray->type == HORIZONTAL 
-		&& ray_r >= M_PI + M_PI / 6
-		&& ray_r <= 2 * M_PI - M_PI / 6)
-		walls_draw_slice(game, n, ray, wall_height, game->config->textures[SOUTH]);
-	else if (ray->type == VERTICAL 
-		&& ray_r >= M_PI_2 + M_PI / 6
-		&& ray_r <= 3 * M_PI_2 - M_PI / 6)
-		walls_draw_slice(game, n, ray, wall_height, game->config->textures[WEST]);
-	else 
-		walls_draw_slice(game, n, ray, wall_height, game->config->textures[EAST]);	
+	if (ray->type == HORIZONTAL
+		&& ray->position.y < game->player->position.y)
+		walls_draw_slice(game, n, ray,
+			wall_height, game->config->textures[NORTH]);
+	else if (ray->type == HORIZONTAL)
+		walls_draw_slice(game, n, ray,
+			wall_height, game->config->textures[SOUTH]);
+	else if (ray->type == VERTICAL
+		&& ray->position.x < game->player->position.x)
+		walls_draw_slice(game, n, ray,
+			wall_height, game->config->textures[WEST]);
+	else if (ray->type == VERTICAL)
+		walls_draw_slice(game, n, ray,
+			wall_height, game->config->textures[EAST]);
 }
 
 static void	walls_draw_wall(t_game *game, double ray_r, int n)
@@ -110,29 +110,7 @@ static void	walls_draw_wall(t_game *game, double ray_r, int n)
 		fixed += M_PI * 2;
 	ray.lenght *= cos(fixed);
 	wall_height = (64 * 320) / ray.lenght;
-	walls_draw_texture(game, &ray, ray_r, n, wall_height);
-	/*if (ray.type == HORIZONTAL 
-		&& ray_r < M_PI 
-		&& ray_r > 0)
-		draw_rectangle(game,
-			(t_vec){n, (WINDOW_HEIGHT / 2.) - (wall_height / 2.)},
-			(t_vec){1, wall_height}, 0x00505050);
-	else if (ray.type == HORIZONTAL 
-		&& ray_r >= M_PI 
-		&& ray_r <= 2 * M_PI)
-		draw_rectangle(game,
-			(t_vec){n, (WINDOW_HEIGHT / 2.) - (wall_height / 2.)},
-			(t_vec){1, wall_height}, 0x00FF0000);
-	else if (ray.type == VERTICAL 
-		&& ray_r >= M_PI_2 
-		&& ray_r <= 3 * M_PI_2)
-		draw_rectangle(game,
-			(t_vec){n, (WINDOW_HEIGHT / 2.) - (wall_height / 2.)},
-			(t_vec){1, wall_height}, 0x00454545);
-	else 
-		draw_rectangle(game,
-		(t_vec){n, (WINDOW_HEIGHT / 2.) - (wall_height / 2.)},
-		(t_vec){1, wall_height}, 0x0000FF00);		*/
+	walls_draw_texture(game, &ray, n, wall_height);
 }
 
 void	walls_draw(t_game *game)
@@ -150,8 +128,8 @@ void	walls_draw(t_game *game)
 	{		
 		walls_draw_wall(game, ray_r, w);
 		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-	/*	if (ray_r < 0)
-			ray_r += M_PI * 2;*/
+		if (ray_r < 0)
+			ray_r += M_PI * 2;
 		w++;
 	}
 }
