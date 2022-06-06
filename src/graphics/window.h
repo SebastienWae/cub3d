@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/31 21:22:36 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/05 15:22:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define WINDOW_H
 
 # include <mlx.h>
+# include <libft.h>
 # include <utils/bool.h>
 
 # define WINDOW_NAME "cub3d"
@@ -31,17 +32,17 @@ enum {
 };
 
 # ifdef __linux__
-// TODO: verify keycode (esc is ok)
+
 enum {
 	KEY_ESC = 65307,
-	KEY_LEFT = 123,
-	KEY_UP = 126,
-	KEY_RIGHT = 124,
-	KEY_DOWN = 125,
-	KEY_W = 13,
-	KEY_A = 0,
-	KEY_D = 2,
-	KEY_S = 1
+	KEY_LEFT = 65361,
+	KEY_UP = 65362,
+	KEY_RIGHT = 65363,
+	KEY_DOWN = 65364,
+	KEY_W = 119,
+	KEY_A = 97,
+	KEY_D = 100,
+	KEY_S = 115
 };
 
 # elif __APPLE__
@@ -60,6 +61,17 @@ enum {
 
 # endif
 
+typedef enum e_key_id
+{
+	LEFT,
+	RIGHT,
+	W,
+	S,
+	A,
+	D,
+	ERR_KEY
+}	t_key_id;
+
 typedef struct s_image {
 	void	*img;
 	char	*addr;
@@ -73,8 +85,9 @@ typedef struct s_window
 	void	*mlx;
 	void	*win;
 	t_image	*img;
+	t_bool	redraw;
 	t_bool	open;
-
+	t_bool	active_keys[6];
 }	t_window;
 
 t_window	*window_constructor(void);

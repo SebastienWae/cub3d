@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   raycaster.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 21:27:12 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 16:28:52 by seb              ###   ########.fr       */
+/*   Created: 2022/06/04 20:55:49 by seb               #+#    #+#             */
+/*   Updated: 2022/06/05 17:37:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#ifndef RAYCASTER_H
+# define RAYCASTER_H
 
 # include <game/game.h>
 # include <utils/vec.h>
 
-void	draw_rectangle(t_game *game, t_vec pos, t_vec size, int color);
+enum	e_ray_type {
+	VERTICAL,
+	HORIZONTAL
+};
+
+typedef struct s_ray
+{
+	double			lenght;
+	t_vec			position;
+	enum e_ray_type	type;
+}	t_ray;
+
+t_ray	raycaster(t_game *game, double direction);
 
 #endif
