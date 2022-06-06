@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/31 21:30:26 by seb              ###   ########.fr        #
+#    Updated: 2022/06/06 13:36:36 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,11 @@ UNAME_S := $(shell uname -s)
 LIBFT = libft
 SRC_DIR = src
 OUT_DIR = out
+DEBUG_DIR = debug
 
-CC = gcc
-CFLAGS += -Wall -Wextra -Werror
+CC = clang
+ WARNING = -Wall -Wextra -Werror
+CFLAGS = -O3
 CPPFLAGS = -I$(LIBFT) -Isrc
 LDFLAGS = -L$(LIBFT) -lft -lm
 ifeq ($(UNAME_S),Linux)
@@ -48,40 +50,49 @@ SRCS = main.c \
 	graphics/window.c \
 	graphics/image.c \
 	graphics/draw.c \
+	graphics/raycaster.c \
+	graphics/minimap.c \
+	graphics/walls.c \
 	game/game.c \
 	game/player.c \
-	game/loop.c
-SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
-OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
+	game/loop.c \
+	game/move.c \
+	game/rotate.c
+SRCS_PATH = $(addprefix $(SRC_DIR)/,$(SRCS))
+OBJS = $(addprefix $(OUT_DIR)/,$(SRCS_PATH:%.c=%.o))
+OBJS_DEBUG = $(addprefix $(DEBUG_DIR)/,$(SRCS_PATH:%.c=%.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 
-.PHONY: debug debug_clean debug_fclean debug_re
-debu%: CFLAGS += -g3 -fsanitize=address
-debug:
-	$(MAKE) CFLAGS="$(CFLAGS)" OUT_DIR=debug NAME=$(NAME)_debug
-debug_clean:
-	$(MAKE) CFLAGS="$(CFLAGS)" OUT_DIR=debug NAME=$(NAME)_debug clean
-debug_fclean:
-	$(MAKE) CFLAGS="$(CFLAGS)" OUT_DIR=debug NAME=$(NAME)_debug fclean
-debug_re:
-	$(MAKE) CFLAGS="$(CFLAGS)" OUT_DIR=debug NAME=$(NAME)_debug re
+$(LIBFT)/libft.a:
+	$(MAKE) CC=$(CC) -C $(LIBFT) bonus
+
+$(MINILIBX)/libmlx.a:
+	$(MAKE) CC=$(CC) -C $(MINILIBX)
+
+$(OUT_DIR)/%.o: %.c
+	$(MKDIR) $(@D)
+	$(COMPILE.c) $< $(WARNING) -MMD -MP -o $@
+
+$(DEBUG_DIR)/%.o: %.c
+	$(MKDIR) $(@D)
+	$(COMPILE.c) $< $(WARNING) -MMD -MP -o $@
 
 .PHONY: bonus
 bonus: $(NAME)
 
-$(LIBFT)/libft.a:
-	$(MAKE) -C $(LIBFT) bonus
-
-$(MINILIBX)/libmlx.a:
-	$(MAKE) -C $(MINILIBX)
-
-$(OUT_DIR)/%.o: %.c
-	$(MKDIR) $(@D)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+.PHONY: debug debug_clean debug_fclean debug_re
+debug: CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+debug: $(OBJS_DEBUG) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
+	$(CC) $(CFLAGS) $(OBJS_DEBUG) $(LDFLAGS) -o $(NAME)_debug
+debug_clean:
+	$(RM) $(DEBUG_DIR)
+debug_fclean: debug_clean
+	$(RM) $(NAME)_debug
+debug_re: debug_fclean debug
 
 .PHONY: clean
 clean: 
