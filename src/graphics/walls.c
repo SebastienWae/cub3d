@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/06 22:44:14 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/07 00:07:34 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,38 @@ static void	walls_draw_slice(t_game *game, int x, t_ray *ray, int wall_height, t
 	{
 		draw_rectangle(game,
 			(t_vec)
-			{
-				x,
-				(WINDOW_HEIGHT / 2.) - (wall_height / 2.) + i
-			},
-			(t_vec){1, scale}, image_get_pixel(texture->img, (t_vec)
+		{
+			x,
+			(WINDOW_HEIGHT / 2.) - (wall_height / 2.) + i
+		},
+			(t_vec){1, scale},
+			image_get_pixel(texture->img,
+				(t_vec)
 			{
 				(int)(ray->position.x * 5) % texture->width,
 				(int)(i / scale)
 			},
-			texture->width,
-			texture->height));
+				texture->width,
+				texture->height));
 		i += scale;
 	}
 	while (i < wall_height)
 	{
 		draw_rectangle(game,
 			(t_vec)
-			{
-				x,
-				(WINDOW_HEIGHT / 2.) - (wall_height / 2.) + i
-			},
-			(t_vec){1, 1}, image_get_pixel(texture->img, (t_vec)
+		{
+			x,
+			(WINDOW_HEIGHT / 2.) - (wall_height / 2.) + i
+		},
+			(t_vec){1, 1},
+			image_get_pixel(texture->img,
+				(t_vec)
 			{
 				(int)(ray->position.x * 5) % texture->width,
 				(int)(i / scale)
 			},
-			texture->width,
-			texture->height));
+				texture->width,
+				texture->height));
 		i ++;
 	}
 }
