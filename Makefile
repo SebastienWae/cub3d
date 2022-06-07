@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/06 13:36:36 by swaegene         ###   ########.fr        #
+#    Updated: 2022/06/07 11:45:47 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRCS = main.c \
 	graphics/draw.c \
 	graphics/raycaster.c \
 	graphics/minimap.c \
+	graphics/render.c \
 	graphics/walls.c \
 	game/game.c \
 	game/player.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 17:02:06 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/07 11:45:11 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <game/movements.h>
 #include <graphics/walls.h>
 #include <graphics/minimap.h>
+#include <graphics/render.h>
 #include <graphics/window.h>
 #include <utils/bool.h>
 
@@ -28,7 +29,7 @@ static int	loop_hook(t_game *game)
 	move(game);
 	if (game->window->redraw)
 	{
-		walls_draw(game);
+		render(game);
 		minimap_draw(game);
 		mlx_put_image_to_window(game->window->mlx, game->window->win,
 			game->window->img->img, 0, 0);
