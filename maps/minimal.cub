@@ -1,9 +1,9 @@
-NO ./assets/redbrick.xpm
-SO ./assets/redbrick.xpm
-WE ./assets/redbrick.xpm
-EA ./assets/redbrick.xpm
-F 65,103,64
-C 2,11,83
+NO ./assets/wall1.xpm
+SO ./assets/wall1.xpm
+WE ./assets/wall1.xpm
+EA ./assets/wall1.xpm
+F 39,37,35
+C 39,37,35
          1111111111111111111111111
          1000000000110000000000001
     1    1101100000111000010000001

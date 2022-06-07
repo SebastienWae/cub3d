@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 20:23:37 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/08 00:05:02 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@
 #include <utils/vec.h>
 
 //FIXME: delete this junk
- void	minimap_draw_player(t_game *game)
+static void	minimap_draw_player(t_game *game)
 {
 	t_ray	ray;
+	t_vec	cone;
 	t_vec	d;
 	int		w;
 	double	ray_r;
-	double	y;
+	//double	y;
 
 	w = 0;
 	ray_r = game->player->direction + (M_PI / 6);
@@ -39,24 +40,33 @@
 			.x = ray.position.x - game->player->position.x,
 			.y = ray.position.y - game->player->position.y
 		};
-		if (d.x > 0)
+		cone = (t_vec){0, 0};
+		while (sqrt(cone.x * cone.x + cone.y * cone.y) < 64.)
 		{
-			y = 160.;
-			for (int x = 0; x < d.x; x++)
-			{
-				y += d.y / d.x;
-				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
-			}
+			image_put_pixel(game->window->img,
+				(t_vec){160 + (int)cone.x, 160 + (int)cone.y},
+				0x0000EEC2);
+		cone.x = cone.x + cos(ray_r);
+		cone.y = cone.y - sin(ray_r);
 		}
-		else
-		{
-			y = 160.;
-			for (int x = 0; x > d.x; x--)
-			{
-				y += d.y / -d.x;
-				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
-			}
-		}
+		// if (d.x > 0)
+		// {
+		// 	y = 160.;
+		// 	for (int x = 0; x < d.x; x++)
+		// 	{
+		// 		y += d.y / d.x;
+		// 		image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x0000EEC2);
+		// 	}
+		// }
+		// else
+		// {
+		// 	y = 160.;
+		// 	for (int x = 0; x > d.x; x--)
+		// 	{
+		// 		y += d.y / -d.x;
+		// 		image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x0000EEC2);
+		// 	}
+		// }
 		w++;
 	}
 }
@@ -94,6 +104,6 @@ void	minimap_draw(t_game *game)
 		}
 		y += 4;
 	}
-	draw_rectangle(game, (t_vec){156, 156}, (t_vec){16, 16}, 0x0000EEC2);
-	//minimap_draw_player(game);
+	draw_rectangle(game, (t_vec){152, 152}, (t_vec){16, 16}, 0x0000EEC2);
+	minimap_draw_player(game);
 }

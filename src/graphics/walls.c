@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 21:10:46 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/07 22:48:17 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,29 @@
 #include <utils/vec.h>
 
 static void	walls_draw_slice(t_game *game, int x, double w, t_ray *ray, int wall_height, t_texture *texture)
-{
+{	
 	int		i;
-	double	scale;
-	int 	color;
-	double	h_scale;
-	int		zz = (WINDOW_HEIGHT - wall_height) / 1.5;
+	int		zz;
+	int		color;
+	t_vec	scale;
+	double	pp;
 
-	scale = (double) wall_height / texture->height;
-	// if (texture->height > texture->width)
-		// h_scale = (int)(w * 5 /* *(double)texture->height / texture->width*/) % (texture->width);
-	// else
-	double pp = ((double)texture->width / 64);
+	scale.y = (double) wall_height / texture->height;
+	pp = ((double)texture->width / 64);
+	zz = (WINDOW_HEIGHT - wall_height) / 1.5;
 	if (pp <= 0)
 		pp = 1;
-	h_scale =  (int)(w * pp) % (texture->width);
+	scale.x = (int)(w * pp) % (texture->width);
 	i = 0;
-	if (scale < 0.0001)
-		scale = 1;
+	if (scale.y < 0.0001)
+		scale.y = 1;
 	while (i < wall_height && zz + i < WINDOW_HEIGHT)
 	{
-		color = image_get_pixel(texture->img, (t_vec){(int)h_scale, (int)(i / scale)}, texture->width, texture->height);
-		color = color_shade(color, ray->lenght / 2);
+		color = image_get_pixel(texture->img,
+				(t_vec){(int)scale.x, (int)(i / scale.y)},
+				texture->width, texture->height);
+		//color = color_shade(color, ray->lenght / 2);
+		color = color_shade(color, ray->lenght / 2.5);
 		if (zz + i > 0)
 			image_put_pixel(game->window->img,
 				(t_vec){
@@ -51,20 +52,6 @@ static void	walls_draw_slice(t_game *game, int x, double w, t_ray *ray, int wall
 			}, color);
 		i ++;
 	}
-	/*while (i < wall_height)
-	{
-		draw_rectangle(game,
-			(t_vec){x, (WINDOW_HEIGHT / 2.) - (wall_height / 2.) + i},
-			(t_vec){1, 1},
-			image_get_pixel(texture->img,
-				(t_vec)
-			{
-				(int)(w * 5) % (texture->width),
-				(int)(i)
-			},
-				texture->width, texture->height));
-		i ++;
-	}*/
 }
 
 void	walls_draw_texture(t_game *game, t_ray *ray, int n, int wall_height)

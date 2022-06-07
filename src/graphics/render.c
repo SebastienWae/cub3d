@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/07 21:10:26 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/08 00:06:44 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,47 @@
 #include <graphics/render.h>
 #include <graphics/walls.h>
 
- void	floor_draw(t_game *game)
+static void	floor_draw(t_game *game)
 {
-	for (int y = WINDOW_HEIGHT / 1.5; y < WINDOW_HEIGHT; y++)
+	int	x;
+	int	y;
+
+	y = WINDOW_HEIGHT / 1.5;
+	while (y < WINDOW_HEIGHT)
 	{
-		for (int x = 0; x < WINDOW_WIDTH; x++)
+		x = 0;
+		while (x < WINDOW_WIDTH)
 		{
-			image_put_pixel(game->window->img, (t_vec){x, y}, color_shade(game->config->colors[FLOOR], abs(y - WINDOW_HEIGHT) / 6));
+			image_put_pixel(game->window->img, (t_vec){x, y},
+				color_shade(game->config->colors[FLOOR],
+					abs(y - WINDOW_HEIGHT) / 6));
+			x++;
 		}
+		y++;
 	}
-	//draw_rectangle(game,
-	//	(t_vec){0, (int)(WINDOW_HEIGHT / 2)},
-	//	(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT - WINDOW_HEIGHT / 2)},
-	//	color_shade(game->config->colors[FLOOR], );
 }
 
- void	ceiling_draw(t_game *game)
+static void	ceiling_draw(t_game *game)
 {
-	draw_rectangle(game,
-		(t_vec){0, 0},
-		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 1.5)},
-		game->config->colors[CEILING]);
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < WINDOW_HEIGHT / 1.5)
+	{
+		x = 0;
+		while (x < WINDOW_WIDTH)
+		{
+			image_put_pixel(game->window->img, (t_vec){x, y},
+				color_shade(game->config->colors[CEILING],
+					abs(y / 12)));
+			x++;
+		}
+		y++;
+	}
 }
 
- void	walls_draw_wall(t_game *game, double ray_r, int n)
+static void	walls_draw_wall(t_game *game, double ray_r, int n)
 {
 	t_ray	ray;
 	double	fixed;

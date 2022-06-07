@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/07 15:59:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:57:24 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ t_image	*image_constructor(t_window *window, void *img)
 	return (image);
 }
 
-unsigned int	image_get_pixel(t_image *img, t_vec coord, int width, int height)
+unsigned int	image_get_pixel(t_image *img, t_vec coord, int w, int h)
 {
 	char	*pixel;
 
 	if (coord.x >= 0 && coord.y >= 0
-		&& coord.x < width && coord.y < height)
+		&& coord.x < w && coord.y < h)
 	{
 		pixel = img->addr
 			+ (int)(coord.y * img->line_length + coord.x
