@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 15:11:01 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 20:23:37 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ static void	minimap_draw_elem(t_game *game, int x, int y)
 	if (mapx < 0 || mapy < 0 || mapy > game->config->map_height - 1
 		|| (size_t)mapx > ft_strlen(game->config->map[mapy]) - 1
 		|| game->config->map[mapy][mapx] == ' ')
-		draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00FFFFFF);
+		return ;
 	else if (game->config->map[mapy][mapx] == '1')
-		draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00404040);
+		draw_rectangle(game, (t_vec){x, y}, (t_vec){4, 4}, 0x00404040);
 	else
-		draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00808080);
+		draw_rectangle(game, (t_vec){x, y}, (t_vec){4, 4}, 0x00808080);
 }
 
 void	minimap_draw(t_game *game)
@@ -90,10 +90,10 @@ void	minimap_draw(t_game *game)
 		while (x < 320)
 		{
 			minimap_draw_elem(game, x, y);
-			x++;
+			x += 4;
 		}
-		y++;
+		y += 4;
 	}
-	draw_rectangle(game, (t_vec){156, 156}, (t_vec){4, 4}, 0x0000EEC2);
-	minimap_draw_player(game);
+	draw_rectangle(game, (t_vec){156, 156}, (t_vec){16, 16}, 0x0000EEC2);
+	//minimap_draw_player(game);
 }

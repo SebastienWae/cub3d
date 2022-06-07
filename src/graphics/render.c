@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/07 18:00:16 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 21:10:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics/image.h"
+#include "graphics/color.h"
 #include <math.h>
 #include <graphics/draw.h>
 #include <graphics/render.h>
@@ -17,10 +19,17 @@
 
  void	floor_draw(t_game *game)
 {
-	draw_rectangle(game,
-		(t_vec){0, (int)(WINDOW_HEIGHT / 1.5)},
-		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT - WINDOW_HEIGHT / 1.5)},
-		game->config->colors[FLOOR]);
+	for (int y = WINDOW_HEIGHT / 1.5; y < WINDOW_HEIGHT; y++)
+	{
+		for (int x = 0; x < WINDOW_WIDTH; x++)
+		{
+			image_put_pixel(game->window->img, (t_vec){x, y}, color_shade(game->config->colors[FLOOR], abs(y - WINDOW_HEIGHT) / 6));
+		}
+	}
+	//draw_rectangle(game,
+	//	(t_vec){0, (int)(WINDOW_HEIGHT / 2)},
+	//	(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT - WINDOW_HEIGHT / 2)},
+	//	color_shade(game->config->colors[FLOOR], );
 }
 
  void	ceiling_draw(t_game *game)
@@ -44,7 +53,7 @@
 	else if (fixed < 0)
 		fixed += M_PI * 2;
 	ray.lenght *= cos(fixed);
-	wall_height = (64 * 2560) / ray.lenght;
+	wall_height = (64 * 1920) / ray.lenght;
 	walls_draw_texture(game, &ray, n, wall_height);
 }
 

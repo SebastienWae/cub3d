@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/07 10:24:56 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 19:54:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,27 @@ static void	*texture_constructor(char *line, t_game *game)
 	if (!ft_strncmp(path + (len - 4), ".xpm", 5))
 		img = mlx_xpm_file_to_image(game->window->mlx, path,
 				&(texture->width), &(texture->height));
+#ifdef __APPLE__
 	else if (!ft_strncmp(path + (len - 4), ".png", 5))
 		img = mlx_png_file_to_image(game->window->mlx, path,
 				&(texture->width), &(texture->height));
+#endif
 	else
 		return (0);
+	free(path);
 	if (img)
 	{
 		image = image_constructor(game->window, img);
 		if (!img)
 			return (NULL);
 		texture->img = image;
+		return (texture);
 	}
-	free(path);
-	return (texture);
+	else
+	{
+		free(texture);
+		return (NULL);
+	}
 }
 
 t_parser_state	texture_handler(t_game *game, char *line, int *i)

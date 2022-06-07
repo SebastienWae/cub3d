@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/07 16:30:58 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/06/07 20:27:48 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRCS = main.c \
 	graphics/minimap.c \
 	graphics/render.c \
 	graphics/walls.c \
+	graphics/color.c \
 	game/game.c \
 	game/player.c \
 	game/loop.c \
