@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 00:01:16 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/07 10:25:58 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	minimap_draw_player(t_game *game)
 	double	angle;
 
 	angle = M_PI / 6;
-	while (angle > - M_PI / 6)
+	while (angle > -M_PI / 6)
 	{
 		i = 0;
 		j = 0;
