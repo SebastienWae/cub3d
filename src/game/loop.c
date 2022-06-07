@@ -6,10 +6,12 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 11:45:11 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 17:33:43 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics/image.h"
+#include "mlx.h"
 #include <game/game.h>
 #include <game/movements.h>
 #include <graphics/walls.h>
@@ -33,6 +35,8 @@ static int	loop_hook(t_game *game)
 		minimap_draw(game);
 		mlx_put_image_to_window(game->window->mlx, game->window->win,
 			game->window->img->img, 0, 0);
+		image_destructor(game->window);
+		game->window->img = image_constructor(game->window, NULL);
 		game->window->redraw = FALSE;
 	}
 	return (0);

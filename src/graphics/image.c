@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/06 16:40:20 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:59:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	image_put_pixel(t_image *img, t_vec coord, int color)
 		if (pixel)
 			*(unsigned int *)pixel = color;
 	}
+	else
+		return ;
 }
 
 void	image_destructor(t_window *window)

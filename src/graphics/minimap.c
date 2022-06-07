@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 10:25:58 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:11:01 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,69 +19,45 @@
 #include <graphics/raycaster.h>
 #include <utils/vec.h>
 
-// FIXME: delete this junk
-// static void	minimap_draw_player(t_game *game)
-// {
-// 	t_ray	ray;
-// 	t_vec	d;
-// 	int		w;
-// 	double	ray_r;
-// 	double	y;
-
-// 	w = 0;
-// 	ray_r = game->player->direction + (M_PI / 6);
-// 	while (w < WINDOW_WIDTH)
-// 	{
-// 		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-// 		ray = raycaster(game, ray_r);
-// 		d = (t_vec)
-// 		{
-// 			.x = ray.position.x - game->player->position.x,
-// 			.y = ray.position.y - game->player->position.y
-// 		};
-// 		if (d.x > 0)
-// 		{
-// 			y = 160.;
-// 			for (int x = 0; x < d.x; x++)
-// 			{
-// 				y += d.y / d.x;
-// 				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			y = 160.;
-// 			for (int x = 0; x > d.x; x--)
-// 			{
-// 				y += d.y / -d.x;
-// 				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
-// 			}
-// 		}
-// 		w++;
-// 	}
-// }
-
-static void	minimap_draw_player(t_game *game)
+//FIXME: delete this junk
+ void	minimap_draw_player(t_game *game)
 {
-	double	i;
-	double	j;
-	double	angle;
+	t_ray	ray;
+	t_vec	d;
+	int		w;
+	double	ray_r;
+	double	y;
 
-	angle = M_PI / 6;
-	while (angle > -M_PI / 6)
+	w = 0;
+	ray_r = game->player->direction + (M_PI / 6);
+	while (w < WINDOW_WIDTH)
 	{
-		i = 0;
-		j = 0;
-		while ((int) sqrt(i * i + j * j) < 16)
+		ray_r -= M_PI / 3. / WINDOW_WIDTH;
+		ray = raycaster(game, ray_r);
+		d = (t_vec)
 		{
-			draw_rectangle(game,
-				(t_vec){158 + i, 158 + j},
-				(t_vec){1, 1},
-				0x0000EEC2);
-			i = i + cos(game->player->direction + angle);
-			j = j - sin(game->player->direction + angle);
+			.x = ray.position.x - game->player->position.x,
+			.y = ray.position.y - game->player->position.y
+		};
+		if (d.x > 0)
+		{
+			y = 160.;
+			for (int x = 0; x < d.x; x++)
+			{
+				y += d.y / d.x;
+				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
+			}
 		}
-		angle -= M_PI / 3. / WINDOW_WIDTH;
+		else
+		{
+			y = 160.;
+			for (int x = 0; x > d.x; x--)
+			{
+				y += d.y / -d.x;
+				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
+			}
+		}
+		w++;
 	}
 }
 

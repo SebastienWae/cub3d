@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/07 11:43:10 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:00:16 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 #include <graphics/render.h>
 #include <graphics/walls.h>
 
-static void	floor_draw(t_game *game)
+ void	floor_draw(t_game *game)
 {
 	draw_rectangle(game,
-		(t_vec){0, (int)(WINDOW_HEIGHT / 2)},
-		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
+		(t_vec){0, (int)(WINDOW_HEIGHT / 1.5)},
+		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT - WINDOW_HEIGHT / 1.5)},
 		game->config->colors[FLOOR]);
 }
 
-static void	ceiling_draw(t_game *game)
+ void	ceiling_draw(t_game *game)
 {
 	draw_rectangle(game,
 		(t_vec){0, 0},
-		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
+		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 1.5)},
 		game->config->colors[CEILING]);
 }
 
-static void	walls_draw_wall(t_game *game, double ray_r, int n)
+ void	walls_draw_wall(t_game *game, double ray_r, int n)
 {
 	t_ray	ray;
 	double	fixed;
@@ -44,7 +44,7 @@ static void	walls_draw_wall(t_game *game, double ray_r, int n)
 	else if (fixed < 0)
 		fixed += M_PI * 2;
 	ray.lenght *= cos(fixed);
-	wall_height = (64 * 320) / ray.lenght;
+	wall_height = (64 * 2560) / ray.lenght;
 	walls_draw_texture(game, &ray, n, wall_height);
 }
 
