@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/06 16:32:32 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/07 10:24:56 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,30 @@
 #include <utils/strings.h>
 
 // TODO: error handling
+
 static void	*texture_constructor(char *line, t_game *game)
 {
 	t_texture	*texture;
 	t_image		*image;
 	char		*path;
 	void		*img;
+	int			len;
 
 	texture = ft_calloc(1, sizeof(t_texture));
 	if (!texture)
 		return (NULL);
 	path = ft_strtrim(line + 2, " \n");
-	img = mlx_xpm_file_to_image(game->window->mlx, path,
-		&(texture->width), &(texture->height));
+	len = ft_strlen(path);
+	if (len < 4)
+		return (0);
+	if (!ft_strncmp(path + (len - 4), ".xpm", 5))
+		img = mlx_xpm_file_to_image(game->window->mlx, path,
+				&(texture->width), &(texture->height));
+	else if (!ft_strncmp(path + (len - 4), ".png", 5))
+		img = mlx_png_file_to_image(game->window->mlx, path,
+				&(texture->width), &(texture->height));
+	else
+		return (0);
 	if (img)
 	{
 		image = image_constructor(game->window, img);
