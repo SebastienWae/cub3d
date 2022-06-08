@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/08 16:23:01 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 22:49:12 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ enum {
 	ON_MOUSEDOWN = 4,
 	ON_MOUSEUP = 5,
 	ON_MOUSEMOVE = 6,
+	ENTER_NOTIFY = 7,
+	LEAVE_NOTIFY = 8,
 	ON_EXPOSE = 12,
 	ON_DESTROY = 17
 };
@@ -42,7 +44,8 @@ enum {
 	KEY_W = 119,
 	KEY_A = 97,
 	KEY_D = 100,
-	KEY_S = 115
+	KEY_S = 115,
+	KEY_SPACE = 65362
 };
 
 # elif __APPLE__

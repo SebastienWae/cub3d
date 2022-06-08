@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 16:14:31 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 23:39:39 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,29 @@ static enum e_texture_type	is_blocking(t_game *game, t_vec p, enum e_ray_type ty
 		return (T_WALL);
 	if ((game->config->map[y][x] == 'D'
 		|| game->config->map[y][x] == 'O')
-		&& game->config->map[y][x - 1] == '1' 
-		&& game->config->map[y][x + 1] == '1' 
+		&& game->config->map[y][x - 1] == '1'
+		&& game->config->map[y][x + 1] == '1'
 		&& type == HORIZONTAL)
 	{
 		if (game->config->map[y][x] == 'O')
 		{
 			int mod = ((int)p.x) % 64;
-			if (((mod >= 0 && mod <= 8) || (mod  >= 56 && mod <= 64)))
+			if (((mod >= 0 && mod <= 8) || (mod >= 56 && mod <= 64)))
 				return (T_DOOR_OPEN);
 		}
 		else
-			return (T_DOOR_CLOSE);	
+			return (T_DOOR_CLOSE);
 	}
 	if ((game->config->map[y][x] == 'D'
 		|| game->config->map[y][x] == 'O')
-		&& game->config->map[y + 1][x] == '1' 
-		&& game->config->map[y - 1][x] == '1' 
+		&& game->config->map[y + 1][x] == '1'
+		&& game->config->map[y - 1][x] == '1'
 		&& type == VERTICAL)
 	{
 		if (game->config->map[y][x] == 'O')
 		{
 			int mod = ((int)p.y) % 64;
-			if (((mod >= 0 && mod <= 8) || (mod  >= 56 && mod <= 64)))
+			if (((mod >= 0 && mod <= 8) || (mod >= 56 && mod <= 64)))
 				return (T_DOOR_OPEN);
 		}
 		else
@@ -108,7 +108,7 @@ static t_ray	ray_vertical(t_game *g, t_vec p, double ra, double tr)
 			return ((t_ray){0, r.position, VERTICAL, T_WALL});
 		else
 		{
-			r.texture =  is_blocking(g, (t_vec){r.position.x + oo, r.position.y + (-oo * tr)}, VERTICAL);
+			r.texture = is_blocking(g, (t_vec){r.position.x + oo, r.position.y + (-oo * tr)}, VERTICAL);
 			if (r.texture == T_DOOR_OPEN || r.texture == T_DOOR_CLOSE)
 				return ((t_ray){0, (t_vec){r.position.x + oo, r.position.y + (-oo * tr)}, VERTICAL, r.texture});
 			else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 15:53:35 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 23:42:21 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	walls_draw_slice(t_game *game, int x, double w, t_ray *ray, int wall
 		color = image_get_pixel(texture->img,
 				(t_vec){(int)scale.x, (int)(i / scale.y)},
 				texture->width, texture->height);
-		//color = color_shade(color, ray->lenght / 2);
 		color = color_shade(color, ray->lenght / 3);
 		if (zz + i > 0)
 			image_put_pixel(game->window->img,
@@ -59,27 +58,28 @@ void	walls_draw_texture(t_game *game, t_ray *ray, int n, int wall_height)
 {
 	if (ray->texture == T_DOOR_OPEN || ray->texture == T_DOOR_CLOSE)
 	{
-		if (ray->type == HORIZONTAL)		
+		if (ray->type == HORIZONTAL)
 			walls_draw_slice(game, n, ray->position.x, ray,
 				wall_height, game->config->textures[ray->texture]);
 		else if (ray->type == VERTICAL)
 			walls_draw_slice(game, n, ray->position.y, ray,
 				wall_height, game->config->textures[ray->texture]);
 	}
-	else {
-	if (ray->type == HORIZONTAL
-		&& ray->position.y < game->player->position.y)
-		walls_draw_slice(game, n, ray->position.x, ray,
-			wall_height, game->config->textures[NORTH]);
-	else if (ray->type == HORIZONTAL)
-		walls_draw_slice(game, n, ray->position.x, ray,
-			wall_height, game->config->textures[SOUTH]);
-	else if (ray->type == VERTICAL
-		&& ray->position.x < game->player->position.x)
-		walls_draw_slice(game, n, ray->position.y, ray,
-			wall_height, game->config->textures[WEST]);
-	else if (ray->type == VERTICAL)
-		walls_draw_slice(game, n, ray->position.y, ray,
-			wall_height, game->config->textures[EAST]);
+	else
+	{
+		if (ray->type == HORIZONTAL
+			&& ray->position.y < game->player->position.y)
+			walls_draw_slice(game, n, ray->position.x, ray,
+				wall_height, game->config->textures[NORTH]);
+		else if (ray->type == HORIZONTAL)
+			walls_draw_slice(game, n, ray->position.x, ray,
+				wall_height, game->config->textures[SOUTH]);
+		else if (ray->type == VERTICAL
+			&& ray->position.x < game->player->position.x)
+			walls_draw_slice(game, n, ray->position.y, ray,
+				wall_height, game->config->textures[WEST]);
+		else if (ray->type == VERTICAL)
+			walls_draw_slice(game, n, ray->position.y, ray,
+				wall_height, game->config->textures[EAST]);
 	}
 }

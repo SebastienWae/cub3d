@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 16:50:40 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 23:38:28 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <mlx.h>
 #include <game/game.h>
@@ -21,8 +20,6 @@
 #include <graphics/window.h>
 #include <graphics/image.h>
 #include <utils/bool.h>
-
-#include <math.h>
 
 static int	loop_hook(t_game *game)
 {
@@ -95,34 +92,11 @@ static int	loop_keyup(int keycode, t_game *game)
 	return (0);
 }
 
-static int	loop_mouse_move(int x, int y, t_game *game)
-{
-	(void)y;
-	(void)game;
-	if(x <  WINDOW_WIDTH / 3)
-	{
-		// game->window->active_keys[0] = TRUE;
-		// game->window->active_keys[1] = FALSE;
-	}
-	else if (x >  WINDOW_WIDTH / 3 * 2)
-	{
-		// game->window->active_keys[1] = TRUE;
-		// game->window->active_keys[0] = FALSE;
-	}
-	// else
-	// {
-	// 	game->window->active_keys[1] = FALSE;
-	// 	game->window->active_keys[0] = FALSE;
-	// }
-	return(0);
-}
-
 void	loop_start(t_game *game)
 {	
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keydown, game);
 	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
-	mlx_hook(game->window->win, ON_MOUSEMOVE, 0, loop_mouse_move, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);
 }
