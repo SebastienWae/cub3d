@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/07 19:54:21 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/08 16:20:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 // TODO: error handling
 
-static void	*texture_constructor(char *line, t_game *game)
+void	*texture_constructor(char *line, t_game *game)
 {
 	t_texture	*texture;
 	t_image		*image;
@@ -63,6 +63,7 @@ static void	*texture_constructor(char *line, t_game *game)
 	}
 }
 
+// FIXME: +2 index!!!
 t_parser_state	texture_handler(t_game *game, char *line, int *i)
 {
 	int			t_index;
@@ -76,8 +77,8 @@ t_parser_state	texture_handler(t_game *game, char *line, int *i)
 		(*i)++;
 		if (ft_strncmp(identifiers[t_index], line, 3) == 0)
 		{
-			game->config->textures[t_index] = texture_constructor(line, game);
-			if (!game->config->textures[t_index])
+			game->config->textures[t_index + 2] = texture_constructor(line, game);
+			if (!game->config->textures[t_index + 2])
 				return (CP_S_ERROR);
 			if (t_index == 3)
 				return (CP_S_COLORS);

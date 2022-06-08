@@ -6,18 +6,20 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 11:55:15 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:41:06 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics/image.h"
-#include "mlx.h"
+
+#include <mlx.h>
 #include <game/game.h>
 #include <game/movements.h>
+#include <game/door.h>
 #include <graphics/walls.h>
 #include <graphics/minimap.h>
 #include <graphics/render.h>
 #include <graphics/window.h>
+#include <graphics/image.h>
 #include <utils/bool.h>
 
 #include <math.h>
@@ -66,7 +68,15 @@ static int	loop_keydown(int keycode, t_game *game)
 	t_key_id	id;
 
 	if (keycode == KEY_ESC)
+	{
 		window_close(game->window);
+		return (0);
+	}
+	if (keycode == KEY_SPACE)
+	{
+		door_toggle(game);
+		return (0);
+	}
 	id = get_key_id(keycode);
 	if (id != ERR_KEY)
 		game->window->active_keys[id] = TRUE;
@@ -118,8 +128,8 @@ void	loop_start(t_game *game)
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keydown, game);
 	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
-	mlx_hook(game->window->win, 4, 0, loop_mouse_down, game);
-	mlx_hook(game->window->win, 5, 0, loop_mouse_up, game);
+	mlx_hook(game->window->win, ON_MOUSEDOWN, 0, loop_mouse_down, game);
+	mlx_hook(game->window->win, ON_MOUSEUP, 0, loop_mouse_up, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);
 }

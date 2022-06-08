@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 22:48:17 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/08 15:53:35 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "mlx.h"
 #include <math.h>
 #include <game/game.h>
 #include <graphics/draw.h>
@@ -43,7 +44,7 @@ static void	walls_draw_slice(t_game *game, int x, double w, t_ray *ray, int wall
 				(t_vec){(int)scale.x, (int)(i / scale.y)},
 				texture->width, texture->height);
 		//color = color_shade(color, ray->lenght / 2);
-		color = color_shade(color, ray->lenght / 2.5);
+		color = color_shade(color, ray->lenght / 3);
 		if (zz + i > 0)
 			image_put_pixel(game->window->img,
 				(t_vec){
@@ -56,6 +57,16 @@ static void	walls_draw_slice(t_game *game, int x, double w, t_ray *ray, int wall
 
 void	walls_draw_texture(t_game *game, t_ray *ray, int n, int wall_height)
 {
+	if (ray->texture == T_DOOR_OPEN || ray->texture == T_DOOR_CLOSE)
+	{
+		if (ray->type == HORIZONTAL)		
+			walls_draw_slice(game, n, ray->position.x, ray,
+				wall_height, game->config->textures[ray->texture]);
+		else if (ray->type == VERTICAL)
+			walls_draw_slice(game, n, ray->position.y, ray,
+				wall_height, game->config->textures[ray->texture]);
+	}
+	else {
 	if (ray->type == HORIZONTAL
 		&& ray->position.y < game->player->position.y)
 		walls_draw_slice(game, n, ray->position.x, ray,
@@ -70,4 +81,5 @@ void	walls_draw_texture(t_game *game, t_ray *ray, int n, int wall_height)
 	else if (ray->type == VERTICAL)
 		walls_draw_slice(game, n, ray->position.y, ray,
 			wall_height, game->config->textures[EAST]);
+	}
 }

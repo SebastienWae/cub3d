@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 11:47:29 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:50:42 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <config/config.h>
 #include <config/map.h>
 #include <config/parser.h>
+#include <config/texture.h>
 #include <graphics/window.h>
 #include <graphics/image.h>
 
@@ -55,6 +56,7 @@ t_game	*game_constructor(void)
 }
 
 // TODO: error message
+// error handling
 static void	game_get_config(char *config_file_path, t_game *game)
 {
 	int	fd;
@@ -69,6 +71,15 @@ static void	game_get_config(char *config_file_path, t_game *game)
 		return ;
 	}
 	if (!parse_config_file(fd, game))
+	{
+		config_destructor(game->window, game->config);
+		game->config = NULL;
+		player_destructor(game->player);
+		game->player = NULL;
+	}
+	game->config->textures[DOOR_CLOSE] = texture_constructor("./assets/door.png", game);
+	game->config->textures[DOOR_OPEN] = texture_constructor("./assets/door_open.png", game);
+	if (!game->config->textures[DOOR_CLOSE] || !game->config->textures[DOOR_OPEN])
 	{
 		config_destructor(game->window, game->config);
 		game->config = NULL;

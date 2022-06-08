@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/06 15:48:44 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:18:43 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 enum	e_textures
 {
+	DOOR_OPEN,
+	DOOR_CLOSE,
 	NORTH,
 	SOUTH,
 	EAST,
@@ -35,7 +37,7 @@ typedef struct s_config
 	char	**map;
 	double	map_max_width;
 	double	map_height;
-	void	*textures[4];
+	void	*textures[6];
 	int		colors[2];
 }	t_config;
 
