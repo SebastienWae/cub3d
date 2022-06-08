@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 17:33:43 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 11:55:15 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <graphics/render.h>
 #include <graphics/window.h>
 #include <utils/bool.h>
+
+#include <math.h>
 
 static int	loop_hook(t_game *game)
 {
@@ -83,11 +85,41 @@ static int	loop_keyup(int keycode, t_game *game)
 	return (0);
 }
 
+static int	loop_mouse_down(int button, int x, int y, t_game *game)
+{	
+	if (button == 1 && y > 0 && y < WINDOW_HEIGHT)
+	{
+		if(x <  WINDOW_WIDTH / 2)
+			{
+				game->window->active_keys[0] = TRUE;
+				game->window->active_keys[1] = FALSE;
+			}
+		else if (x >  WINDOW_WIDTH / 2)
+			{
+				game->window->active_keys[1] = TRUE;
+				game->window->active_keys[0] = FALSE;
+			}
+	}
+	return(0);
+}
+
+static int	loop_mouse_up(int button, int x, int y, t_game *game)
+{
+	(void) x;
+	(void) y;
+	(void) button;
+	game->window->active_keys[0] = FALSE;
+	game->window->active_keys[1] = FALSE;
+	return (0);
+}
+
 void	loop_start(t_game *game)
 {	
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keydown, game);
 	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
+	mlx_hook(game->window->win, 4, 0, loop_mouse_down, game);
+	mlx_hook(game->window->win, 5, 0, loop_mouse_up, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);
 }

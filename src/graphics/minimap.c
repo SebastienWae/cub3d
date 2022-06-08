@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 00:05:02 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/08 10:07:14 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 //FIXME: delete this junk
 static void	minimap_draw_player(t_game *game)
 {
-	t_ray	ray;
+	//t_ray	ray;
 	t_vec	cone;
-	t_vec	d;
+	//t_vec	d;
 	int		w;
 	double	ray_r;
 	//double	y;
@@ -34,12 +34,12 @@ static void	minimap_draw_player(t_game *game)
 	while (w < WINDOW_WIDTH)
 	{
 		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-		ray = raycaster(game, ray_r);
-		d = (t_vec)
-		{
-			.x = ray.position.x - game->player->position.x,
-			.y = ray.position.y - game->player->position.y
-		};
+		//ray = raycaster(game, ray_r);
+		// d = (t_vec)
+		// {
+		// 	.x = ray.position.x - game->player->position.x,
+		// 	.y = ray.position.y - game->player->position.y
+		// };
 		cone = (t_vec){0, 0};
 		while (sqrt(cone.x * cone.x + cone.y * cone.y) < 64.)
 		{

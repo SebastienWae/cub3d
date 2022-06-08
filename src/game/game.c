@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/06 16:28:25 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/08 11:47:29 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	game_start_loop(t_game *game)
 			WINDOW_HEIGHT, WINDOW_NAME);
 	if (!game->window->win || !game->window->img)
 		return ;
-	game->window->open = TRUE;
+	game->window->open = TRUE;	
 	loop_start(game);
 }
 
