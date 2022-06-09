@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/09 14:04:08 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:19:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	image_put_pixel(t_image *img, t_vec coord, unsigned int color)
 {
 	char	*pixel;
 
-	if (color == 0xFF000000)
+	if (color >= 0x01000000)
 		return ;
 	if (coord.x >= 0 && coord.y >= 0
 		&& coord.x < WINDOW_WIDTH && coord.y < WINDOW_HEIGHT)
