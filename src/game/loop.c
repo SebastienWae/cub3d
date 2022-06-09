@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 23:38:28 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:34:56 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 #include <graphics/window.h>
 #include <graphics/image.h>
 #include <utils/bool.h>
+#include <utils/errors.h>
 
 static int	loop_hook(t_game *game)
 {
 	if (!game->window->open)
 	{
 		game_destructor(game);
+		error_msg(NULL, FLUSH);
 		exit(EXIT_SUCCESS);
 	}
 	rotate(game);
@@ -33,11 +35,7 @@ static int	loop_hook(t_game *game)
 	if (game->window->redraw)
 	{
 		render(game);
-		minimap_draw(game);
-		mlx_put_image_to_window(game->window->mlx, game->window->win,
-			game->window->img->img, 0, 0);
-		image_destructor(game->window);
-		game->window->img = image_constructor(game->window, NULL);
+		window_swap_image(game->window);
 		game->window->redraw = FALSE;
 	}
 	return (0);

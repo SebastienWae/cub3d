@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 17:42:43 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:09:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "game/player.h"
+#include <libft.h>
 #include <math.h>
 #include <game/game.h>
 #include <config/parser.h>
@@ -23,8 +25,9 @@
 
 static void	parse_config_err(char *line)
 {
-	error_msg("Config file error at line:", ADD);
-	error_msg(line, ADD);
+	error_msg("Config file error at line: '", ADD_NO_NL);
+	error_msg(line, ADD_NO_NL);
+	error_msg("'", ADD);
 	free(line);
 }
 
@@ -61,6 +64,9 @@ static t_bool	parse_map_handlers(t_game *game, size_t c[2], t_bool s[2])
 	char	curr;
 
 	curr = game->config->map[c[HEIGHT]][c[WIDTH]];
+	if (game->config->map_height - 1 == c[HEIGHT]
+		&& (curr != ' ' || curr != '1' || !game->player))
+		return (FALSE);
 	if (curr == ' ')
 		return (map_space_handler(game, c, s));
 	else if (curr == '1')
@@ -80,21 +86,24 @@ static t_bool	parse_map_handlers(t_game *game, size_t c[2], t_bool s[2])
 
 t_bool	parse_map(t_game *game)
 {
-	size_t	len;
 	size_t	i[2];
 	t_bool	state[2];
 
+	map_normalize(game);
 	i[HEIGHT] = 0;
 	state[PLAYER] = FALSE;
 	while (i[HEIGHT] < game->config->map_height - 1)
 	{
 		i[WIDTH] = 0;
 		state[IN_WALL] = FALSE;
-		len = ft_strlen(game->config->map[i[HEIGHT]]);
-		while (i[WIDTH] < len)
+		while (i[WIDTH] < game->config->map_width)
 		{
 			if (!parse_map_handlers(game, i, state))
+			{
+				error_msg("Map error at line: ", ADD_NO_NL);
+				error_msg(ft_itoa(i[HEIGHT]), ADD);
 				return (FALSE);
+			}
 			i[WIDTH]++;
 		}
 		i[HEIGHT]++;
@@ -104,6 +113,7 @@ t_bool	parse_map(t_game *game)
 
 void	parse_player(t_game *game, size_t c[2])
 {
+	game->player = player_constructor();
 	game->player->position = (t_vec)
 	{
 		.x = (int)(c[WIDTH] * 64 + 32),

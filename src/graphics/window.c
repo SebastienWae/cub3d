@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:11:41 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/03 14:41:40 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:33:00 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,23 @@ int	window_close(t_window *window)
 
 void	window_destructor(t_window *window)
 {
-	if (window->img)
+	if (window->img || window->buf_img)
 		image_destructor(window);
 	if (window->win)
 		mlx_destroy_window(window->mlx, window->win);
 	free(window->mlx);
 	*window = (t_window){.mlx = NULL, .win = NULL, .img = NULL, .open = FALSE};
 	free(window);
+}
+
+void	window_swap_image(t_window *window)
+{
+	t_image	*tmp;
+
+	tmp = window->img;
+	window->img = window->buf_img;
+	window->buf_img = tmp;
+	mlx_put_image_to_window(window->mlx, window->win, window->img->img, 0, 0);
 }
 
 t_window	*window_constructor(void)

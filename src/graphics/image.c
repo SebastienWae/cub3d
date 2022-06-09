@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/09 14:04:08 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:38:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 #include <graphics/image.h>
 #include <graphics/window.h>
 #include <utils/vec.h>
+
+void	image_draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
+{
+	t_vec	i;
+
+	i.y = 0;
+	while (i.y < size.y)
+	{
+		i.x = 0;
+		while (i.x < size.x)
+		{
+			image_put_pixel(game->window->img,
+				(t_vec){(int)(coord.x + i.x), (int)(coord.y + i.y)}, color);
+			i.x++;
+		}
+		i.y++;
+	}
+}
 
 void	image_put_pixel(t_image *img, t_vec coord, unsigned int color)
 {
@@ -37,8 +55,12 @@ void	image_put_pixel(t_image *img, t_vec coord, unsigned int color)
 
 void	image_destructor(t_window *window)
 {
-	mlx_destroy_image(window->mlx, window->img->img);
+	if (window->img)
+		mlx_destroy_image(window->mlx, window->img->img);
+	if (window->buf_img)
+		mlx_destroy_image(window->mlx, window->buf_img->img);
 	free(window->img);
+	free(window->buf_img);
 }
 
 t_image	*image_constructor(t_window *window, void *img)

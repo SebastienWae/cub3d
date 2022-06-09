@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:05:28 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/08 13:11:00 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:18:56 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include <game/game.h>
 # include <config/parser.h>
-# include <graphics/image.h>
+# include <config/config.h>
+# include <graphics/window.h>
 
 typedef struct s_texture {
 	t_image	*img;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 17:38:27 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:28:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,22 @@ void	game_destructor(t_game *game)
 		window_destructor(game->window);
 	if (game->player)
 		player_destructor(game->player);
+	*game = (t_game)
+	{
+		.config = NULL,
+		.player = NULL,
+		.window = NULL
+	};
 	free(game);
 }
 
 void	game_start_loop(t_game *game)
 {
 	game->window->img = image_constructor(game->window, NULL);
+	game->window->buf_img = image_constructor(game->window, NULL);
 	game->window->win = mlx_new_window(game->window->mlx, WINDOW_WIDTH,
 			WINDOW_HEIGHT, WINDOW_NAME);
-	if (!game->window->win || !game->window->img)
+	if (!game->window->win || !game->window->img || !game->window->buf_img)
 		return ;
 	game->window->open = TRUE;
 	loop_start(game);
@@ -83,8 +90,7 @@ static t_game	*game_constructor(void)
 	}
 	game->window = window_constructor();
 	game->config = config_constructor();
-	game->player = player_constructor();
-	if (!game->window || !game->config || !game->player)
+	if (!game->window || !game->config)
 	{
 		error_msg("Memory error: game_constructor", ADD);
 		game_destructor(game);

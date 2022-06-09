@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/09 18:04:51 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:18:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "config/config.h"
 #include "graphics/image.h"
 #include "utils/bool.h"
 #include <stdlib.h>
@@ -36,8 +37,9 @@ static void	*texture_img_ft(t_game *g, char *p, int len, t_texture *t)
 				&(t->height)));
 	else
 	{
-		error_msg(p, ADD);
-		error_msg("' is not a recognized file type", ADD);
+		error_msg("Texture error: '", ADD_NO_NL);
+		error_msg(p, ADD_NO_NL);
+		error_msg("' file type is not supported", ADD);
 		return (NULL);
 	}
 }

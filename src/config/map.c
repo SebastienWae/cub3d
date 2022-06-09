@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/04 16:29:14 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/09 20:49:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,28 @@
 #include <config/config.h>
 #include <config/parser.h>
 #include <utils/strings.h>
+#include <utils/errors.h>
+
+void	map_normalize(t_game *game)
+{
+	int		y;
+	int		len;
+	char	*new_line;
+
+	y = 0;
+	while (game->config->map[y])
+	{
+		len = ft_strlen(game->config->map[y]);
+		if (len < game->config->map_width)
+		{
+			new_line = ft_calloc(game->config->map_width + 1, sizeof(char));
+			if (!new_line)
+				return ;
+			ft_memcpy(new_line, game->config->map, len);
+			ft_memset(new_line + len, ' ', game->config->map_width - len);
+		}
+	}
+}
 
 static void	map_append(t_config *config, char *line, int i)
 {
@@ -23,11 +45,14 @@ static void	map_append(t_config *config, char *line, int i)
 	char	**map;
 	int		n;
 
-	len = ft_strlen(line) - 2;
-	line[len + 1] = 0;
-	map = malloc(sizeof(char *) * (i + 1));
+	len = ft_strlen(line);
+	line[len - 1] = 0;
+	map = ft_calloc(i + 1, sizeof(char *));
 	if (!map)
+	{
+		error_msg("Memory error: map_append", ADD);
 		return ;
+	}
 	n = 0;
 	while (n < i)
 	{
@@ -37,8 +62,8 @@ static void	map_append(t_config *config, char *line, int i)
 	map[n] = ft_strdup(line);
 	free(config->map);
 	config->map = map;
-	if (len > config->map_max_width)
-		config->map_max_width = len;
+	if (len > config->map_width)
+		config->map_width = len;
 	config->map_height++;
 }
 
