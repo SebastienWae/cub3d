@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 15:43:43 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:38:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <fcntl.h>
 #include <libft.h>
 #include <game/game.h>
@@ -22,7 +23,10 @@
 #include <graphics/window.h>
 #include <graphics/image.h>
 
-// TODO: call destructor for doors
+#include <utils/bool.h>
+#include <utils/errors.h>
+#include <strings.h>
+
 void	game_destructor(t_game *game)
 {
 	if (game->window && game->config)
@@ -31,64 +35,7 @@ void	game_destructor(t_game *game)
 		window_destructor(game->window);
 	if (game->player)
 		player_destructor(game->player);
-	if (game->doors)
-		free(game->doors);
 	free(game);
-}
-
-// TODO: error message
-t_game	*game_constructor(void)
-{
-	t_game	*game;
-
-	game = ft_calloc(1, sizeof(t_game));
-	if (!game)
-		return (NULL);
-	game->window = window_constructor();
-	game->config = config_constructor();
-	game->player = player_constructor();
-	if (!game->window || !game->config || !game->player)
-	{
-		game_destructor(game);
-		return (NULL);
-	}
-	return (game);
-}
-
-// TODO: error message
-// error handling
-static void	game_get_config(char *config_file_path, t_game *game)
-{
-	int	fd;
-
-	fd = open(config_file_path, O_RDONLY);
-	if (fd == -1 || !config_check_file_name(config_file_path))
-	{
-		config_destructor(game->window, game->config);
-		game->config = NULL;
-		player_destructor(game->player);
-		game->player = NULL;
-		return ;
-	}
-	if (!parse_config_file(fd, game))
-	{
-		config_destructor(game->window, game->config);
-		game->config = NULL;
-		player_destructor(game->player);
-		game->player = NULL;
-	}
-	game->config->textures[ARROW] = texture_constructor("./assets/arrow.png", game);
-	game->config->textures[DOOR_CLOSE] = texture_constructor("./assets/door.xpm", game);
-	game->config->textures[DOOR_OPEN] = texture_constructor("./assets/door_open.xpm", game);
-	if (!game->config->textures[DOOR_CLOSE] || !game->config->textures[DOOR_OPEN]
-	|| !game->config->textures[ARROW])
-	{
-		config_destructor(game->window, game->config);
-		game->config = NULL;
-		player_destructor(game->player);
-		game->player = NULL;
-	}
-	close(fd);
 }
 
 void	game_start_loop(t_game *game)
@@ -102,7 +49,50 @@ void	game_start_loop(t_game *game)
 	loop_start(game);
 }
 
-// TODO: error message
+static t_bool	game_get_config(char *config_file_path, t_game *game)
+{
+	int		fd;
+	t_bool	result;
+
+	if (config_check_file_name(config_file_path))
+	{
+		fd = open(config_file_path, O_RDONLY);
+		if (fd != -1)
+		{
+			result = parse_config_file(fd, game);
+			close(fd);
+			return (result);
+		}
+		else
+			error_msg(strerror(errno), ADD_NO_NL);
+	}
+	else
+		error_msg("Config file name is invalid", ADD);
+	return (FALSE);
+}
+
+static t_game	*game_constructor(void)
+{
+	t_game	*game;
+
+	game = ft_calloc(1, sizeof(t_game));
+	if (!game)
+	{
+		error_msg("Memory error: game_constructor", ADD);
+		return (NULL);
+	}
+	game->window = window_constructor();
+	game->config = config_constructor();
+	game->player = player_constructor();
+	if (!game->window || !game->config || !game->player)
+	{
+		error_msg("Memory error: game_constructor", ADD);
+		game_destructor(game);
+		return (NULL);
+	}
+	return (game);
+}
+
 t_game	*game_init(char *config_file_path)
 {
 	t_game		*game;
@@ -110,16 +100,11 @@ t_game	*game_init(char *config_file_path)
 	game = game_constructor();
 	if (!game)
 		return (NULL);
-	game_get_config(config_file_path, game);
-	if (!game->config || !game->player)
+	if (game_get_config(config_file_path, game))
 	{
-		game_destructor(game);
-		return (NULL);
+		if (parse_map(game))
+			return (game);
 	}
-	if (!parse_map(game))
-	{
-		game_destructor(game);
-		return (NULL);
-	}
-	return (game);
+	game_destructor(game);
+	return (NULL);
 }

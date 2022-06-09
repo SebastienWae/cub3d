@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 15:44:32 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:15:32 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
 
-# include <stddef.h>
 # include <graphics/window.h> 
+
+enum	e_door_textures
+{
+	DOOR_OPEN,
+	DOOR_CLOSE
+};
 
 enum	e_textures
 {
-	DOOR_OPEN,
-	DOOR_CLOSE,
 	NORTH,
 	SOUTH,
 	EAST,
@@ -36,9 +39,11 @@ enum	e_colors
 typedef struct s_config
 {
 	char	**map;
-	double	map_max_width;
 	double	map_height;
-	void	*textures[7];
+	double	map_width;
+	void	*walls_txt[5];
+	void	*doors_txt[2];
+	void	*player_txt;
 	int		colors[2];
 }	t_config;
 

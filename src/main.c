@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/05/31 12:06:44 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/09 17:36:17 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 	t_game	*game;
 
 	if (argc == 1)
-		error_exit("Missing path to the config file");
+		error_msg("Missing path to the config file", ADD);
 	else if (argc == 2)
 	{
 		game = game_init(argv[1]);
@@ -28,5 +28,6 @@ int	main(int argc, char **argv)
 		game_destructor(game);
 	}
 	else
-		error_exit("Too many arguments");
+		error_msg("Too many arguments", ADD);
+	error_msg(NULL, FLUSH);
 }

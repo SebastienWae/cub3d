@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 16:00:46 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:42:43 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@
 #include <utils/bool.h>
 #include <utils/vec.h>
 
-// TODO: print after basic error msg
-static void	config_error(char *line)
+static void	parse_config_err(char *line)
 {
-	ft_putstr_fd("Config file error at line: ", 2);
-	ft_putstr_fd(line, 2);
-	ft_putstr_fd("\n", 2);
+	error_msg("Config file error at line:", ADD);
+	error_msg(line, ADD);
+	free(line);
 }
 
 t_bool	parse_config_file(int fd, t_game *game)
@@ -48,8 +47,7 @@ t_bool	parse_config_file(int fd, t_game *game)
 			state = map_handler(game, line, &config_index);
 		if (state == CP_S_ERROR)
 		{
-			config_error(line);
-			free(line);
+			parse_config_err(line);
 			return (FALSE);
 		}
 		free(line);

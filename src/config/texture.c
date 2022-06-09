@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/08 16:20:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:04:51 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics/image.h"
+#include "utils/bool.h"
 #include <stdlib.h>
 #include <libft.h>
 #include <mlx.h>
@@ -19,43 +20,65 @@
 #include <config/texture.h>
 #include <graphics/window.h>
 #include <utils/strings.h>
+#include <utils/errors.h>
 
-// TODO: error handling
+static void	*texture_img_ft(t_game *g, char *p, int len, t_texture *t)
+{
+	if (len >= 4 && !ft_strncmp(p + (len - 4), ".xpm", 5))
+		return (mlx_xpm_file_to_image(g->window->mlx,
+				p,
+				&(t->width),
+				&(t->height)));
+	else if (len >= 4 && !ft_strncmp(p + (len - 4), ".png", 5))
+		return (mlx_png_file_to_image(g->window->mlx,
+				p,
+				&(t->width),
+				&(t->height)));
+	else
+	{
+		error_msg(p, ADD);
+		error_msg("' is not a recognized file type", ADD);
+		return (NULL);
+	}
+}
+
+static t_bool	texture_img(t_game *g, char *p, int len, t_texture *t)
+{
+	t_image		*image;
+	void		*img;
+
+	img = texture_img_ft(g, p, len, t);
+	free(p);
+	if (img)
+	{
+		image = image_constructor(g->window, img);
+		if (!img)
+		{
+			error_msg("Memory error: texture_img", ADD);
+			return (FALSE);
+		}
+		t->img = image;
+		return (TRUE);
+	}
+	return (FALSE);
+}
 
 void	*texture_constructor(char *line, t_game *game)
 {
 	t_texture	*texture;
-	t_image		*image;
 	char		*path;
-	void		*img;
 	int			len;
 
 	texture = ft_calloc(1, sizeof(t_texture));
 	if (!texture)
+	{
+		error_msg("Memory error: texture_constructor", ADD);
 		return (NULL);
+	}
 	path = ft_strtrim(line + 2, " \n");
 	len = ft_strlen(path);
-	if (len < 4)
-		return (0);
-	if (!ft_strncmp(path + (len - 4), ".xpm", 5))
-		img = mlx_xpm_file_to_image(game->window->mlx, path,
-				&(texture->width), &(texture->height));
-#ifdef __APPLE__
-	else if (!ft_strncmp(path + (len - 4), ".png", 5))
-		img = mlx_png_file_to_image(game->window->mlx, path,
-				&(texture->width), &(texture->height));
-#endif
-	else
-		return (0);
-	free(path);
-	if (img)
-	{
-		image = image_constructor(game->window, img);
-		if (!img)
-			return (NULL);
-		texture->img = image;
+	if (texture_img(game, path, len, texture))
 		return (texture);
-	}
 	else
 	{
 		free(texture);
@@ -63,7 +86,6 @@ void	*texture_constructor(char *line, t_game *game)
 	}
 }
 
-// FIXME: +2 index!!!
 t_parser_state	texture_handler(t_game *game, char *line, int *i)
 {
 	int			t_index;
@@ -77,8 +99,8 @@ t_parser_state	texture_handler(t_game *game, char *line, int *i)
 		(*i)++;
 		if (ft_strncmp(identifiers[t_index], line, 3) == 0)
 		{
-			game->config->textures[t_index + 2] = texture_constructor(line, game);
-			if (!game->config->textures[t_index + 2])
+			game->config->walls_txt[t_index] = texture_constructor(line, game);
+			if (!game->config->walls_txt[t_index])
 				return (CP_S_ERROR);
 			if (t_index == 3)
 				return (CP_S_COLORS);
