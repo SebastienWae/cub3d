@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:16:03 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 23:37:36 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 10:45:34 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ static void	rotate_mouse(t_game *game)
 	int	mouse_y;
 
 	//linux
-	mlx_mouse_get_pos(game->window->mlx, game->window->win, &mouse_x, &mouse_y);
+	//mlx_mouse_get_pos(game->window->mlx, game->window->win, &mouse_x, &mouse_y);
 	// MAC
-	// mlx_mouse_get_pos(game->window->win, &mouse_x, &mouse_y);
+	mlx_mouse_get_pos(game->window->win, &mouse_x, &mouse_y);
 	if (mouse_y > 0 && mouse_y < WINDOW_HEIGHT && mouse_x > 0 && mouse_x < WINDOW_WIDTH)
 	{
 		if (mouse_x < 4 * WINDOW_WIDTH / 9)
 		{
-			game->player->direction += fabs(mouse_x - (double)WINDOW_WIDTH / 2) / 10000;
+			game->player->direction += fabs(mouse_x - (4 * (double)WINDOW_WIDTH / 9))/ 10000;
 			if (game->player->direction > M_PI * 2)
 				game->player->direction -= M_PI * 2;
 			game->window->redraw = TRUE;
 		}
 		else if (mouse_x > 5 * WINDOW_WIDTH / 9)
 		{
-			game->player->direction -= (mouse_x - (double)WINDOW_WIDTH / 2) / 10000;
+			game->player->direction -= (mouse_x - (5 * (double)WINDOW_WIDTH / 9)) / 10000;
 			if (game->player->direction < 0)
 				game->player->direction += M_PI * 2;
 			game->window->redraw = TRUE;

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:55:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 16:18:14 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:42:48 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <game/game.h>
 # include <utils/vec.h>
 
+typedef struct s_ray	t_ray;
 enum	e_ray_type {
 	VERTICAL,
 	HORIZONTAL
@@ -29,13 +30,14 @@ enum	e_texture_type {
 	T_NONE
 };
 
-typedef struct s_ray
+struct s_ray
 {
 	double				lenght;
 	t_vec				position;
 	enum e_ray_type		type;
 	enum e_texture_type	texture;
-}	t_ray;
+	
+};
 
 t_ray	raycaster(t_game *game, double direction);
 

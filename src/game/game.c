@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 23:28:47 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 15:43:43 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ static void	game_get_config(char *config_file_path, t_game *game)
 		player_destructor(game->player);
 		game->player = NULL;
 	}
+	game->config->textures[ARROW] = texture_constructor("./assets/arrow.png", game);
 	game->config->textures[DOOR_CLOSE] = texture_constructor("./assets/door.xpm", game);
 	game->config->textures[DOOR_OPEN] = texture_constructor("./assets/door_open.xpm", game);
-	if (!game->config->textures[DOOR_CLOSE] || !game->config->textures[DOOR_OPEN])
+	if (!game->config->textures[DOOR_CLOSE] || !game->config->textures[DOOR_OPEN]
+	|| !game->config->textures[ARROW])
 	{
 		config_destructor(game->window, game->config);
 		game->config = NULL;

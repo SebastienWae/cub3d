@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 16:37:33 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/09 16:00:46 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ void	parse_player(t_game *game, size_t c[2])
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'N')
 		game->player->direction = M_PI_2;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'E')
-		game->player->direction = M_PI;
-	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'W')
 		game->player->direction = 0;
+	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'W')
+		game->player->direction = M_PI;
 	if (game->config->map[c[HEIGHT]][c[WIDTH]] == 'S')
 		game->player->direction = 3 * M_PI / 2;
 	game->player->delta = (t_vec)

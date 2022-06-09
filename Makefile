@@ -6,7 +6,7 @@
 #    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/08 16:06:03 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/06/09 13:47:32 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ ifeq ($(UNAME_S),Linux)
 	MINILIBX = minilibx_linux
 endif
 ifeq ($(UNAME_S),Darwin)
-	CPPFLAGS += -I/usr/local/include
-	LDFLAGS += -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit -lz
+	# CPPFLAGS += -I/usr/local/include
+	CPPFLAGS += -Iminilibx_darwin
+	# LDFLAGS += -L/usr/local/lib  -lmlx -framework OpenGL -framework AppKit -lz
+	LDFLAGS +=  -Lminilibx_darwin  -lmlx -framework OpenGL -framework AppKit -lz
 	MINILIBX = minilibx_darwin
 endif
 

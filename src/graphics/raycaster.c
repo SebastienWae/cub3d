@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 23:39:39 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 15:49:52 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static t_ray	ray_vertical(t_game *g, t_vec p, double ra, double tr)
 	else
 		return ((t_ray){-1, (t_vec){-1, -1}, VERTICAL, T_NONE});
 	while (is_in_map(g, r.position))
-	{
+	{		
 		if (cos(ra) > 0.001)
 			oo = 32;
 		else if (cos(ra) < -0.001)
@@ -117,6 +117,7 @@ static t_ray	ray_vertical(t_game *g, t_vec p, double ra, double tr)
 	}
 	return ((t_ray){-1, (t_vec){-1, -1}, VERTICAL, T_NONE});
 }
+
 
 static t_ray	ray_horizontal(t_game *g, t_vec p, double ra, double tr)
 {
@@ -139,7 +140,7 @@ static t_ray	ray_horizontal(t_game *g, t_vec p, double ra, double tr)
 	else
 		return ((t_ray){-1, (t_vec){-1, -1}, HORIZONTAL, T_NONE});
 	while (is_in_map(g, r.position))
-	{
+	{	
 		if (sin(ra) > 0.001)
 				oo = -32;
 		else if (sin(ra) < -0.001)

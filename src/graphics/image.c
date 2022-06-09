@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/07 22:57:24 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:04:08 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 #include <graphics/window.h>
 #include <utils/vec.h>
 
-void	image_put_pixel(t_image *img, t_vec coord, int color)
+void	image_put_pixel(t_image *img, t_vec coord, unsigned int color)
 {
 	char	*pixel;
 
+	if (color == 0xFF000000)
+		return ;
 	if (coord.x >= 0 && coord.y >= 0
 		&& coord.x < WINDOW_WIDTH && coord.y < WINDOW_HEIGHT)
 	{
@@ -66,9 +68,11 @@ unsigned int	image_get_pixel(t_image *img, t_vec coord, int w, int h)
 			+ (int)(coord.y * img->line_length + coord.x
 				* (int)(img->bits_per_pixel / 8));
 		if (pixel)
+		{
 			return (*(unsigned int *)pixel);
+		}	
 		else
-			return (0);
+			return (0xFF000000);
 	}
-	return (0);
+	return (0xFF000000);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 22:53:47 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 15:44:32 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ enum	e_textures
 	NORTH,
 	SOUTH,
 	EAST,
-	WEST
+	WEST,
+	ARROW
 };
 
 enum	e_colors
@@ -37,7 +38,7 @@ typedef struct s_config
 	char	**map;
 	double	map_max_width;
 	double	map_height;
-	void	*textures[6];
+	void	*textures[7];
 	int		colors[2];
 }	t_config;
 
