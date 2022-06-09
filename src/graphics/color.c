@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:24:05 by seb               #+#    #+#             */
-/*   Updated: 2022/06/07 20:28:17 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/09 17:58:53 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ int	color_shade(int trbg, int shade)
 		g = 0;
 	else
 		g -= shade;
-	return (t << 24 | r << 16 | g << 8 | b);
+	return (t | r << 16 | g << 8 | b);
 }

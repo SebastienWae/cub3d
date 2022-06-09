@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/08 00:06:44 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 17:59:46 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	ceiling_draw(t_game *game)
 		{
 			image_put_pixel(game->window->img, (t_vec){x, y},
 				color_shade(game->config->colors[CEILING],
-					abs(y / 12)));
+					abs(y / 6)));
 			x++;
 		}
 		y++;
