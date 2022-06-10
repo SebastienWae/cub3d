@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/10 11:52:48 by seb              ###   ########.fr        #
+#    Updated: 2022/06/10 12:34:28 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRCS = main.c \
 	config/parser_map.c \
 	graphics/window.c \
 	graphics/image.c \
-	graphics/draw.c \
 	graphics/raycaster.c \
 	graphics/raycaster_utils.c \
 	graphics/minimap.c \

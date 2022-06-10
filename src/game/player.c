@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 21:23:32 by seb               #+#    #+#             */
-/*   Updated: 2022/06/04 19:01:25 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 12:44:17 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,11 @@ t_player	*player_constructor(void)
 
 void	player_destructor(t_player *player)
 {
+	*player = (t_player)
+	{
+		.direction = 0,
+		.position = (t_vec){0, 0},
+		.delta = (t_vec){0, 0},
+	};
 	free(player);
 }

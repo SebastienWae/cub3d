@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:42:24 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 17:35:55 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 12:40:44 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void	error_msg(char *msg, t_error_action action)
 			tmp_buf = error_buf;
 			error_buf = ft_strjoin(error_buf, msg);
 			free(tmp_buf);
+			free(msg);
 		}
 		else
 			error_buf = msg;
-		free(msg);
 	}
 	else
 		error_flush(&error_buf);

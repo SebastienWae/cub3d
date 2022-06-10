@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 21:09:16 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 13:29:43 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,13 @@ t_bool	parse_map(t_game *game)
 	{
 		i[WIDTH] = 0;
 		state[IN_WALL] = FALSE;
-		while (i[WIDTH] < game->config->map_width)
+		while (i[WIDTH] < game->config->map_width - 1)
 		{
 			if (!parse_map_handlers(game, i, state))
 			{
 				error_msg("Map error at line: ", ADD_NO_NL);
-				error_msg(ft_itoa(i[HEIGHT]), ADD);
+				error_msg(ft_itoa(i[HEIGHT] + 1), ADD);
+				error_msg(game->config->map[i[HEIGHT]], ADD);
 				return (FALSE);
 			}
 			i[WIDTH]++;

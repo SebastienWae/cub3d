@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 17:36:17 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 13:14:32 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ int	main(int argc, char **argv)
 	else if (argc == 2)
 	{
 		game = game_init(argv[1]);
-		if (!game)
-			exit(EXIT_FAILURE);
-		game_start_loop(game);
-		game_destructor(game);
+		if (game)
+		{
+			game_start_loop(game);
+			game_destructor(game);
+		}
 	}
 	else
 		error_msg("Too many arguments", ADD);

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:45:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 16:43:12 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 14:01:01 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_game
 	t_config	*config;	
 	t_window	*window;
 	t_player	*player;
-	t_list		*doors;
 }	t_game;
 
 t_game	*game_init(char *config_file_path);

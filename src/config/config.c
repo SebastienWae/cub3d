@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 21:20:27 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 15:49:26 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	config_destructor(t_window *window, t_config *config)
 	while (config->map_height--)
 		free(config->map[(int)config->map_height]);
 	free(config->map);
-	config_texture_destructor(config, window);
+	config_wall_destructor(config, window);
 	config_texture_destructor(config, window);
 	*config = (t_config)
 	{

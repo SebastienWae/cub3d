@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/09 21:18:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 14:07:56 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@
 #include <graphics/window.h>
 #include <utils/strings.h>
 #include <utils/errors.h>
+
+t_bool	texture_open_images(t_game *g)
+{
+	g->config->doors_txt[DOOR_OPEN]
+		= texture_constructor(DOOR_OPEN_TEXTURE, g);
+	g->config->doors_txt[DOOR_CLOSE]
+		= texture_constructor(DOOR_CLOSE_TEXTURE, g);
+	g->config->player_txt
+		= texture_constructor(PLAYER_MINIMAP_TEXTURE, g);
+	if (g->config->doors_txt[DOOR_OPEN] && g->config->doors_txt[DOOR_CLOSE]
+		&& g->config->player_txt)
+		return (TRUE);
+	return (FALSE);
+}
 
 static void	*texture_img_ft(t_game *g, char *p, int len, t_texture *t)
 {

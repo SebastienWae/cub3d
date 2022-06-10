@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 10:55:58 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 13:55:57 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,26 @@ void	map_normalize(t_game *game)
 {
 	int		y;
 	int		len;
-	char	*new_line;
+	char	*nl;
+	char	*tmp;
 
 	y = 0;
-	while (game->config->map[y])
+	while (y < game->config->map_height && game->config->map[y])
 	{
 		len = ft_strlen(game->config->map[y]);
 		if (len < game->config->map_width)
 		{
-			new_line = ft_calloc(game->config->map_width + 1, sizeof(char));
-			if (!new_line)
+			nl = ft_calloc(game->config->map_width + 1, sizeof(char));
+			if (!nl)
 				return ;
-			ft_memcpy(new_line, game->config->map, len);
-			ft_memset(new_line + len, ' ', game->config->map_width - len);
+			ft_strlcpy(nl, game->config->map[y], len + 1);
+			ft_memset(nl + len, ' ', game->config->map_width - len);
+			nl[(int)game->config->map_width] = 0;
+			tmp = game->config->map[y];
+			game->config->map[y] = nl;
+			free(tmp);
 		}
+		y++;
 	}
 }
 
@@ -45,8 +51,8 @@ static void	map_append(t_config *config, char *line, int i)
 	char	**map;
 	int		n;
 
-	len = ft_strlen(line);
-	line[len - 1] = 0;
+	len = ft_strlen(line) - 1;
+	line[len] = 0;
 	map = ft_calloc(i + 1, sizeof(char *));
 	if (!map)
 	{

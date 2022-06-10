@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 21:28:15 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 14:09:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_game	*game_init(char *config_file_path)
 		return (NULL);
 	if (game_get_config(config_file_path, game))
 	{
-		if (parse_map(game))
+		if (parse_map(game) && texture_open_images(game))
 			return (game);
 	}
 	game_destructor(game);

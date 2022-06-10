@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 11:47:29 by seb              ###   ########.fr       */
+/*   Created: 2022/06/10 15:53:59 by swaegene          #+#    #+#             */
+/*   Updated: 2022/06/10 15:55:53 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	walls_draw_slice(t_game *game, int n, t_ray *ray, t_texture *t)
 	unsigned int	color;
 	int				zz;
 
-	height = (64 * 1920) / ray->lenght;
+	height = (64 * 640) / ray->lenght;
 	scale = walls_get_scale(ray, t, height);
 	i = 0;
 	zz = (WINDOW_HEIGHT - height) / 1.5;
