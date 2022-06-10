@@ -6,14 +6,16 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 15:49:26 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 16:24:33 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <mlx.h>
 #include <math.h>
+#include <graphics/image.h>
 #include <config/config.h>
+#include <config/texture.h>
 #include <game/game.h>
 
 t_bool	config_check_file_name(char *config_file_path)
@@ -32,22 +34,22 @@ void	config_wall_destructor(t_config *config, t_window *window)
 {
 	if (config->walls_txt[0])
 	{
-		mlx_destroy_image(window->mlx, config->walls_txt[0]);
+		image_destructor(window, ((t_texture *)(config->walls_txt[0]))->img);
 		free(config->walls_txt[0]);
 	}
 	if (config->walls_txt[1])
 	{
-		mlx_destroy_image(window->mlx, config->walls_txt[1]);
+		image_destructor(window, ((t_texture *)(config->walls_txt[1]))->img);
 		free(config->walls_txt[1]);
 	}
 	if (config->walls_txt[2])
 	{
-		mlx_destroy_image(window->mlx, config->walls_txt[2]);
+		image_destructor(window, ((t_texture *)(config->walls_txt[2]))->img);
 		free(config->walls_txt[2]);
 	}
 	if (config->walls_txt[3])
 	{
-		mlx_destroy_image(window->mlx, config->walls_txt[3]);
+		image_destructor(window, ((t_texture *)(config->walls_txt[3]))->img);
 		free(config->walls_txt[3]);
 	}
 }
@@ -56,17 +58,17 @@ static void	config_texture_destructor(t_config *config, t_window *window)
 {
 	if (config->doors_txt[0])
 	{
-		mlx_destroy_image(window->mlx, config->doors_txt[0]);
-		free(config->doors_txt[1]);
+		image_destructor(window, ((t_texture *)(config->doors_txt[0]))->img);
+		free(config->doors_txt[0]);
 	}
 	if (config->doors_txt[1])
 	{
-		mlx_destroy_image(window->mlx, config->doors_txt[1]);
+		image_destructor(window, ((t_texture *)(config->doors_txt[1]))->img);
 		free(config->doors_txt[1]);
 	}
 	if (config->player_txt)
 	{
-		mlx_destroy_image(window->mlx, config->player_txt);
+		image_destructor(window, ((t_texture *)(config->player_txt))->img);
 		free(config->player_txt);
 	}
 }

@@ -1,7 +1,7 @@
-NO ./assets/wall64.png
-SO ./assets/wall64.png
-WE ./assets/wall64.png
-EA ./assets/wall64.png
+NO ./assets/wall1024.png
+SO ./assets/wall1024.png
+WE ./assets/wall1024.png
+EA ./assets/wall1024.png
 F 255,37,35
 C 39,37,35
          1111111111111111111111111

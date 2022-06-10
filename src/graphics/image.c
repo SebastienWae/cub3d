@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 10:01:37 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 18:42:33 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	image_draw_rectangle(t_window *win, t_vec coord, t_vec size, int color)
 
 void	image_put_pixel(t_window *window, t_vec coord, unsigned int color)
 {
-	char	*pixel;
+	char		*pixel;
 
 	if (color >= 0x01000000)
 		return ;
@@ -54,14 +54,10 @@ void	image_put_pixel(t_window *window, t_vec coord, unsigned int color)
 		return ;
 }
 
-void	image_destructor(t_window *window)
+void	image_destructor(t_window *window, t_image *image)
 {
-	if (window->img)
-		mlx_destroy_image(window->mlx, window->img->img);
-	if (window->buf_img)
-		mlx_destroy_image(window->mlx, window->buf_img->img);
-	free(window->img);
-	free(window->buf_img);
+	mlx_destroy_image(window->mlx, image->img);
+	free(image);
 }
 
 t_image	*image_constructor(t_window *window, void *img)

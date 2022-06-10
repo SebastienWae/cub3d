@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 11:09:11 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 18:36:51 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,10 @@ t_ray	raycaster(t_game *game, double rr)
 	t_ray	rv;
 	t_ray	rh;
 
+	if (rr > M_PI * 2)
+		rr -= M_PI * 2;
+	else if (rr < 0)
+		rr += M_PI * 2;
 	tr = tan(rr);
 	rv = ray_vertical(game, game->player->position, rr, tr);
 	if (rv.pos.x != -1 && rv.pos.y != -1)

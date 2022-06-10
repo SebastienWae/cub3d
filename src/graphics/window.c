@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:11:41 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 14:29:23 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 16:13:23 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	window_close(t_window *window)
 
 void	window_destructor(t_window *window)
 {
-	if (window->img || window->buf_img)
-		image_destructor(window);
+	if (window->img)
+		image_destructor(window, window->img);
+	if (window->buf_img)
+		image_destructor(window, window->buf_img);
 	if (window->win)
 		mlx_destroy_window(window->mlx, window->win);
 	free(window->mlx);

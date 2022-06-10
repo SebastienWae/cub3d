@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/10 15:52:43 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 18:43:26 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	floor_draw(t_game *game)
 	int	x;
 	int	y;
 
-	y = WINDOW_HEIGHT / 1.5;
+	y = WINDOW_HEIGHT >> 1;
 	while (y < WINDOW_HEIGHT)
 	{
 		x = 0;
@@ -42,7 +42,7 @@ static void	ceiling_draw(t_game *game)
 	int	y;
 
 	y = 0;
-	while (y < WINDOW_HEIGHT / 1.5)
+	while (y < WINDOW_HEIGHT >> 1)
 	{
 		x = 0;
 		while (x < WINDOW_WIDTH)

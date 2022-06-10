@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 14:36:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/10 18:54:03 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	loop_hook(t_game *game)
 	if (!game->window->open)
 	{
 		game_destructor(game);
-		error_msg(NULL, FLUSH);
 		exit(EXIT_SUCCESS);
 	}
 	rotate(game);
@@ -62,6 +61,8 @@ static int	loop_keydown(int keycode, t_game *game)
 {
 	t_key_id	id;
 
+	if (keycode == 38)
+		game->window->redraw = TRUE;
 	if (keycode == KEY_ESC)
 	{
 		window_close(game->window);
