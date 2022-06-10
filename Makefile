@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/09 13:47:32 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/06/10 11:52:48 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME = cub3d
 
 RM = rm -rf
 MKDIR = mkdir -p
-UNAME_S := $(shell uname -s)
 
 LIBFT = libft
 SRC_DIR = src
@@ -22,22 +21,12 @@ OUT_DIR = out
 DEBUG_DIR = debug
 
 CC = clang
- WARNING = -Wall -Wextra -Werror
+WARNING = -Wall -Wextra -Werror
 CFLAGS = -O3
 CPPFLAGS = -I$(LIBFT) -Isrc
 LDFLAGS = -L$(LIBFT) -lft -lm
-ifeq ($(UNAME_S),Linux)
-	CPPFLAGS += -Iminilibx_linux
-	LDFLAGS += -Lminilibx_linux -lmlx -lXext -lX11
-	MINILIBX = minilibx_linux
-endif
-ifeq ($(UNAME_S),Darwin)
-	# CPPFLAGS += -I/usr/local/include
-	CPPFLAGS += -Iminilibx_darwin
-	# LDFLAGS += -L/usr/local/lib  -lmlx -framework OpenGL -framework AppKit -lz
-	LDFLAGS +=  -Lminilibx_darwin  -lmlx -framework OpenGL -framework AppKit -lz
-	MINILIBX = minilibx_darwin
-endif
+CPPFLAGS += -I/usr/local/include
+LDFLAGS += -L/usr/local/lib -lmlx
 
 SRCS = main.c \
 	utils/errors.c \
@@ -53,6 +42,7 @@ SRCS = main.c \
 	graphics/image.c \
 	graphics/draw.c \
 	graphics/raycaster.c \
+	graphics/raycaster_utils.c \
 	graphics/minimap.c \
 	graphics/render.c \
 	graphics/walls.c \
@@ -69,14 +59,11 @@ OBJS_DEBUG = $(addprefix $(DEBUG_DIR)/,$(SRCS_PATH:%.c=%.o))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
+$(NAME): $(OBJS) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT)/libft.a:
 	$(MAKE) CC=$(CC) -C $(LIBFT) bonus
-
-$(MINILIBX)/libmlx.a:
-	$(MAKE) CC=$(CC) -C $(MINILIBX)
 
 $(OUT_DIR)/%.o: %.c
 	$(MKDIR) $(@D)
@@ -90,8 +77,10 @@ $(DEBUG_DIR)/%.o: %.c
 bonus: $(NAME)
 
 .PHONY: debug debug_clean debug_fclean debug_re
-debug: CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
-debug: $(OBJS_DEBUG) $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
+debug: CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer \
+	-fno-optimize-sibling-calls
+debug: WARNING = -Wall -Wextra
+debug: $(OBJS_DEBUG) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS_DEBUG) $(LDFLAGS) -o $(NAME)_debug
 debug_clean:
 	$(RM) $(DEBUG_DIR)

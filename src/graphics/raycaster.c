@@ -3,179 +3,120 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
-/*   Updated: 2022/06/09 15:49:52 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/10 11:09:11 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <game/game.h>
-#include <graphics/draw.h>
+#include <config/map.h>
 #include <graphics/raycaster.h>
 #include <graphics/window.h>
 #include <utils/bool.h>
 #include <utils/vec.h>
 
-static t_bool	is_in_map(t_game *game, t_vec p)
+static t_ray	ray_vcheck(t_game *g, t_ray r, double o, double tr)
 {
-	int	x;
-	int	y;
-
-	x = (int)p.x >> 6;
-	y = (int)p.y >> 6;
-	if (x < 0 || y < 0)
-		return (FALSE);
-	if (y > game->config->map_height - 1)
-		return (FALSE);
-	if ((size_t)x > ft_strlen(game->config->map[y]) - 1)
-		return (FALSE);
-	return (TRUE);
-}
-
-static enum e_texture_type	is_blocking(t_game *game, t_vec p, enum e_ray_type type)
-{
-	int	x;
-	int	y;
-
-	x = (int)p.x >> 6;
-	y = (int)p.y >> 6;
-	if (x < 0 || y < 0 || !is_in_map(game, p))
-		return (T_WALL);
-	if (game->config->map[y][x] == '1' || game->config->map[y][x] == ' ')
-		return (T_WALL);
-	if ((game->config->map[y][x] == 'D'
-		|| game->config->map[y][x] == 'O')
-		&& game->config->map[y][x - 1] == '1'
-		&& game->config->map[y][x + 1] == '1'
-		&& type == HORIZONTAL)
+	while (raycaster_is_in_map(g, r.pos))
 	{
-		if (game->config->map[y][x] == 'O')
-		{
-			int mod = ((int)p.x) % 64;
-			if (((mod >= 0 && mod <= 8) || (mod >= 56 && mod <= 64)))
-				return (T_DOOR_OPEN);
-		}
-		else
-			return (T_DOOR_CLOSE);
-	}
-	if ((game->config->map[y][x] == 'D'
-		|| game->config->map[y][x] == 'O')
-		&& game->config->map[y + 1][x] == '1'
-		&& game->config->map[y - 1][x] == '1'
-		&& type == VERTICAL)
-	{
-		if (game->config->map[y][x] == 'O')
-		{
-			int mod = ((int)p.y) % 64;
-			if (((mod >= 0 && mod <= 8) || (mod >= 56 && mod <= 64)))
-				return (T_DOOR_OPEN);
-		}
-		else
-			return (T_DOOR_CLOSE);
-	}			
-	return (T_NONE);
-}
-
-static t_ray	ray_vertical(t_game *g, t_vec p, double ra, double tr)
-{
-	t_ray	r;
-	double	o;
-	double	oo;
-
-	if (cos(ra) > 0.001)
-	{
-		r.position.x = (((int)p.x >> 6) << 6) + 64;
-		r.position.y = (p.x - r.position.x) * tr + p.y;
-		o = 64;
-	}
-	else if (cos(ra) < -0.001)
-	{
-		r.position.x = (((int)p.x >> 6) << 6) - 0.0001;
-		r.position.y = (p.x - r.position.x) * tr + p.y;
-		o = -64;
-	}
-	else
-		return ((t_ray){-1, (t_vec){-1, -1}, VERTICAL, T_NONE});
-	while (is_in_map(g, r.position))
-	{		
-		if (cos(ra) > 0.001)
-			oo = 32;
-		else if (cos(ra) < -0.001)
-			oo = -32;
-		if (is_blocking(g, r.position, VERTICAL) == T_WALL)
-			return ((t_ray){0, r.position, VERTICAL, T_WALL});
+		if (raycaster_get_elem(g, r.pos, VERTICAL) == T_WALL)
+			return ((t_ray){0, r.pos, VERTICAL, T_WALL});
 		else
 		{
-			r.texture = is_blocking(g, (t_vec){r.position.x + oo, r.position.y + (-oo * tr)}, VERTICAL);
+			r.texture = raycaster_get_elem(g, (t_vec){r.pos.x + ((int)o >> 1),
+					r.pos.y + (((int)-o >> 1) * tr)}, VERTICAL);
 			if (r.texture == T_DOOR_OPEN || r.texture == T_DOOR_CLOSE)
-				return ((t_ray){0, (t_vec){r.position.x + oo, r.position.y + (-oo * tr)}, VERTICAL, r.texture});
+				return ((t_ray){0, (t_vec){r.pos.x + ((int)o >> 1),
+					r.pos.y + (((int)-o >> 1) * tr)}, VERTICAL, r.texture});
 			else
-				r.position = (t_vec){.x = r.position.x + o, .y = r.position.y + (-o * tr)};
+				r.pos = (t_vec){r.pos.x + o, r.pos.y + (-o * tr)};
 		}
 	}
 	return ((t_ray){-1, (t_vec){-1, -1}, VERTICAL, T_NONE});
 }
 
-
-static t_ray	ray_horizontal(t_game *g, t_vec p, double ra, double tr)
+static t_ray	ray_vertical(t_game *g, t_vec rp, double rr, double tr)
 {
 	t_ray	r;
-	int		o;
-	double	oo;
+	double	o;
 
-	if (sin(ra) > 0.001)
+	if (cos(rr) > 0.001)
 	{
-		r.position.y = (((int)p.y >> 6) << 6) - 0.0001;
-		r.position.x = (p.y - r.position.y) * tr + p.x;
-		o = -64;
-	}
-	else if (sin(ra) < -0.001)
-	{
-		r.position.y = (((int)p.y >> 6) << 6) + 64;
-		r.position.x = (p.y - r.position.y) * tr + p.x;
+		r.pos.x = (((int)rp.x >> 6) << 6) + 64;
 		o = 64;
 	}
+	else if (cos(rr) < -0.001)
+	{
+		r.pos.x = (((int)rp.x >> 6) << 6) - 0.0001;
+		o = -64;
+	}
 	else
-		return ((t_ray){-1, (t_vec){-1, -1}, HORIZONTAL, T_NONE});
-	while (is_in_map(g, r.position))
-	{	
-		if (sin(ra) > 0.001)
-				oo = -32;
-		else if (sin(ra) < -0.001)
-				oo = 32;
-		if (is_blocking(g, r.position, HORIZONTAL) == T_WALL)
-			return ((t_ray){0, r.position, HORIZONTAL, T_WALL});
-		else 
+		return ((t_ray){-1, (t_vec){-1, -1}, VERTICAL, T_NONE});
+	r.pos.y = (rp.x - r.pos.x) * tr + rp.y;
+	return (ray_vcheck(g, r, o, tr));
+}
+
+static t_ray	ray_hcheck(t_game *g, t_ray r, double o, double tr)
+{
+	while (raycaster_is_in_map(g, r.pos))
+	{
+		if (raycaster_get_elem(g, r.pos, HORIZONTAL) == T_WALL)
+			return ((t_ray){0, r.pos, HORIZONTAL, T_WALL});
+		else
 		{
-			r.texture = is_blocking(g, (t_vec){r.position.x + (-oo * tr), r.position.y + oo}, HORIZONTAL);
+			r.texture = raycaster_get_elem(g, (t_vec){r.pos.x + (((int)(-o)
+							>> 1) * tr), r.pos.y + ((int)o >> 1)}, HORIZONTAL);
 			if (r.texture == T_DOOR_OPEN || r.texture == T_DOOR_CLOSE)
-				return ((t_ray){0, (t_vec){r.position.x + (-oo * tr), r.position.y + oo}, HORIZONTAL, r.texture});
+				return ((t_ray){0, (t_vec){r.pos.x + (((int)(-o) >> 1) * tr),
+					r.pos.y + ((int)o >> 1)}, HORIZONTAL, r.texture});
 			else
-				r.position = (t_vec){.x = r.position.x + (-o * tr), .y = r.position.y + o};
-		}	
+				r.pos = (t_vec){r.pos.x + (-o * tr), r.pos.y + o};
+		}
 	}
 	return ((t_ray){-1, (t_vec){-1, -1}, HORIZONTAL, T_NONE});
 }
 
-t_ray	raycaster(t_game *game, double r)
+static t_ray	ray_horizontal(t_game *g, t_vec rp, double rr, double tr)
+{
+	t_ray	r;
+	int		o;
+
+	if (sin(rr) > 0.001)
+	{
+		r.pos.y = (((int)rp.y >> 6) << 6) - 0.0001;
+		o = -64;
+	}
+	else if (sin(rr) < -0.001)
+	{
+		r.pos.y = (((int)rp.y >> 6) << 6) + 64;
+		o = 64;
+	}
+	else
+		return ((t_ray){-1, (t_vec){-1, -1}, HORIZONTAL, T_NONE});
+	r.pos.x = (rp.y - r.pos.y) * tr + rp.x;
+	return (ray_hcheck(g, r, o, tr));
+}
+
+t_ray	raycaster(t_game *game, double rr)
 {
 	double	tr;
 	t_ray	rv;
 	t_ray	rh;
 
-	tr = tan(r);
-	rv = ray_vertical(game, game->player->position, r, tr);
-	if (rv.position.x != -1 && rv.position.y != -1)
-		rv.lenght = (cos(r) * (rv.position.x - game->player->position.x)
-				- sin(r) * (rv.position.y - game->player->position.y));
+	tr = tan(rr);
+	rv = ray_vertical(game, game->player->position, rr, tr);
+	if (rv.pos.x != -1 && rv.pos.y != -1)
+		rv.lenght = (cos(rr) * (rv.pos.x - game->player->position.x)
+				- sin(rr) * (rv.pos.y - game->player->position.y));
 	else
 		rv.lenght = 1e30;
-	rh = ray_horizontal(game, game->player->position, r, 1. / tr);
-	if (rh.position.x != -1 && rh.position.y != -1)
-		rh.lenght = (cos(r) * (rh.position.x - game->player->position.x)
-				- sin(r) * (rh.position.y - game->player->position.y));
+	rh = ray_horizontal(game, game->player->position, rr, 1. / tr);
+	if (rh.pos.x != -1 && rh.pos.y != -1)
+		rh.lenght = (cos(rr) * (rh.pos.x - game->player->position.x)
+				- sin(rr) * (rh.pos.y - game->player->position.y));
 	else
 		rh.lenght = 1e30;
 	if (rv.lenght < rh.lenght)

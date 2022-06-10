@@ -6,17 +6,18 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 14:55:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/09 21:38:33 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 10:01:37 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <libft.h>
+#include <game/game.h>
 #include <graphics/image.h>
 #include <graphics/window.h>
 #include <utils/vec.h>
 
-void	image_draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
+void	image_draw_rectangle(t_window *win, t_vec coord, t_vec size, int color)
 {
 	t_vec	i;
 
@@ -26,7 +27,7 @@ void	image_draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
 		i.x = 0;
 		while (i.x < size.x)
 		{
-			image_put_pixel(game->window->img,
+			image_put_pixel(win,
 				(t_vec){(int)(coord.x + i.x), (int)(coord.y + i.y)}, color);
 			i.x++;
 		}
@@ -34,18 +35,18 @@ void	image_draw_rectangle(t_game *game, t_vec coord, t_vec size, int color)
 	}
 }
 
-void	image_put_pixel(t_image *img, t_vec coord, unsigned int color)
+void	image_put_pixel(t_window *window, t_vec coord, unsigned int color)
 {
 	char	*pixel;
 
-	if (color == 0xFF000000)
+	if (color >= 0x01000000)
 		return ;
 	if (coord.x >= 0 && coord.y >= 0
 		&& coord.x < WINDOW_WIDTH && coord.y < WINDOW_HEIGHT)
 	{
-		pixel = img->addr
-			+ (int)(coord.y * img->line_length + coord.x
-				* (int)(img->bits_per_pixel / 8));
+		pixel = window->buf_img->addr
+			+ (int)(coord.y * window->buf_img->line_length + coord.x
+				* (int)(window->buf_img->bits_per_pixel / 8));
 		if (pixel)
 			*(unsigned int *)pixel = color;
 	}

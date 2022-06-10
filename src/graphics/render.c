@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/08 00:06:44 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/10 11:38:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics/image.h"
 #include "graphics/color.h"
 #include <math.h>
-#include <graphics/draw.h>
 #include <graphics/render.h>
 #include <graphics/walls.h>
 
@@ -28,7 +27,7 @@ static void	floor_draw(t_game *game)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			image_put_pixel(game->window->img, (t_vec){x, y},
+			image_put_pixel(game->window, (t_vec){x, y},
 				color_shade(game->config->colors[FLOOR],
 					abs(y - WINDOW_HEIGHT) / 6));
 			x++;
@@ -48,9 +47,9 @@ static void	ceiling_draw(t_game *game)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			image_put_pixel(game->window->img, (t_vec){x, y},
+			image_put_pixel(game->window, (t_vec){x, y},
 				color_shade(game->config->colors[CEILING],
-					abs(y / 12)));
+					abs(y / 6)));
 			x++;
 		}
 		y++;
@@ -61,7 +60,6 @@ static void	walls_draw_wall(t_game *game, double ray_r, int n)
 {
 	t_ray	ray;
 	double	fixed;
-	int		wall_height;
 
 	ray = raycaster(game, ray_r);
 	fixed = game->player->direction - ray_r;
@@ -70,8 +68,7 @@ static void	walls_draw_wall(t_game *game, double ray_r, int n)
 	else if (fixed < 0)
 		fixed += M_PI * 2;
 	ray.lenght *= cos(fixed);
-	wall_height = (64 * 1920) / ray.lenght;
-	walls_draw_texture(game, &ray, n, wall_height);
+	walls_draw_texture(game, &ray, n);
 }
 
 void	render(t_game *game)
