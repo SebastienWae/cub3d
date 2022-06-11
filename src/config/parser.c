@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 13:32:36 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:54:24 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_bool	parse_map_handlers(t_game *game, size_t c[2], t_bool s[2])
 
 	curr = game->config->map[c[HEIGHT]][c[WIDTH]];
 	if (game->config->map_height - 1 == c[HEIGHT]
-		&& (curr != ' ' || curr != '1' || !game->player))
+		&& ((curr != ' ' && curr != '1') || !game->player))
 		return (FALSE);
 	if (curr == ' ')
 		return (map_space_handler(game, c, s));

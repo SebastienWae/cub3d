@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 13:38:36 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:56:35 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static	t_vec	walls_get_scale(t_ray *ray, t_texture *t, int height)
 		block_width = 1;
 	if (ray->type == HORIZONTAL)
 		scale.x = (int)(ray->pos.x * block_width) % (t->width);
-	else if (ray->type == VERTICAL)
+	else
 		scale.x = (int)(ray->pos.y * block_width) % (t->width);
 	scale.y = (double)height / t->height;
 	if (scale.y < 0.0001)
