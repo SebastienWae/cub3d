@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:27:17 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:43:46 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ t_bool	parse_map(t_game *game)
 	map_normalize(game);
 	i[HEIGHT] = 0;
 	state[PLAYER] = FALSE;
-	while (i[HEIGHT] < game->config->map_height - 1)
+	while (i[HEIGHT] < game->config->map_height)
 	{
 		i[WIDTH] = 0;
 		state[IN_WALL] = FALSE;
-		while (i[WIDTH] < game->config->map_width - 1)
+		while (i[WIDTH] < game->config->map_width)
 		{
 			if (!parse_map_handlers(game, i, state))
 			{
