@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 14:09:32 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:18:14 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	walls_draw_slice(t_game *game, int n, t_ray *ray, t_texture *t)
 	{
 		color = image_get_pixel(t->img, (t_vec){(int)scale.x,
 				(int)(i / scale.y)}, t->width, t->height);
-		color = color_shade(color, ray->lenght / 3);
+		color = color_shade(color, ray->lenght / 4);
 		if (zz + i > 0)
 			image_put_pixel(game->window, (t_vec){n, zz + i}, color);
 		i++;
