@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:21:07 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:24:09 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:53:21 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ enum {
 	IN_WALL,
 	PLAYER
 };
-
-typedef enum e_parser_state
-{
-	CP_S_TEXTURES = 1,
-	CP_S_COLORS,
-	CP_S_MAP,
-	CP_S_DONE,
-	CP_S_ERROR
-}	t_parser_state;
 
 t_bool	parse_config_file(int fd, t_game *game);
 t_bool	parse_map(t_game *game);

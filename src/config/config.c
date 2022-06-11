@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:09:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:43:17 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,11 @@ t_config	*config_constructor(void)
 	config = ft_calloc(1, sizeof(t_config));
 	if (!config)
 		return (NULL);
+	config->walls_txt[0] = NULL;
+	config->walls_txt[1] = NULL;
+	config->walls_txt[2] = NULL;
+	config->walls_txt[3] = NULL;
+	config->doors_txt[0] = NULL;
+	config->doors_txt[1] = NULL;
 	return (config);
 }

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 15:10:46 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/30 17:19:44 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 15:08:11 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <utils/bool.h>
 
 int	array_size(void **array)
@@ -20,6 +21,20 @@ int	array_size(void **array)
 	while (array[i])
 		i++;
 	return (i);
+}
+
+int	is_in_array(char **array, int lenght, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (i < lenght)
+	{
+		if (ft_strncmp(array[i], str, ft_strlen(array[i])) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 static t_bool	is_whitespace(char c)

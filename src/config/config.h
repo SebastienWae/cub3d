@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 21:51:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 13:34:43 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:37:49 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ enum	e_textures
 {
 	NORTH,
 	SOUTH,
-	EAST,
 	WEST,
-	ARROW
+	EAST,
 };
 
 enum	e_colors
@@ -41,7 +40,7 @@ typedef struct s_config
 	char	**map;
 	double	map_height;
 	double	map_width;
-	void	*walls_txt[5];
+	void	*walls_txt[4];
 	void	*doors_txt[2];
 	void	*player_txt;
 	int		colors[2];

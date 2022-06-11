@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:44:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:55:39 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,63 @@
 #include <config/parser.h>
 #include <config/color.h>
 #include <config/texture.h>
+#include <config/config.h>
 #include <config/map.h>
 #include <utils/strings.h>
 #include <utils/errors.h>
 #include <utils/bool.h>
 #include <utils/vec.h>
 
-static void	parse_config_err(char *line)
+t_bool	parse_config_line(char *line, t_game *game)
 {
-	error_msg("Config file error at line: '", ADD_NO_NL);
-	error_msg(line, ADD_NO_NL);
-	error_msg("'", ADD);
-	free(line);
+	t_bool	result;
+
+	result = FALSE;
+	if (game->config->colors[FLOOR] && game->config->colors[CEILING]
+		&& game->config->walls_txt[NORTH] && game->config->walls_txt[SOUTH]
+		&& game->config->walls_txt[WEST] && game->config->walls_txt[EAST])
+	{
+		if (map_handler(game, line))
+			result = TRUE;
+	}
+	else
+	{
+		if (is_empty(line))
+			result = TRUE;
+		else
+		{
+			if (texture_handler(line, game))
+				result = TRUE;
+			if (!result && color_handler(line, game))
+				result = TRUE;
+		}
+	}
+	return (result);
 }
 
 t_bool	parse_config_file(int fd, t_game *game)
 {
-	int				config_index;
-	t_parser_state	state;
-	char			*line;
+	int		config_index;
+	char	*line;
 
 	config_index = 0;
-	state = CP_S_TEXTURES;
 	line = get_next_line(fd);
-	while (line && state != CP_S_DONE)
+	while (line)
 	{
-		if (state == CP_S_TEXTURES)
-			state = texture_handler(game, line, &config_index);
-		else if (state == CP_S_COLORS)
-			state = color_handler(game, line, &config_index);
-		else
-			state = map_handler(game, line, &config_index);
-		if (state == CP_S_ERROR)
+		if (parse_config_line(line, game))
 		{
-			parse_config_err(line);
+			free(line);
+			line = get_next_line(fd);
+		}
+		else
+		{
+			error_msg("Config file error at line: ", ADD_NO_NL);
+			error_msg(ft_itoa(config_index + 1), ADD);
+			error_msg(line, ADD);
+			free(line);
 			return (FALSE);
 		}
-		free(line);
-		line = get_next_line(fd);
+		config_index++;
 	}
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:06:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 10:56:02 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 15:55:20 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define MAP_H
 
 # include <game/game.h>
-# include <config/parser.h>
+# include <utils/bool.h>
 
-t_parser_state	map_handler(t_game *game, char *line, int *i);
-void			map_normalize(t_game *game);
+t_bool	map_handler(t_game *game, char *line);
+void	map_normalize(t_game *game);
 
 #endif

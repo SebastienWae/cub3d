@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/06/11 14:26:44 by swaegene         ###   ########.fr        #
+#    Updated: 2022/06/11 15:26:55 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ bonus: $(OBJS_BONUS) $(LIBFT)/libft.a
 .PHONY: debug debug_clean debug_fclean debug_re
 debug: CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer \
 	-fno-optimize-sibling-calls
+#debug: CFLAGS = -g3
 debug: WARNING = -Wall -Wextra
 debug: $(OBJS_DEBUG) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS_DEBUG) $(LDFLAGS) -o $(NAME)_debug

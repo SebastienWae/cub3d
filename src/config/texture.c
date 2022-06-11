@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 14:06:46 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:38:57 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <config/texture.h>
 #include <utils/strings.h>
 #include <utils/errors.h>
+#include <utils/bool.h>
 #include <graphics/image.h>
 
 t_bool	texture_open_images(t_game *g)
@@ -98,29 +99,21 @@ void	*texture_constructor(char *line, t_game *game)
 	}
 }
 
-t_parser_state	texture_handler(t_game *game, char *line, int *i)
+t_bool	texture_handler(char *line, t_game *game)
 {
-	int			t_index;
-	static char	*identifiers[4] = {"NO ", "SO ", "WE ", "EA "};
+	int			id;
+	static char	*txt_ids[4] = {"NO ", "SO ", "WE ", "EA "};
 
-	t_index = *i;
-	if (is_empty(line))
-		return (CP_S_TEXTURES);
-	else if (t_index >= 0 && t_index <= 4)
+	id = is_in_array(txt_ids, 4, line);
+	if (id >= 0)
 	{
-		(*i)++;
-		if (ft_strncmp(identifiers[t_index], line, 3) == 0)
-		{
-			game->config->walls_txt[t_index] = texture_constructor(line, game);
-			if (!game->config->walls_txt[t_index])
-				return (CP_S_ERROR);
-			if (t_index == 3)
-				return (CP_S_COLORS);
-			return (CP_S_TEXTURES);
-		}
-		else
-			return (CP_S_ERROR);
+		if (game->config->walls_txt[id])
+			return (FALSE);
+		game->config->walls_txt[id] = texture_constructor(line, game);
+		if (!game->config->walls_txt[id])
+			return (FALSE);
+		return (TRUE);
 	}
 	else
-		return (CP_S_ERROR);
+		return (FALSE);
 }

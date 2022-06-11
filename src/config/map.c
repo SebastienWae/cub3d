@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:28:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 14:08:14 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:55:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,24 +71,24 @@ static void	map_append(t_config *config, char *line, int i)
 	config->map_height++;
 }
 
-t_parser_state	map_handler(t_game *game, char *line, int *i)
+t_bool	map_handler(t_game *game, char *line)
 {
+	static int	map_h;
+
 	if (is_empty(line) || ft_strlen(line) < 1)
 	{
 		if (!game->config->map)
-			return (CP_S_MAP);
+			return (TRUE);
 		else
-			return (CP_S_ERROR);
-	}
-	else if (*i >= 6)
-	{
-		map_append(game->config, line, *i - 6);
-		(*i)++;
-		if (game->config->map)
-			return (CP_S_MAP);
-		else
-			return (CP_S_ERROR);
+			return (FALSE);
 	}
 	else
-		return (CP_S_ERROR);
+	{
+		map_append(game->config, line, map_h);
+		map_h++;
+		if (game->config->map)
+			return (TRUE);
+		else
+			return (FALSE);
+	}
 }

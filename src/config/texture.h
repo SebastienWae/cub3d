@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:05:28 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 14:08:09 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:18:41 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef struct s_texture {
 	int		height;
 }	t_texture;
 
-t_parser_state	texture_handler(t_game *game, char *line, int *i);
-void			*texture_constructor(char *line, t_game *game);
-t_bool			texture_open_images(t_game *g);
+void	*texture_constructor(char *line, t_game *game);
+t_bool	texture_open_images(t_game *g);
+t_bool	texture_handler(char *line, t_game *game);
 
 #endif
