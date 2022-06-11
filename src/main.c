@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:19 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 16:13:03 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 17:17:21 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ int	main(int argc, char **argv)
 	else
 		error_msg("Too many arguments", ADD);
 	error_msg(NULL, FLUSH);
+	return (1);
 }

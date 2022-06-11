@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:00:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 15:25:46 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:26:38 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ t_bool	color_handler(char *line, t_game *game)
 			return (FALSE);
 		game->config->colors[id] = color_constructor(line);
 		if (!game->config->colors[id])
+			return (FALSE);
+		if (game->config->colors[id] == -1)
 			return (FALSE);
 		return (TRUE);
 	}

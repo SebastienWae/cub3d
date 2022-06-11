@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 15:55:39 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:41:32 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ t_bool	parse_config_file(int fd, t_game *game)
 		{
 			error_msg("Config file error at line: ", ADD_NO_NL);
 			error_msg(ft_itoa(config_index + 1), ADD);
-			error_msg(line, ADD);
+			if (line[0] != '\n')
+				error_msg(line, ADD_NO_NL);
 			free(line);
 			return (FALSE);
 		}

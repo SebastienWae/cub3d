@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 15:25:23 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:42:05 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,43 @@
 #include <utils/bool.h>
 #include <utils/vec.h>
 
-t_bool	parse_config_line(char *line, t_game *game, t_bool *done)
+t_bool	parse_config_line(char *line, t_game *game)
 {
-	if (texture_handler(line, game))
-		return (TRUE);
-	if (color_handler(line, game))
-		return (TRUE);
+	t_bool	result;
+
+	result = FALSE;
 	if (game->config->colors[FLOOR] && game->config->colors[CEILING]
 		&& game->config->walls_txt[NORTH] && game->config->walls_txt[SOUTH]
 		&& game->config->walls_txt[WEST] && game->config->walls_txt[EAST])
 	{
-		*done = TRUE;
-		return (TRUE);
+		if (map_handler(game, line))
+			result = TRUE;
 	}
-	return (FALSE);
+	else
+	{
+		if (is_empty(line))
+			result = TRUE;
+		else
+		{
+			if (texture_handler(line, game))
+				result = TRUE;
+			if (!result && color_handler(line, game))
+				result = TRUE;
+		}
+	}
+	return (result);
 }
 
 t_bool	parse_config_file(int fd, t_game *game)
 {
 	int		config_index;
 	char	*line;
-	t_bool	done;
 
 	config_index = 0;
 	line = get_next_line(fd);
-	done = FALSE;
-	while (line && !done)
+	while (line)
 	{
-		if (is_empty(line) || parse_config_line(line, game, &done))
+		if (parse_config_line(line, game))
 		{
 			free(line);
 			line = get_next_line(fd);
@@ -58,7 +67,8 @@ t_bool	parse_config_file(int fd, t_game *game)
 		{
 			error_msg("Config file error at line: ", ADD_NO_NL);
 			error_msg(ft_itoa(config_index + 1), ADD);
-			error_msg(line, ADD);
+			if (line[0] != '\n')
+				error_msg(line, ADD_NO_NL);
 			free(line);
 			return (FALSE);
 		}

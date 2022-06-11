@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:05:43 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 17:09:42 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,12 @@ static t_bool	game_get_config(char *config_file_path, t_game *game)
 		{
 			result = parse_config_file(fd, game);
 			close(fd);
+			if (!game->config->map)
+				return (FALSE);
 			return (result);
 		}
 		else
-			error_msg(strerror(errno), ADD_NO_NL);
+			error_msg(strerror(errno), ADD);
 	}
 	else
 		error_msg("Config file name is invalid", ADD);
