@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:45:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:14:00 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:19:27 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <utils/bool.h>
 # include <utils/vec.h>
 
-# define PLAYER_MINIMAP_TEXTURE "./assets/curtain.xpm"
+# define PLAYER_MINIMAP_TEXTURE "./assets/arrow.xpm"
 # define DOOR_CLOSE_TEXTURE "./assets/curtain.xpm"
 # define DOOR_OPEN_TEXTURE "./assets/curtain_open.xpm"
 
