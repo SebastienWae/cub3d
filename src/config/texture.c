@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 14:07:56 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:47:40 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_bool	texture_open_images(t_game *g)
 	if (g->config->doors_txt[DOOR_OPEN] && g->config->doors_txt[DOOR_CLOSE]
 		&& g->config->player_txt)
 		return (TRUE);
+	error_msg("Error loading assets", ADD);
 	return (FALSE);
 }
 

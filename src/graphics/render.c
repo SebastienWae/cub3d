@@ -6,20 +6,22 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/10 18:43:26 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 12:57:30 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics/image.h"
 #include "graphics/color.h"
-#include <math.h>
+#include "graphics/image.h"
+#include <graphics/minimap.h>
 #include <graphics/render.h>
 #include <graphics/walls.h>
+#include <math.h>
 
 static void	floor_draw(t_game *game)
 {
-	int	x;
-	int	y;
+	int				x;
+	int				y;
+	unsigned int	color;
 
 	y = WINDOW_HEIGHT >> 1;
 	while (y < WINDOW_HEIGHT)
@@ -27,9 +29,9 @@ static void	floor_draw(t_game *game)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			image_put_pixel(game->window, (t_vec){x, y},
-				color_shade(game->config->colors[FLOOR],
-					abs(y - WINDOW_HEIGHT) / 6));
+			color = color_shade(game->config->colors[FLOOR],
+					abs(y - WINDOW_HEIGHT) / 6);
+			image_put_pixel(game->window, (t_vec){x, y}, color);
 			x++;
 		}
 		y++;
@@ -38,8 +40,9 @@ static void	floor_draw(t_game *game)
 
 static void	ceiling_draw(t_game *game)
 {
-	int	x;
-	int	y;
+	int				x;
+	int				y;
+	unsigned int	color;
 
 	y = 0;
 	while (y < WINDOW_HEIGHT >> 1)
@@ -47,9 +50,8 @@ static void	ceiling_draw(t_game *game)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			image_put_pixel(game->window, (t_vec){x, y},
-				color_shade(game->config->colors[CEILING],
-					abs(y / 6)));
+			color = color_shade(game->config->colors[CEILING], abs(y / 6));
+			image_put_pixel(game->window, (t_vec){x, y}, color);
 			x++;
 		}
 		y++;
@@ -63,10 +65,6 @@ static void	walls_draw_wall(t_game *game, double ray_r, int n)
 
 	ray = raycaster(game, ray_r);
 	fixed = game->player->direction - ray_r;
-	if (fixed > M_PI * 2)
-		fixed -= M_PI * 2;
-	else if (fixed < 0)
-		fixed += M_PI * 2;
 	ray.lenght *= cos(fixed);
 	walls_draw_texture(game, &ray, n);
 }
@@ -80,14 +78,12 @@ void	render(t_game *game)
 	floor_draw(game);
 	w = 0;
 	ray_r = game->player->direction + (M_PI / 6);
-	if (ray_r > M_PI * 2)
-		ray_r -= M_PI * 2;
 	while (w < WINDOW_WIDTH)
-	{		
+	{
 		walls_draw_wall(game, ray_r, w);
-		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-		if (ray_r < 0)
-			ray_r += M_PI * 2;
+		ray_r = game->player->direction - atan((w - ((double)WINDOW_WIDTH / 2))
+				/ (((double)WINDOW_WIDTH / 2) / tan(M_PI / 6.)));
 		w++;
 	}
+	minimap_draw(game);
 }

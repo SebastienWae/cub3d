@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:37:02 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 18:53:16 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:23:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ t_bool	map_zero_handler(t_game *game, size_t c[2], t_bool s[2])
 	else if (game->config->map[c[HEIGHT] - 1][c[WIDTH]] == ' '
 		|| game->config->map[c[HEIGHT] + 1][c[WIDTH]] == ' ')
 		return (FALSE);
+	else if (game->config->map[c[HEIGHT]][c[WIDTH] - 1] == ' '
+		|| game->config->map[c[HEIGHT]][c[WIDTH] + 1] == ' ')
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -88,6 +91,9 @@ t_bool	map_player_handler(t_game *game, size_t c[2], t_bool s[2])
 	else if (game->config->map[c[HEIGHT] - 1][c[WIDTH]] == ' '
 		|| game->config->map[c[HEIGHT] + 1][c[WIDTH]] == ' ')
 		return (FALSE);
+	else if (game->config->map[c[HEIGHT]][c[WIDTH] - 1] == ' '
+		|| game->config->map[c[HEIGHT]][c[WIDTH] + 1] == ' ')
+		return (FALSE);
 	parse_player(game, c);
 	return (TRUE);
 }
@@ -99,7 +105,6 @@ return false when:
 - next to nothing
 - next to space
 */
-// TODO: check door is in wall
 // TODO: disable if not in bonus
 t_bool	map_door_handler(t_game *game, size_t c[2], t_bool s[2])
 {
@@ -110,8 +115,10 @@ t_bool	map_door_handler(t_game *game, size_t c[2], t_bool s[2])
 		return (FALSE);
 	else if (!s[IN_WALL])
 		return (FALSE);
-	else if (game->config->map[c[HEIGHT] - 1][c[WIDTH]] == ' '
-		|| game->config->map[c[HEIGHT] + 1][c[WIDTH]] == ' ')
+	else if ((game->config->map[c[HEIGHT] - 1][c[WIDTH]] != '1'
+		|| game->config->map[c[HEIGHT] + 1][c[WIDTH]] != '1')
+		&& (game->config->map[c[HEIGHT]][c[WIDTH] - 1] != '1'
+		|| game->config->map[c[HEIGHT]][c[WIDTH] + 1] != '1'))
 		return (FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 13:29:43 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:32:36 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,9 @@ t_bool	parse_map(t_game *game)
 			if (!parse_map_handlers(game, i, state))
 			{
 				error_msg("Map error at line: ", ADD_NO_NL);
-				error_msg(ft_itoa(i[HEIGHT] + 1), ADD);
-				error_msg(game->config->map[i[HEIGHT]], ADD);
+				error_msg(ft_itoa(i[HEIGHT] + 1), ADD_NO_NL);
+				error_msg(" col: ", ADD_NO_NL);
+				error_msg(ft_itoa(i[WIDTH] + 1), ADD);
 				return (FALSE);
 			}
 			i[WIDTH]++;

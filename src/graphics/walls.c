@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 18:45:07 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:38:36 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	walls_draw_texture(t_game *game, t_ray *ray, int n)
 		else if (ray->type == HORIZONTAL)
 			texture = game->config->walls_txt[SOUTH];
 		else if (ray->type == VERTICAL && ray->pos.x < game->player->position.x)
-			texture = game->config->walls_txt[WEST];
-		else
 			texture = game->config->walls_txt[EAST];
+		else
+			texture = game->config->walls_txt[WEST];
 	}
 	walls_draw_slice(game, n, ray, texture);
 }

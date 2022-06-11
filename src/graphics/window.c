@@ -6,13 +6,12 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:11:41 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 16:13:23 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:34:33 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <libft.h>
-#include <stdlib.h>
 #include <graphics/window.h>
 #include <graphics/image.h>
 

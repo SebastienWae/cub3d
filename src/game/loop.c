@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 18:54:03 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:33:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static int	loop_keydown(int keycode, t_game *game)
 {
 	t_key_id	id;
 
-	if (keycode == 38)
-		game->window->redraw = TRUE;
 	if (keycode == KEY_ESC)
 	{
 		window_close(game->window);
@@ -95,6 +93,7 @@ void	loop_start(t_game *game)
 {	
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keydown, game);
+	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
 	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);

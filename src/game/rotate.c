@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:16:03 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 09:36:44 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 13:10:31 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	rotate_mouse(t_game *game)
 		if (mx < 4 * WINDOW_WIDTH / 9)
 		{
 			game->player->direction += fabs(mx
-					- (4 * (double)WINDOW_WIDTH / 9)) / 10000;
+					- (4 * (double)WINDOW_WIDTH / 9)) / 20000;
 			if (game->player->direction > M_PI * 2)
 				game->player->direction -= M_PI * 2;
 			game->window->redraw = TRUE;
@@ -56,7 +56,7 @@ static void	rotate_mouse(t_game *game)
 		else if (mx > 5 * WINDOW_WIDTH / 9)
 		{
 			game->player->direction -= (mx
-					- (5 * (double)WINDOW_WIDTH / 9)) / 10000;
+					- (5 * (double)WINDOW_WIDTH / 9)) / 20000;
 			if (game->player->direction < 0)
 				game->player->direction += M_PI * 2;
 			game->window->redraw = TRUE;

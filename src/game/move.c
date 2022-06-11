@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 13:39:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/10 18:52:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 13:11:38 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static t_vec	move_up(t_game *game, t_vec new_pos)
 	if (game->config->map[mapy][colx] != '1'
 		&& game->config->map[mapy][colx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.x += game->player->delta.x * 4;
+		new_pos.x += game->player->delta.x * 2;
 	if (game->config->map[coly][mapx] != '1'
 		&& game->config->map[coly][mapx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.y += game->player->delta.y * 4;
+		new_pos.y += game->player->delta.y * 2;
 	return (new_pos);
 }
 
@@ -58,11 +58,11 @@ static t_vec	move_down(t_game *game, t_vec new_pos)
 	if (game->config->map[mapy][colx] != '1'
 		&& game->config->map[mapy][colx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.x -= game->player->delta.x * 4;
+		new_pos.x -= game->player->delta.x * 2;
 	if (game->config->map[coly][mapx] != '1'
 		&& game->config->map[coly][mapx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.y -= game->player->delta.y * 4;
+		new_pos.y -= game->player->delta.y * 2;
 	return (new_pos);
 }
 
@@ -82,11 +82,11 @@ static t_vec	move_left(t_game *game, t_vec new_pos)
 	if (game->config->map[mapy][colx] != '1'
 		&& game->config->map[mapy][colx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.x += game->player->delta.y * 3;
+		new_pos.x += game->player->delta.y * 2;
 	if (game->config->map[coly][mapx] != '1'
 		&& game->config->map[coly][mapx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.y -= game->player->delta.x * 3;
+		new_pos.y -= game->player->delta.x * 2;
 	return (new_pos);
 }
 
@@ -106,11 +106,11 @@ static t_vec	move_right(t_game *game, t_vec new_pos)
 	if (game->config->map[mapy][colx] != '1'
 		&& game->config->map[mapy][colx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.x -= game->player->delta.y * 3;
+		new_pos.x -= game->player->delta.y * 2;
 	if (game->config->map[coly][mapx] != '1'
 		&& game->config->map[coly][mapx] != 'D'
 		&& ray.lenght > 32)
-		new_pos.y += game->player->delta.x * 3;
+		new_pos.y += game->player->delta.x * 2;
 	return (new_pos);
 }
 
