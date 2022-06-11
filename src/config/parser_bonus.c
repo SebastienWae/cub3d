@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 14:27:19 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:27:17 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_bool	parse_config_file(int fd, t_game *game)
 	return (TRUE);
 }
 
-t_bool	parse_map_handlers(t_game *game, size_t c[2], t_bool s[2])
+static t_bool	parse_map_handlers(t_game *game, size_t c[2], t_bool s[2])
 {
 	char	curr;
 
@@ -76,6 +76,8 @@ t_bool	parse_map_handlers(t_game *game, size_t c[2], t_bool s[2])
 		return (map_zero_handler(game, c, s));
 	else if (curr == 'N' || curr == 'S' || curr == 'W' || curr == 'E')
 		return (map_player_handler(game, c, s));
+	else if (curr == 'D')
+		return (map_door_handler(game, c, s));
 	else
 		return (FALSE);
 }

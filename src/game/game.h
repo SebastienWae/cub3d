@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:45:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 13:48:08 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:14:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <utils/bool.h>
 # include <utils/vec.h>
 
-# define PLAYER_MINIMAP_TEXTURE "./assets/arrow.png"
+# define PLAYER_MINIMAP_TEXTURE "./assets/curtain.xpm"
 # define DOOR_CLOSE_TEXTURE "./assets/curtain.xpm"
 # define DOOR_OPEN_TEXTURE "./assets/curtain_open.xpm"
 
