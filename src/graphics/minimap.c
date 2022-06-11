@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 10:03:33 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 14:03:26 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <mlx.h>
 #include <math.h>
-#include <config/texture.h>
 #include <game/game.h>
+#include <config/texture.h>
 #include <graphics/image.h>
-#include <graphics/raycaster.h>
 #include <utils/vec.h>
 
 static t_vec	minimap_get_pixel(t_game *game, t_texture *texture, t_vec pos)

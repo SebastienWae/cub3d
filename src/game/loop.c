@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 13:33:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:04:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 #include <game/game.h>
 #include <game/movements.h>
 #include <game/door.h>
-#include <graphics/walls.h>
-#include <graphics/minimap.h>
 #include <graphics/render.h>
 #include <graphics/window.h>
-#include <graphics/image.h>
 #include <utils/bool.h>
 #include <utils/errors.h>
 

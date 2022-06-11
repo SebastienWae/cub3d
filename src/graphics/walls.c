@@ -6,19 +6,16 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 13:56:35 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:09:32 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config/config.h"
-#include "mlx.h"
-#include <math.h>
 #include <game/game.h>
-#include <graphics/image.h>
-#include <graphics/raycaster.h>
-#include <graphics/window.h>
-#include <graphics/color.h>
 #include <config/texture.h>
+#include <graphics/color.h>
+#include <graphics/image.h>
+#include <graphics/window.h>
+#include <graphics/raycaster.h>
 #include <utils/vec.h>
 
 static	t_vec	walls_get_scale(t_ray *ray, t_texture *t, int height)

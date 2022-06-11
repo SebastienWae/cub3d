@@ -6,22 +6,17 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:01:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 13:47:40 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:06:46 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config/config.h"
-#include "graphics/image.h"
-#include "utils/bool.h"
-#include <stdlib.h>
-#include <libft.h>
 #include <mlx.h>
 #include <game/game.h>
 #include <config/parser.h>
 #include <config/texture.h>
-#include <graphics/window.h>
 #include <utils/strings.h>
 #include <utils/errors.h>
+#include <graphics/image.h>
 
 t_bool	texture_open_images(t_game *g)
 {

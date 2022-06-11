@@ -6,16 +6,17 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/11 12:57:30 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:01:24 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics/color.h"
-#include "graphics/image.h"
-#include <graphics/minimap.h>
-#include <graphics/render.h>
-#include <graphics/walls.h>
 #include <math.h>
+#include <game/game.h>
+#include <graphics/window.h>
+#include <graphics/image.h>
+#include <graphics/color.h>
+#include <graphics/walls.h>
+#include <graphics/minimap.h>
 
 static void	floor_draw(t_game *game)
 {

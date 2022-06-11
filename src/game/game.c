@@ -6,26 +6,23 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 14:09:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:05:43 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <fcntl.h>
-#include <libft.h>
+#include <strings.h>
 #include <game/game.h>
 #include <game/player.h>
 #include <game/loop.h>
 #include <config/config.h>
 #include <config/map.h>
-#include <config/parser.h>
 #include <config/texture.h>
 #include <graphics/window.h>
 #include <graphics/image.h>
-
 #include <utils/bool.h>
 #include <utils/errors.h>
-#include <strings.h>
 
 void	game_destructor(t_game *game)
 {

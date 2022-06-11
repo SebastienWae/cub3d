@@ -6,16 +6,13 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:31:34 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 18:36:51 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:02:48 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <game/game.h>
-#include <config/map.h>
 #include <graphics/raycaster.h>
-#include <graphics/window.h>
-#include <utils/bool.h>
 #include <utils/vec.h>
 
 static t_ray	ray_vcheck(t_game *g, t_ray r, double o, double tr)

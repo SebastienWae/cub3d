@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:40:04 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/08 23:36:54 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/11 14:05:51 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <game/game.h>
-#include <graphics/raycaster.h>
 
 void	door_toggle(t_game *game)
 {

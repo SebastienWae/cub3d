@@ -6,17 +6,15 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:07:27 by seb               #+#    #+#             */
-/*   Updated: 2022/06/10 16:24:33 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:09:02 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <mlx.h>
-#include <math.h>
-#include <graphics/image.h>
-#include <config/config.h>
-#include <config/texture.h>
 #include <game/game.h>
+#include <graphics/image.h>
+#include <config/texture.h>
+#include <utils/bool.h>
 
 t_bool	config_check_file_name(char *config_file_path)
 {

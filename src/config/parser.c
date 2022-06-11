@@ -6,12 +6,10 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:19:23 by seb               #+#    #+#             */
-/*   Updated: 2022/06/11 13:54:24 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:07:37 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game/player.h"
-#include <libft.h>
 #include <math.h>
 #include <game/game.h>
 #include <config/parser.h>
