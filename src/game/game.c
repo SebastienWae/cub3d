@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:26:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/08 23:28:47 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/09 23:46:53 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static void	game_get_config(char *config_file_path, t_game *game)
 		player_destructor(game->player);
 		game->player = NULL;
 	}
-	game->config->textures[DOOR_CLOSE] = texture_constructor("./assets/door.xpm", game);
-	game->config->textures[DOOR_OPEN] = texture_constructor("./assets/door_open.xpm", game);
+	game->config->textures[DOOR_CLOSE] = texture_constructor("./assets/curtain.xpm", game);
+	game->config->textures[DOOR_OPEN] = texture_constructor("./assets/curtain_open.xpm", game);
 	if (!game->config->textures[DOOR_CLOSE] || !game->config->textures[DOOR_OPEN])
 	{
 		config_destructor(game->window, game->config);

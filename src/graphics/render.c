@@ -6,7 +6,7 @@
 /*   By: jenny <jenny@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:37:54 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/06/08 00:06:44 by jenny            ###   ########.fr       */
+/*   Updated: 2022/06/11 08:36:54 by jenny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ static void	walls_draw_wall(t_game *game, double ray_r, int n)
 
 	ray = raycaster(game, ray_r);
 	fixed = game->player->direction - ray_r;
-	if (fixed > M_PI * 2)
-		fixed -= M_PI * 2;
-	else if (fixed < 0)
-		fixed += M_PI * 2;
+	// if (fixed > M_PI * 2)
+	// 	fixed -= M_PI * 2;
+	// else if (fixed < 0)
+	// 	fixed += M_PI * 2;
 	ray.lenght *= cos(fixed);
+
 	wall_height = (64 * 1920) / ray.lenght;
 	walls_draw_texture(game, &ray, n, wall_height);
 }
@@ -82,15 +83,14 @@ void	render(t_game *game)
 	ceiling_draw(game);
 	floor_draw(game);
 	w = 0;
-	ray_r = game->player->direction + (M_PI / 6);
-	if (ray_r > M_PI * 2)
-		ray_r -= M_PI * 2;
+	// if (ray_r > M_PI * 2)
+	// 	ray_r -= M_PI * 2;
 	while (w < WINDOW_WIDTH)
 	{		
 		walls_draw_wall(game, ray_r, w);
-		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-		if (ray_r < 0)
-			ray_r += M_PI * 2;
+		ray_r = game->player->direction - atan((w -(WINDOW_WIDTH / 2 ))/((WINDOW_WIDTH/2) / tan(M_PI / 6.))); //ICI
+				// if (ray_r < 0)
+		// 	ray_r += M_PI * 2;
 		w++;
 	}
 }
