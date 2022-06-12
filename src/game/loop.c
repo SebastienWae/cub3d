@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:49:30 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 17:02:06 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 14:04:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <mlx.h>
 #include <game/game.h>
 #include <game/movements.h>
-#include <graphics/walls.h>
-#include <graphics/minimap.h>
+#include <game/door.h>
+#include <graphics/render.h>
 #include <graphics/window.h>
 #include <utils/bool.h>
+#include <utils/errors.h>
 
 static int	loop_hook(t_game *game)
 {
@@ -28,10 +30,8 @@ static int	loop_hook(t_game *game)
 	move(game);
 	if (game->window->redraw)
 	{
-		walls_draw(game);
-		minimap_draw(game);
-		mlx_put_image_to_window(game->window->mlx, game->window->win,
-			game->window->img->img, 0, 0);
+		render(game);
+		window_swap_image(game->window);
 		game->window->redraw = FALSE;
 	}
 	return (0);
@@ -59,7 +59,15 @@ static int	loop_keydown(int keycode, t_game *game)
 	t_key_id	id;
 
 	if (keycode == KEY_ESC)
+	{
 		window_close(game->window);
+		return (0);
+	}
+	if (keycode == KEY_SPACE)
+	{
+		door_toggle(game);
+		return (0);
+	}
 	id = get_key_id(keycode);
 	if (id != ERR_KEY)
 		game->window->active_keys[id] = TRUE;
@@ -82,6 +90,7 @@ void	loop_start(t_game *game)
 {	
 	mlx_hook(game->window->win, ON_DESTROY, 0, window_close, game->window);
 	mlx_hook(game->window->win, ON_KEYDOWN, (1L << 0), loop_keydown, game);
+	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
 	mlx_hook(game->window->win, ON_KEYUP, (1L << 1), loop_keyup, game);
 	mlx_loop_hook(game->window->mlx, loop_hook, game);
 	mlx_loop(game->window->mlx);

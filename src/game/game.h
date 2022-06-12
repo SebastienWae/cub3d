@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:45:49 by seb               #+#    #+#             */
-/*   Updated: 2022/06/03 14:51:46 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:19:27 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <utils/bool.h>
 # include <utils/vec.h>
 
+# define PLAYER_MINIMAP_TEXTURE "./assets/arrow.xpm"
+# define DOOR_CLOSE_TEXTURE "./assets/curtain.xpm"
+# define DOOR_OPEN_TEXTURE "./assets/curtain_open.xpm"
+
 typedef struct s_door
 {
 	t_bool	open;
@@ -31,12 +35,10 @@ typedef struct s_game
 	t_config	*config;	
 	t_window	*window;
 	t_player	*player;
-	t_list		*doors;
 }	t_game;
 
-void	game_destructor(t_game *game);
-t_game	*game_constructor(void);
 t_game	*game_init(char *config_file_path);
+void	game_destructor(t_game *game);
 void	game_start_loop(t_game *game);
 
 #endif
