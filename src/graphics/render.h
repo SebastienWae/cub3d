@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 21:27:12 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 16:28:52 by seb              ###   ########.fr       */
+/*   Created: 2022/06/07 11:38:06 by jeulliot          #+#    #+#             */
+/*   Updated: 2022/06/07 11:44:42 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#ifndef RENDER_H
+# define RENDER_H
 
 # include <game/game.h>
-# include <utils/vec.h>
 
-void	draw_rectangle(t_game *game, t_vec pos, t_vec size, int color);
+void	walls_draw(t_game *game);
+void	render(t_game *game);
 
 #endif

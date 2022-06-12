@@ -3,73 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 16:19:47 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 16:40:29 by seb              ###   ########.fr       */
+/*   Created: 2022/06/10 15:53:59 by swaegene          #+#    #+#             */
+/*   Updated: 2022/06/11 15:18:14 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include <game/game.h>
-#include <graphics/draw.h>
-#include <graphics/raycaster.h>
+#include <config/texture.h>
+#include <graphics/color.h>
+#include <graphics/image.h>
 #include <graphics/window.h>
+#include <graphics/raycaster.h>
 #include <utils/vec.h>
 
-static void	ceiling_draw(t_game *game)
+static	t_vec	walls_get_scale(t_ray *ray, t_texture *t, int height)
 {
-	draw_rectangle(game,
-		(t_vec){0, 0},
-		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
-		game->config->colors[CEILING]);
-}
+	t_vec	scale;
+	double	block_width;
 
-static void	floor_draw(t_game *game)
-{
-	draw_rectangle(game,
-		(t_vec){0, (int)(WINDOW_HEIGHT / 2)},
-		(t_vec){WINDOW_WIDTH, (int)(WINDOW_HEIGHT / 2)},
-		game->config->colors[FLOOR]);
-}
-
-static void	walls_draw_wall(t_game *game, double ray_r, int n)
-{
-	t_ray	ray;
-	double	fixed;
-	int		wall_height;
-
-	ray = raycaster(game, ray_r);
-	fixed = game->player->direction - ray_r;
-	if (fixed > M_PI * 2)
-		fixed -= M_PI * 2;
-	else if (fixed < 0)
-		fixed += M_PI * 2;
-	ray.lenght *= cos(fixed);
-	wall_height = (64 * 320) / ray.lenght;
-	if (ray.type == HORIZONTAL)
-		draw_rectangle(game,
-			(t_vec){n, (WINDOW_HEIGHT / 2.) - (wall_height / 2.)},
-			(t_vec){1, wall_height}, 0x00505050);
+	block_width = ((double)t->width / 64);
+	if (block_width <= 0)
+		block_width = 1;
+	if (ray->type == HORIZONTAL)
+		scale.x = (int)(ray->pos.x * block_width) % (t->width);
 	else
-		draw_rectangle(game,
-			(t_vec){n, (WINDOW_HEIGHT / 2.) - (wall_height / 2.)},
-			(t_vec){1, wall_height}, 0x00454545);
+		scale.x = (int)(ray->pos.y * block_width) % (t->width);
+	scale.y = (double)height / t->height;
+	if (scale.y < 0.0001)
+		scale.y = 1;
+	return (scale);
 }
 
-void	walls_draw(t_game *game)
-{
-	int		w;
-	double	ray_r;
+static void	walls_draw_slice(t_game *game, int n, t_ray *ray, t_texture *t)
+{	
+	int				i;
+	t_vec			scale;
+	int				height;
+	unsigned int	color;
+	int				zz;
 
-	ceiling_draw(game);
-	floor_draw(game);
-	w = 0;
-	ray_r = game->player->direction + (M_PI / 6);
-	while (w < WINDOW_WIDTH)
+	height = (64 * WINDOW_WIDTH) / ray->lenght;
+	scale = walls_get_scale(ray, t, height);
+	i = 0;
+	zz = (WINDOW_HEIGHT - height) >> 1;
+	while (i < height && zz + i < WINDOW_HEIGHT)
 	{
-		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-		walls_draw_wall(game, ray_r, w);
-		w++;
+		color = image_get_pixel(t->img, (t_vec){(int)scale.x,
+				(int)(i / scale.y)}, t->width, t->height);
+		color = color_shade(color, ray->lenght / 4);
+		if (zz + i > 0)
+			image_put_pixel(game->window, (t_vec){n, zz + i}, color);
+		i++;
 	}
+}
+
+void	walls_draw_texture(t_game *game, t_ray *ray, int n)
+{
+	t_texture	*texture;
+
+	if (ray->texture == T_DOOR_OPEN || ray->texture == T_DOOR_CLOSE)
+	{
+		if (ray->texture == T_DOOR_OPEN)
+			texture = game->config->doors_txt[DOOR_OPEN];
+		else
+			texture = game->config->doors_txt[DOOR_CLOSE];
+	}
+	else
+	{
+		if (ray->type == HORIZONTAL && ray->pos.y < game->player->position.y)
+			texture = game->config->walls_txt[NORTH];
+		else if (ray->type == HORIZONTAL)
+			texture = game->config->walls_txt[SOUTH];
+		else if (ray->type == VERTICAL && ray->pos.x < game->player->position.x)
+			texture = game->config->walls_txt[EAST];
+		else
+			texture = game->config->walls_txt[WEST];
+	}
+	walls_draw_slice(game, n, ray, texture);
 }

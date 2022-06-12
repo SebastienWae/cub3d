@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:12:24 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/05 15:22:16 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 14:34:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <utils/bool.h>
 
 # define WINDOW_NAME "cub3d"
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WINDOW_WIDTH 1280
+# define WINDOW_HEIGHT 720
 
 enum {
 	ON_KEYDOWN = 2,
@@ -31,22 +31,6 @@ enum {
 	ON_DESTROY = 17
 };
 
-# ifdef __linux__
-
-enum {
-	KEY_ESC = 65307,
-	KEY_LEFT = 65361,
-	KEY_UP = 65362,
-	KEY_RIGHT = 65363,
-	KEY_DOWN = 65364,
-	KEY_W = 119,
-	KEY_A = 97,
-	KEY_D = 100,
-	KEY_S = 115
-};
-
-# elif __APPLE__
-
 enum {
 	KEY_ESC = 53,
 	KEY_LEFT = 123,
@@ -56,10 +40,9 @@ enum {
 	KEY_W = 13,
 	KEY_A = 0,
 	KEY_D = 2,
-	KEY_S = 1
+	KEY_S = 1,
+	KEY_SPACE = 49
 };
-
-# endif
 
 typedef enum e_key_id
 {
@@ -85,6 +68,7 @@ typedef struct s_window
 	void	*mlx;
 	void	*win;
 	t_image	*img;
+	t_image	*buf_img;
 	t_bool	redraw;
 	t_bool	open;
 	t_bool	active_keys[6];
@@ -93,5 +77,6 @@ typedef struct s_window
 t_window	*window_constructor(void);
 void		window_destructor(t_window *window);
 int			window_close(t_window *window);
+void		window_swap_image(t_window *window);
 
 #endif

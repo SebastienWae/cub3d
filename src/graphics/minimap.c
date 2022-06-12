@@ -3,61 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:20:17 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 19:30:56 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 14:03:26 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <mlx.h>
 #include <math.h>
 #include <game/game.h>
-#include <graphics/draw.h>
+#include <config/texture.h>
 #include <graphics/image.h>
-#include <graphics/raycaster.h>
 #include <utils/vec.h>
 
-// FIXME: delete this junk
-static void	minimap_draw_player(t_game *game)
+static t_vec	minimap_get_pixel(t_game *game, t_texture *texture, t_vec pos)
+{	
+	t_vec	coord;
+	double	cos_a;
+	double	sin_a;
+
+	cos_a = cos (-game->player->direction);
+	sin_a = sin(-game->player->direction);
+	coord = (t_vec)
+	{
+		(int)((double)texture->width / 2
+			+ ((int)pos.x - (double)texture->width / 2) * cos_a
+			+ ((int)pos.y - (double)texture->height / 2) * sin_a),
+		(int)((double)texture->height / 2
+			+ ((int)pos.y - (double)texture->height / 2) * cos_a
+			- ((int)pos.x - (double)texture->width / 2) * sin_a)
+	};
+	return (coord);
+}
+
+static void	minimap_rotate_arrow(t_game *game, t_texture *texture)
 {
-	t_ray	ray;
-	t_vec	d;
-	int		w;
-	double	ray_r;
+	double	x;
 	double	y;
 
-	w = 0;
-	ray_r = game->player->direction + (M_PI / 6);
-	while (w < WINDOW_WIDTH)
+	y = 0;
+	while (y < texture->height)
 	{
-		ray_r -= M_PI / 3. / WINDOW_WIDTH;
-		ray = raycaster(game, ray_r);
-		d = (t_vec)
-		{
-			.x = ray.position.x - game->player->position.x,
-			.y = ray.position.y - game->player->position.y
-		};
-		if (d.x > 0)
-		{
-			y = 160.;
-			for (int x = 0; x < d.x; x++)
+		x = 0;
+		while (x < texture->width)
+		{		
+			image_put_pixel(game->window,
+				(t_vec)
 			{
-				y += d.y / d.x;
-				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
-			}
+				160 + (int)x - (double)texture->width / 2,
+				160 + (int)y - (double)texture->height / 2
+			},
+				image_get_pixel(texture->img,
+					minimap_get_pixel(game, texture, (t_vec){x, y}),
+					texture->width, texture->height));
+			x++;
 		}
-		else
+		y++;
+	}
+}
+
+static void	minimap_frame(t_game *game)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < 320)
+	{
+		x = 0;
+		while (x < 4)
 		{
-			y = 160.;
-			for (int x = 0; x > d.x; x--)
-			{
-				y += d.y / -d.x;
-				image_put_pixel(game->window->img, (t_vec){(int)(x + 160), (int)y}, 0x00FF0000);
-			}
+			image_put_pixel(game->window, (t_vec){x, y}, 0x00000000);
+			x ++;
 		}
-		w++;
+		while (x < 316)
+		{
+			if ((y >= 0 && y < 4) || y >= 316)
+				image_put_pixel(game->window, (t_vec){x, y}, 0x00000000);
+			x ++;
+		}
+		while (x < 320)
+		{
+			image_put_pixel(game->window, (t_vec){x, y}, 0x00000000);
+			x ++;
+		}
+		y++;
 	}
 }
 
@@ -71,11 +102,17 @@ static void	minimap_draw_elem(t_game *game, int x, int y)
 	if (mapx < 0 || mapy < 0 || mapy > game->config->map_height - 1
 		|| (size_t)mapx > ft_strlen(game->config->map[mapy]) - 1
 		|| game->config->map[mapy][mapx] == ' ')
-		draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00FFFFFF);
+		image_draw_rectangle(game->window,
+			(t_vec){x, y}, (t_vec){4, 4}, 0x00404040);
 	else if (game->config->map[mapy][mapx] == '1')
-		draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00404040);
+		image_draw_rectangle(game->window,
+			(t_vec){x, y}, (t_vec){4, 4}, 0x00404040);
+	else if (game->config->map[mapy][mapx] == 'D')
+		image_draw_rectangle(game->window,
+			(t_vec){x, y}, (t_vec){4, 4}, 0x00606060);
 	else
-		draw_rectangle(game, (t_vec){x, y}, (t_vec){1, 1}, 0x00808080);
+		image_draw_rectangle(game->window,
+			(t_vec){x, y}, (t_vec){4, 4}, 0x00808080);
 }
 
 void	minimap_draw(t_game *game)
@@ -90,10 +127,10 @@ void	minimap_draw(t_game *game)
 		while (x < 320)
 		{
 			minimap_draw_elem(game, x, y);
-			x++;
+			x += 4;
 		}
-		y++;
+		y += 4;
 	}
-	draw_rectangle(game, (t_vec){156, 156}, (t_vec){8, 8}, 0x0000EEC2);
-	minimap_draw_player(game);
+	minimap_rotate_arrow(game, game->config->player_txt);
+	minimap_frame(game);
 }
