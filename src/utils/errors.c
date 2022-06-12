@@ -3,34 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:42:24 by seb               #+#    #+#             */
-/*   Updated: 2022/06/05 16:38:01 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/10 12:40:44 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <stdio.h>
-#include <errno.h>
 #include <utils/errors.h>
-#include <stdlib.h>
 
-void	error_exit(char *msg)
-{
-	error_msg();
-	if (msg)
-	{
-		ft_putstr_fd(msg, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	exit(EXIT_FAILURE);
-}
-
-// FIXME: false positive?
-void	error_msg(void)
+void	error_config(char *line)
 {
 	ft_putstr_fd("Error\n", 2);
-	if (errno > 0)
-		perror(NULL);
+	if (line)
+	{
+		ft_putstr_fd("Config file error at line: ", 2);
+		ft_putstr_fd(line, 2);
+		ft_putstr_fd("\n", 2);
+	}
+}
+
+static void	error_flush(char **error_buf)
+{
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(*error_buf, 2);
+	free(*error_buf);
+	*error_buf = NULL;
+}
+
+void	error_msg(char *msg, t_error_action action)
+{
+	static char	*error_buf;
+	char		*tmp_buf;
+
+	if (msg && (action == ADD || action == ADD_NO_NL))
+	{
+		if (action == ADD)
+			msg = ft_strjoin(msg, "\n");
+		else
+			msg = ft_strdup(msg);
+		if (error_buf)
+		{
+			tmp_buf = error_buf;
+			error_buf = ft_strjoin(error_buf, msg);
+			free(tmp_buf);
+			free(msg);
+		}
+		else
+			error_buf = msg;
+	}
+	else
+		error_flush(&error_buf);
 }
