@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:02:44 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/31 11:16:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/06/11 15:19:40 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define COLOR_H
 
 # include <game/game.h>
-# include <config/parser.h>
+# include <utils/bool.h>
 
-t_parser_state	color_handler(t_game *game, char *line, int *i);
+t_bool	color_handler(char *line, t_game *game);
 
 #endif
