@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 17:00:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/06/11 16:26:38 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/06/12 10:00:40 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@ static void	color_free_split(char **split)
 	free(split);
 }
 
+static int	color_atocolor(char *str)
+{
+	int	i;
+	int	color;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (-1);
+		i++;
+	}
+	color = ft_atoi(str);
+	if (color < 0 || color > 255)
+		return (-1);
+	return (color);
+}
+
 static int	color_constructor(char *line)
 {
 	char	*color;
@@ -39,13 +57,11 @@ static int	color_constructor(char *line)
 	free(color);
 	if (array_size((void **)colors) == 3)
 	{
-		rgb[0] = ft_atoi(colors[0]);
-		rgb[1] = ft_atoi(colors[1]);
-		rgb[2] = ft_atoi(colors[2]);
+		rgb[0] = color_atocolor(colors[0]);
+		rgb[1] = color_atocolor(colors[1]);
+		rgb[2] = color_atocolor(colors[2]);
 		color_free_split(colors);
-		if (rgb[0] < 0 || rgb[0] > 255
-			|| rgb[1] < 0 || rgb[1] > 255
-			|| rgb[2] < 0 || rgb[2] > 255)
+		if (rgb[0] == -1 || rgb[1] == -1 || rgb[2] == -1)
 			return (-1);
 		return (*(int *)(unsigned char [4]){rgb[2], rgb[1], rgb[0], 2});
 	}
